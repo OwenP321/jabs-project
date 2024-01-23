@@ -32,6 +32,22 @@ public class Main {
                 Paths.get("output/bitcoin-reorgs-log.csv")));
         scenario.run();
 
+        
+        // Simulate PBFT Lan network of 40 nodes for 1 hour
+        scenario = new PBFTLANScenario("One hour of a PBFT lan Network", 1,
+        40, 3600);
+        scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
+        scenario.run();
+        */
+        // Simulate Snow LAN network of 40 nodes for 1 hour
+        /*
+        scenario = new SnowLANScenario("One hour of a Snow lan Network", 1, 40,
+        3600);
+        scenario.AddNewLogger(new SnowCSVLogger(Paths.get("output/snow-simulation-log.csv")));
+        scenario.run();
+        
+        */
+        
         // Simulate 1 hour in the life of Ethereum network
         // Ghost protocol with blocks every 14 seconds on average
         // Around 6000 nodes with 37 miners
@@ -44,17 +60,5 @@ public class Main {
         scenario.AddNewLogger(new FinalUncleBlocksLogger(
                 Paths.get("output/ethereum-uncle-rate.csv")));
         scenario.run();
-
-        // Simulate PBFT Lan network of 40 nodes for 1 hour
-        scenario = new PBFTLANScenario("One hour of a PBFT lan Network", 1,
-                40, 3600);
-        scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
-        scenario.run();
-*/
-        // Simulate Snow LAN network of 40 nodes for 1 hour
-        scenario = new SnowLANScenario("One hour of a Snow lan Network", 1, 40,
-                3600);
-        scenario.AddNewLogger(new SnowCSVLogger(Paths.get("output/snow-simulation-log.csv")));
-        scenario.run();
-    }
+}
 }
