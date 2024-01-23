@@ -31,7 +31,7 @@ public class NormalEthereumNetworkScenario extends AbstractScenario {
                 new EthereumProofOfWorkGlobalNetworkStats6Regions(randomnessEngine));
         this.network = ethereumNetwork;
         ethereumNetwork.populateNetwork(simulator,
-                new GhostProtocolConfig(EthereumBlock.generateGenesisBlock(ETHEREUM_DIFFICULTY_2022),
+                new PBFTConsensusConfig(EthereumBlock.generateGenesisBlock(ETHEREUM_DIFFICULTY_2022),
                         this.averageBlockInterval));
     }
 
