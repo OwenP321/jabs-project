@@ -1,6 +1,7 @@
 package jabs.scenario;
 
-import jabs.consensus.config.GhostProtocolConfig;
+//import jabs.consensus.config.GhostProtocolConfig;
+import jabs.consensus.config.PBFTConsensusConfig; //ADDED 
 import jabs.ledgerdata.ethereum.EthereumBlock;
 import jabs.network.networks.ethereum.EthereumGlobalProofOfWorkNetwork;
 import jabs.network.stats.sixglobalregions.ethereum.EthereumProofOfWorkGlobalNetworkStats6Regions;
