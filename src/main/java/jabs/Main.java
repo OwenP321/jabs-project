@@ -51,7 +51,7 @@ public class Main {
         // Simulate 1 hour in the life of Ethereum network
         // Ghost protocol with blocks every 14 seconds on average
         // Around 6000 nodes with 37 miners
-        scenario = new NormalEthereumNetworkScenario("One hour in the life of Ethereum", 1,
+        /*scenario = new NormalEthereumNetworkScenario("One hour in the life of Ethereum", 1,
                 3600, 13.3);
         scenario.AddNewLogger(new BlockPropagationDelayLogger(
                 Paths.get("output/ethereum-50-propagation-delay-log.csv"), 0.5));
@@ -60,5 +60,9 @@ public class Main {
         scenario.AddNewLogger(new FinalUncleBlocksLogger(
                 Paths.get("output/ethereum-uncle-rate.csv")));
         scenario.run();
+        */
+
+        scenario = new PBFTLANScenario("One hour in the life of PBFT", 1, 40, 3600);
+        scenario.AddNewLogger(new BlockPropagationDelayLogger(Paths.get("Output/PBFTLAN-50-propagation-delay-log.csv"), 0.5));
 }
 }
