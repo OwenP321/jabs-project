@@ -62,6 +62,8 @@ public class Main {
         scenario.run();
         */
 
+        System.out.println("PBFT CONCENSUS");
+
         scenario = new PBFTLANScenario("One hour in the life of PBFT", 1, 40, 3600);
         scenario.AddNewLogger(new BlockPropagationDelayLogger(Paths.get("Output/PBFTLAN-50-propagation-delay-log.csv"), 0.5));
 }
