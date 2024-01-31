@@ -84,16 +84,16 @@ public class Aequitas<B extends SingleParentBlock<B>, T extends Tx<T>> extends A
                     }
                     break;
                 case AGREEMENT:
-                    checkVotes(blockVote, block, prepareVotes, preparedBlocks, AequitasPhaseS.AGREEMENT);
+                    checkVotesAequitas(blockVote, block, prepareVotes, preparedBlocks, AequitasPhaseS.AGREEMENT);
                     break;
                 case FINALIZATION:
-                    checkVotes(blockVote, block, commitVotes, committedBlocks, AequitasPhaseS.GOSSIP);
+                    checkVotesAequitas(blockVote, block, commitVotes, committedBlocks, AequitasPhaseS.GOSSIP);
                     break;
             }
         }
     }
 
-    private void checkVotes(PBFTBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+    private void checkVotesAequitas(AequitasBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, AequitasPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) { // this the first vote received for this block
                 votes.put(block, new HashMap<>());
@@ -101,9 +101,9 @@ public class Aequitas<B extends SingleParentBlock<B>, T extends Tx<T>> extends A
             votes.get(block).put(vote.getVoter(), vote);
             if (votes.get(block).size() > (((numAllParticipants / 3) * 2) + 1)) {
                 blocks.add(block);
-                this.pbftPhase = nextStep;
+                this.AequitasPhaseS = nextStep;
                 switch (nextStep) {
-                    case PRE_PREPARING:
+                    case AGREEMENT:
                         this.currentViewNumber += 1;
                         this.currentMainChainHead = block;
                         updateChain();
@@ -119,7 +119,7 @@ public class Aequitas<B extends SingleParentBlock<B>, T extends Tx<T>> extends A
                             );
                         }
                         break;
-                    case COMMITTING:
+                    case FINALIZATION:
                         this.peerBlockchainNode.broadcastMessage(
                                 new VoteMessage(
                                         new PBFTCommitVote<>(this.peerBlockchainNode, block)

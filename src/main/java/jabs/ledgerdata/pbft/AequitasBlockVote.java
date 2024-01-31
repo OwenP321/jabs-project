@@ -13,7 +13,7 @@ public abstract class AequitasBlockVote<B extends Block<B>> extends Vote {
     public enum VoteType {
         GOSSIP,
         AGREEMENT,
-        COMMIT
+        FINALIZATION
     }
 
     protected AequitasBlockVote(int size, Node voter, B block, VoteType voteType) {
