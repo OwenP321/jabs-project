@@ -70,7 +70,7 @@ public class Main {
 
         scenario = new PBFTLANScenario("One hour of a PBFT lan Network", 1,40, 3600);
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
-        
+        scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv ")));
         scenario.run();
 
 }
