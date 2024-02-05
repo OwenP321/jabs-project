@@ -5,6 +5,7 @@ import jabs.log.*;
 import jabs.scenario.*;
 
 import java.io.IOException;
+import java.nio.file.Path;
 import java.nio.file.Paths;
 
 /**
@@ -67,8 +68,9 @@ public class Main {
         //scenario = new PBFTLANScenario("One hour in the life of PBFT", 1, 40, 3600);
         //scenario.AddNewLogger(new BlockPropagationDelayLogger(Paths.get("Output/PBFTLAN-50-propagation-delay-log.csv"), 0.5));
 
-        scenario = new PBFTLANScenario("One hour of a PBFT lan Network", 1,100, 36000);
+        scenario = new PBFTLANScenario("One hour of a PBFT lan Network", 1,40, 3600);
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
+        
         scenario.run();
 
 }
