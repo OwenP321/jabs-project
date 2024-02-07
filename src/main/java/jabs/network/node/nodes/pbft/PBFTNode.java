@@ -25,11 +25,24 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
     @Override
     protected void processNewTx(PBFTTx tx, Node from) {
         // nothing for now
+        if(this.consensusAlgorithm.getPhase() = PBFT.getPhase.REQUEST)
+            
+        this.broadcastMessage(tx);
+        else {
+            this.processNewTx(tx, from);
+        }
     }
 
     @Override
     protected void processNewBlock(PBFTBlock block) {
         // nothing for now
+        if (this.consensusAlgorithm.getPhase() == PBFT.getPhase.PRE_PREPARE)||
+            this.consensusAlgorithm.getPhase() == PBFT.getPhase.PREPARE ||
+            this.consensusAlgorithm.getPhase() == PBFT.getPhase.COMMIT {
+                this.addToBlockQueue(block)
+            } else {
+                this.consensusAlgorithm.receiveBlock(block)
+            }
     }
 
     @Override
@@ -45,5 +58,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
     @Override
     public void generateNewTransaction() {
         // nothing for now
+        PBFTTx newTx = new PBFTTx(16,32);
+        this.broadcastMessage(newTx);
+    }
+
+    public void addToTxpool(PBFTTx tx){
+
+    }
+    public void addToBlockQueue(PBFTBlock block){
+        
     }
 }
