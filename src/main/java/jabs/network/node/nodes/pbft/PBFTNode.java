@@ -1,5 +1,9 @@
 package jabs.network.node.nodes.pbft;
 import jabs.consensus.blockchain.LocalBlockTree;
+
+import java.lang.reflect.Array;
+import java.util.ArrayList;
+
 import jabs.consensus.algorithm.PBFT;
 import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.pbft.PBFTBlock;
@@ -14,12 +18,17 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
                         public static final PBFTBlock PBFT_GENESIS_BLOCK =
             new PBFTBlock(0, 0, 0, null, null);
 
+            private ArrayList<PBFTTx> mempool;
+
+            
+
     public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants) {
         super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth,
                 new PBFTP2P(),
                 new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants)
         );
         this.consensusAlgorithm.setNode(this);
+        this.mempool = new ArrayList<PBFTTx>();
     }
 
     @Override
@@ -27,9 +36,10 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
         // nothing for now
         if(this.consensusAlgorithm.getPhase() = PBFT.getPhase.REQUEST)
             
-        this.broadcastMessage(tx);
+            this.broadcastMessage(tx);
         else {
             this.processNewTx(tx, from);
+            this.addToMempool(tx);
         }
     }
 
@@ -41,7 +51,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
             this.consensusAlgorithm.getPhase() == PBFT.getPhase.COMMIT {
                 this.addToBlockQueue(block)
             } else {
-                this.consensusAlgorithm.receiveBlock(block)
+                this.consensusAlgorithm.receiveBlock(block);
             }
     }
 
@@ -59,7 +69,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
     public void generateNewTransaction() {
         // nothing for now
         PBFTTx newTx = new PBFTTx(16,32);
-        this.broadcastMessage(newTx);
+        this.broadcastTransaction(newTx);
     }
 
     public void addToTxpool(PBFTTx tx){
@@ -67,5 +77,18 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
     }
     public void addToBlockQueue(PBFTBlock block){
         
+    }
+    private void addToMempool(PBFTTx tx)
+    {
+        this.mempool.add(tx);
+    }
+    public void removeFromMempool(PBFTTx tx)
+    {
+        this.mempool.remove(tx);
+    }
+    public void broadcastTransaction(PBFTTx tx)
+    {
+        this.getP2pConnections().broadcastMessage(tx, this);
+
     }
 }
