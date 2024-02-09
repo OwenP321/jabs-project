@@ -133,6 +133,19 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     @Override
     public void newIncomingBlock(B block) {
 
+        if(block instanceof PBFTBlock){
+            PBFTBlock pbftBlock = (PBFTBlock) block;
+            
+            if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
+                
+                for (PBFTTx tx : pbftBlock.getTransactions()) {
+                    PBFTTransactionVote<T> txVote =  new PBFTTransactionVote<>(this,peerBlockchainNode, tx);
+                    
+                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
+                }
+            }
+            
+        }
     }
 
     /**
@@ -141,7 +154,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
      */
     @Override
     public boolean isBlockConfirmed(B block) {
-        return false;
+        return confirmedBlocks.contains(block);
     }
 
     /**
@@ -150,7 +163,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
      */
     @Override
     public boolean isBlockValid(B block) {
-        return false;
+        return true;
     }
 
     public int getCurrentViewNumber() {
