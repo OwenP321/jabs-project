@@ -4,28 +4,29 @@ import java.util.ArrayList;
 
 import jabs.ledgerdata.SingleParentBlock;
 import jabs.network.node.nodes.Node;
+import jabs.ledgerdata.ethereum.EthereumTx;
 
 public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public static final int PBFT_BLOCK_HASH_SIZE = 32;
 
-    protected ArrayList<PBFTTx> transactions;
+    protected ArrayList<EthereumTx> transactions;
     
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
     }
 
-    public void addTransaction(PBFTTx tx)
+    public void addTransaction(EthereumTx tx)
     {
         this.transactions.add(tx);
     }
 
-    public void setTransactions(ArrayList<PBFTTx> transactions)
+    public void setTransactions(ArrayList<EthereumTx> transactions)
     {
         this.transactions = transactions;
     }
     
-    public ArrayList<PBFTTx> getTransactions()
+    public ArrayList<EthereumTx> getTransactions()
     {
         return this.transactions;
     }

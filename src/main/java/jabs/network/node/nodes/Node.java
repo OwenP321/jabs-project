@@ -1,5 +1,6 @@
 package jabs.network.node.nodes;
 
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.message.Message;
 import jabs.network.message.Packet;
 import jabs.network.networks.Network;
@@ -101,12 +102,12 @@ public abstract class Node {
 
     /**
      * Forces the node to broadcast a message to all its neighbors
-     * @param message The message to be broadcasted to all neighbors
+     * @param tx The message to be broadcasted to all neighbors
      */
-    public void broadcastMessage(Message message) {
+    public void broadcastMessage(EthereumTx tx) {
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             this.networkInterface.addToUpLinkQueue(
-                    new Packet(this, neighbor, message)
+                    new Packet(this, neighbor, tx)
             );
         }
     }

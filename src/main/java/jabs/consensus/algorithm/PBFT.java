@@ -2,6 +2,7 @@ package jabs.consensus.algorithm;
 
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.ledgerdata.*;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.*;
 import jabs.network.message.VoteMessage;
 import jabs.network.node.nodes.Node;
@@ -13,8 +14,8 @@ import java.util.HashSet;
 // based on: https://sawtooth.hyperledger.org/docs/pbft/nightly/master/architecture.html
 // another good source: http://ug93tad.github.io/pbft/
 
-public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends AbstractChainBasedConsensus<B, T>
-        implements VotingBasedConsensus<B, T>, DeterministicFinalityConsensus<B, T> {
+public class PBFT<B extends SingleParentBlock<B>> extends AbstractChainBasedConsensus<B, EthereumTx>
+        implements VotingBasedConsensus<B, EthereumTx >, DeterministicFinalityConsensus<B, EthereumTx > {
     private final int numAllParticipants;
     private final HashMap<B, HashMap<Node, Vote>> prepareVotes = new HashMap<>();
     private final HashMap<B, HashMap<Node, Vote>> commitVotes = new HashMap<>();
@@ -33,7 +34,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     }
 
     @Override
-    public boolean isTxFinalized(T tx) {
+    public boolean isTxFinalized(EthereumTx tx) {
         return false;
     }
 
@@ -186,4 +187,5 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
     }
+
 }

@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import jabs.consensus.algorithm.PBFT;
 import jabs.ledgerdata.Vote;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.PBFTBlock;
 import jabs.ledgerdata.pbft.PBFTTx;
 import jabs.network.networks.Network;
@@ -18,7 +19,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
                         public static final PBFTBlock PBFT_GENESIS_BLOCK =
             new PBFTBlock(0, 0, 0, null, null);
 
-            private ArrayList<PBFTTx> mempool;
+            private ArrayList<EthereumTx> mempool;
 
             
 
@@ -28,13 +29,13 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
                 new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants)
         );
         this.consensusAlgorithm.setNode(this);
-        this.mempool = new ArrayList<PBFTTx>();
+        this.mempool = new ArrayList<EthereumTx>();
     }
 
     @Override
-    protected void processNewTx(PBFTTx tx, Node from) {
+    protected void processNewTx(EthereumTx tx, Node from) {
         // nothing for now
-        if(this.consensusAlgorithm.getPhase() = PBFT.getPhase.REQUEST)
+        if(this.consensusAlgorithm.getPBFTPhase() = PBFT.getPhase.PRE_PREPARE)
             
             this.broadcastMessage(tx);
         else {
@@ -90,5 +91,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, PBFTTx> {
     {
         this.getP2pConnections().broadcastMessage(tx, this);
 
+    }
+
+    @Override
+    protected void processNewTx(PBFTTx tx, Node from) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'processNewTx'");
     }
 }
