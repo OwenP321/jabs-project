@@ -104,13 +104,24 @@ public abstract class Node {
      * Forces the node to broadcast a message to all its neighbors
      * @param tx The message to be broadcasted to all neighbors
      */
-    public void broadcastMessage(EthereumTx tx) {
+    public void broadcastMessage(Message message) {
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             this.networkInterface.addToUpLinkQueue(
-                    new Packet(this, neighbor, tx)
+                    new Packet(this, neighbor, message)
             );
         }
     }
+
+    public void broadcastMessageEXN(Message message, Node excludeNeighbor) {
+        for (Node neighbor:this.p2pConnections.getNeighbors()) {
+            if(neighbor != excludeNeighbor){
+                this.networkInterface.addToUpLinkQueue(
+                    new Packet(this, neighbor, message)
+                );
+            }
+        }
+    }
+
     /**
      * Forces the node to respond a message to the inquirer
      * @param message The message to be responded

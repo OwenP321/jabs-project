@@ -1,5 +1,6 @@
 package jabs.consensus.algorithm;
 
+import jabs.consensus.algorithm.PBFT.PBFTPhase;
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.consensus.config.ConsensusAlgorithmConfig;
 import jabs.ledgerdata.SingleParentBlock;
@@ -63,4 +64,5 @@ public abstract class AbstractChainBasedConsensus<B extends SingleParentBlock<B>
     }
 
     abstract protected void updateChain();
+
 }

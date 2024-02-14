@@ -181,6 +181,7 @@ public class PBFT<B extends SingleParentBlock<B>> extends AbstractChainBasedCons
 
     public PBFTPhase getPbftPhase() {
         return this.pbftPhase;
+    
     }
 
     @Override

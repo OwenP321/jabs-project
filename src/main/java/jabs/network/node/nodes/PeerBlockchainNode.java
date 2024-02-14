@@ -3,9 +3,11 @@ package jabs.network.node.nodes;
 import jabs.consensus.algorithm.AbstractChainBasedConsensus;
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.ledgerdata.*;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.message.*;
 import jabs.network.networks.Network;
 import jabs.network.p2p.AbstractP2PConnections;
+import jabs.network.p2p.PBFTP2P;
 import jabs.simulator.Simulator;
 
 import java.util.HashMap;
@@ -13,6 +15,7 @@ import java.util.HashSet;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
+@SuppressWarnings("hiding")
 public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T extends Tx<T>> extends PeerDLTNode<B, T> {
     protected final AbstractChainBasedConsensus<B, T> consensusAlgorithm;
 
@@ -29,6 +32,7 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
         this.consensusAlgorithm = consensusAlgorithm;
         this.localBlockTree = consensusAlgorithm.getLocalBlockTree();
     }
+
 
     @Override
     public void processIncomingPacket(Packet packet) {
@@ -60,6 +64,9 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
                     alreadySeenTxs.put(tx.getHash(), tx);
                     this.processNewTx(tx, packet.getFrom());
                 }
+            } else if (data instanceof Recipt){
+                Recipt recipt = (Recipt) data;
+                //PROCESS NEW RECPIT 
             }
         } else if (message instanceof InvMessage) {
             Hash hash = ((InvMessage) message).getHash();
