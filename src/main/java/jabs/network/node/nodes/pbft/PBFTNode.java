@@ -1,6 +1,8 @@
 package jabs.network.node.nodes.pbft;
 import jabs.consensus.blockchain.LocalBlockTree;
 
+import static org.apache.commons.math3.util.FastMath.sqrt;
+
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -8,10 +10,15 @@ import java.util.HashMap;
 import jabs.consensus.algorithm.PBFT;
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
 import jabs.ledgerdata.Recipt;
+import jabs.ledgerdata.TransactionFactory;
 import jabs.ledgerdata.Vote;
+import jabs.ledgerdata.ethereum.EthereumBlock;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.PBFTBlock;
 import jabs.ledgerdata.pbft.PBFTTx;
+import jabs.network.message.DataMessage;
+import jabs.network.message.InvMessage;
+import jabs.network.message.Packet;
 import jabs.network.networks.Network;
 import jabs.network.node.nodes.PeerBlockchainNode;
 import jabs.network.node.nodes.PeerDLTNode;
@@ -25,7 +32,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
             private ArrayList<EthereumTx> mempool;
             private HashMap<EthereumTx, Node> txToSender;
-            protected ArrayList<Recipt> recipts;
+           
 
 
             
@@ -47,28 +54,32 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         this.txToSender.put(tx, from);
     }
 
-    public void processNewRecipt(Recipt recipt, Node from)
-    {
-        if(!this.recipts.contains(recipt));
-        System.out.println("NODE: "+ this.nodeID + "RECIVED RECIPT " + "FROM NODE " + from.getNodeID());
-        this.recipts.add(recipt);
-        EthereumTx tx = recipt.getTx();
-        EthereumTx newTx = new EthereumTx(tx.getSize(), tx.getGas());
-        newTx.setSender(null);
-        newTx.setReceiver(tx.getReciver());
-        this.mempool.add(0, newTx);
-    }
+   
 
+   
     @Override
     protected void processNewBlock(PBFTBlock block) {
-        // nothing for now
-        if (this.consensusAlgorithm.getPhase() == PBFT.getPhase.PRE_PREPARE)||
-            this.consensusAlgorithm.getPhase() == PBFT.getPhase.PREPARE ||
-            this.consensusAlgorithm.getPhase() == PBFT.getPhase.COMMIT {
-                this.addToBlockQueue(block)
+        this.consensusAlgorithm.newIncomingBlock(block);
+        this.broadcastNewBlockAndBlockHashes(block);
+    }
+
+    protected void broadcastNewBlockAndBlockHashes(PBFTBlock block){
+        for (int i = 0; i < this.p2pConnections.getNeighbors().size(); i++) {
+            Node neighbor = this.p2pConnections.getNeighbors().get(i);
+            if (i < sqrt(this.p2pConnections.getNeighbors().size())){
+                this.networkInterface.addToUpLinkQueue(
+                        new Packet(this, neighbor,
+                                new DataMessage(block)
+                        )
+                );
             } else {
-                this.consensusAlgorithm.receiveBlock(block);
+                this.networkInterface.addToUpLinkQueue(
+                        new Packet(this, neighbor,
+                                new InvMessage(block.getHash().getSize(), block.getHash())
+                        )
+                );
             }
+        }
     }
 
     @Override
@@ -79,13 +90,6 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     protected void processNewQuery(jabs.ledgerdata.Query query) {
 
-    }
-
-    @Override
-    public void generateNewTransaction() {
-        // nothing for now
-        EthereumTx newTx = new EthereumTx(16,32);
-        this.broadcastTransaction(newTx);
     }
 
     public void addToTxpool(EthereumTx tx){
@@ -102,10 +106,26 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     {
         this.mempool.remove(tx);
     }
-    public void broadcastTransaction(EthereumTx tx)
-    {
-        
+    
+    protected void broadcastTransaction(EthereumTx tx, Node excludeNeighbor) {
+        for (Node neighbor:this.p2pConnections.getNeighbors()) {
+            if (neighbor != excludeNeighbor){
+                this.networkInterface.addToUpLinkQueue(
+                        new Packet(this, neighbor,
+                                new DataMessage(tx)
+                        )
+                );
+            }
+        }
+    }
 
+    protected void broadcastTransaction(EthereumTx tx) {
+        broadcastTransaction(tx, null);
+    }
+
+    @Override
+    public void generateNewTransaction() {
+        broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
     }
 
 }
