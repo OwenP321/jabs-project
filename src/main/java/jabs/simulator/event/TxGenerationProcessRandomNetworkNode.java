@@ -16,5 +16,6 @@ public class TxGenerationProcessRandomNetworkNode extends AbstractTxPoissonProce
     public void generate() {
         this.node = network.getRandomNode();
         node.generateNewTransaction();
+        System.out.println("NEW TX");
     }
 }
