@@ -6,6 +6,8 @@ import static org.apache.commons.math3.util.FastMath.sqrt;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
 
 import jabs.consensus.algorithm.PBFT;
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
@@ -32,6 +34,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
             private ArrayList<EthereumTx> mempool;
             private HashMap<EthereumTx, Node> txToSender;
+            static final long MAXIMUM_BLOCK_GAS = 1250;
            
 
 
@@ -61,6 +64,16 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     protected void processNewBlock(PBFTBlock block) {
         this.consensusAlgorithm.newIncomingBlock(block);
         this.broadcastNewBlockAndBlockHashes(block);
+
+        Set<EthereumTx> blockTxs = new HashSet<>();
+        long totalGas = 0;
+        for (EthereumTx ethereumTx:mempool) {
+            if ((totalGas + ethereumTx.getGas()) > MAXIMUM_BLOCK_GAS) {
+                break;
+            }
+            blockTxs.add(ethereumTx);
+            totalGas += ethereumTx.getGas();
+        }
     }
 
     protected void broadcastNewBlockAndBlockHashes(PBFTBlock block){

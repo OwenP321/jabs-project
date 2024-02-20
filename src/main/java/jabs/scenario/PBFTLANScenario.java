@@ -38,6 +38,7 @@ public class PBFTLANScenario extends AbstractScenario {
                 )
         );
         node.generateNewTransaction();
+        
     }
 
     @Override
