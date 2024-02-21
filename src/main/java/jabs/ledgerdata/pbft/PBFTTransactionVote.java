@@ -5,13 +5,18 @@ import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.node.nodes.Node;
 
-public class PBFTTransactionVote  extends  Vote{
+public class PBFTTransactionVote<T  extends EthereumTx> extends Vote{
 
-    protected PBFTTransactionVote(int size, Node voter) {
+    private final T transaction;
+
+    public PBFTTransactionVote(int size, Node voter, T transaction){
         super(size, voter);
-        //TODO Auto-generated constructor stub
+        this.transaction = transaction;
     }
 
     
+    public T getTransaction(){
+        return transaction;
+    }
     
 }

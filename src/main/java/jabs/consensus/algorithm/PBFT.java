@@ -133,21 +133,21 @@ public class PBFT<B extends SingleParentBlock<B>> extends AbstractChainBasedCons
 
     @Override
     public void newIncomingBlock(B block) {
-        /*
-            if(block instanceof PBFTBlock){
-                PBFTBlock pbftBlock = (PBFTBlock) block;
+        /* 
+        if(block instanceof PBFTBlock){
+            PBFTBlock pbftBlock = (PBFTBlock) block;
+            
+            if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
-                if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
+                for (EthereumTx tx : pbftBlock.getTransactions()) {
+                    PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(this,peerBlockchainNode, tx);
                     
-                    for (EthereumTx tx : pbftBlock.getTransactions()) {
-                        PBFTTransactionVote<T> txVote =  new PBFTTransactionVote<>(this,peerBlockchainNode, tx);
-                        
-                        this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
-                    }
+                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
                 }
-                
             }
-         * 
+            
+        }
+        
          */
     }
 
