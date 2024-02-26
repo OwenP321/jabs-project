@@ -3,6 +3,7 @@ package jabs.network.networks;
 import jabs.consensus.config.ConsensusAlgorithmConfig;
 import jabs.network.stats.NetworkStats;
 import jabs.network.node.nodes.Node;
+import jabs.network.node.nodes.pbft.PBFTNode;
 import jabs.simulator.randengine.RandomnessEngine;
 import jabs.simulator.Simulator;
 
@@ -56,6 +57,10 @@ public abstract class Network<N extends Node, NodeType extends Enum<NodeType>> {
 
     public RandomnessEngine getRandom() {
         return this.randomnessEngine;
+    }
+
+    public void makeTransactions(PBFTNode node){
+        node.startTxGen();
     }
 }
 

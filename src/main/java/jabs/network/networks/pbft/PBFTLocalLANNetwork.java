@@ -14,13 +14,21 @@ import jabs.simulator.Simulator;
 public class PBFTLocalLANNetwork extends Network<PBFTNode, SingleNodeType> {
     public PBFTLocalLANNetwork(RandomnessEngine randomnessEngine) {
         super(randomnessEngine, new LAN100MNetworkStats(randomnessEngine));
+
+        int timeBetweenTxs;
     }
 
-    public PBFTNode createNewPBFTNode(Simulator simulator, int nodeID, int numAllParticipants) {
+    public PBFTNode createNewPBFTNode(Simulator simulator, int nodeID, int numAllParticipants, int timeBetweenTxs) {
         return new PBFTNode(simulator, this, nodeID,
                 this.sampleDownloadBandwidth(SingleNodeType.LAN_NODE),
                 this.sampleUploadBandwidth(SingleNodeType.LAN_NODE),
-                numAllParticipants);
+                numAllParticipants, timeBetweenTxs);
+
+                
+    }
+
+    public void makeTransactions(PBFTNode node){
+        node.startTxGen();
     }
 
 
@@ -32,7 +40,7 @@ public class PBFTLocalLANNetwork extends Network<PBFTNode, SingleNodeType> {
     @Override
     public void populateNetwork(Simulator simulator, int numNodes, ConsensusAlgorithmConfig pbftConsensusConfig) {
         for (int i = 0; i < numNodes; i++) {
-            this.addNode(createNewPBFTNode(simulator, i, numNodes), SingleNodeType.LAN_NODE);
+            this.addNode(createNewPBFTNode(simulator, i, numNodes, 100), SingleNodeType.LAN_NODE);
         }
 
         for (Node node:this.getAllNodes()) {

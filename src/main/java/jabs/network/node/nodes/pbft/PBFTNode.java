@@ -28,6 +28,7 @@ import jabs.network.node.nodes.PeerDLTNode;
 import jabs.network.node.nodes.Node;
 import jabs.network.p2p.PBFTP2P;
 import jabs.simulator.Simulator;
+import jabs.simulator.event.TxGenerationProcessSingleNode;
 
 
 public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
@@ -36,12 +37,15 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             private ArrayList<EthereumTx> mempool;
             private HashMap<EthereumTx, Node> txToSender;
             static final long MAXIMUM_BLOCK_GAS = 1250;
+
+            private int timeBetweenTxs;
+            protected Simulator.ScheduledEvent txGenPro;
            
 
 
             
 
-    public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants) {
+    public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants, int timeBetweenTxs) {
         super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth,
                 new PBFTP2P(),
                 new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants)
@@ -49,6 +53,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         this.consensusAlgorithm.setNode(this);
         this.mempool = new ArrayList<>();
         this.txToSender = new HashMap<>();
+        this.timeBetweenTxs = timeBetweenTxs;
     }
 
     @Override
@@ -142,6 +147,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     public void generateNewTransaction() {
         broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
+    }
+
+    public void startTxGen(){
+        TxGenerationProcessSingleNode txGenPro = new TxGenerationProcessSingleNode(this.simulator, this.network.getRandom(), this, timeBetweenTxs);
+        this.txGenPro = this.simulator.putEvent(txGenPro, txGenPro.timeToNextGeneration());
     }
 
     protected void fillMempool(int numTxs){
