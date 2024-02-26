@@ -11,6 +11,7 @@ import java.util.Set;
 
 import jabs.consensus.algorithm.PBFT;
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
+import jabs.ledgerdata.BlockFactory;
 import jabs.ledgerdata.Recipt;
 import jabs.ledgerdata.TransactionFactory;
 import jabs.ledgerdata.Vote;
@@ -115,9 +116,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     {
         this.mempool.add(tx);
     }
-    public void removeFromMempool(EthereumTx tx)
+    public void removeFromMempool(PBFTBlock block)
     {
-        this.mempool.remove(tx);
+        for(EthereumTx tx: block.getTransactions()){
+            this.mempool.remove(tx);
+        }
     }
     
     protected void broadcastTransaction(EthereumTx tx, Node excludeNeighbor) {
@@ -139,6 +142,43 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     public void generateNewTransaction() {
         broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
+    }
+
+    protected void fillMempool(int numTxs){
+        for (int i = 0; i < numTxs; i++){
+            EthereumTx tx = TransactionFactory.sampleEthereumTransaction(network.getRandom());
+            mempool.add(tx);
+        }
+
+        System.out.println("Mempool size: " + this.mempool.size());
+
+    }
+
+    public PBFTBlock createBlock(){
+        
+        ArrayList<EthereumTx> txs = new ArrayList<EthereumTx>();
+        int gas = 0;
+        int size = 0;
+
+        if(this.mempool.size() ==0){
+            System.out.println("Mempool is empty");
+
+        }
+        int i = 0;
+
+        while(gas < MAXIMUM_BLOCK_GAS && this.mempool.size() > i){
+            EthereumTx tx = this.mempool.get(i);
+
+        }
+
+        size = size + 1000;
+
+        int newSize = BlockFactory.sampleBitcoinBlockSize(this.network.getRandom());
+        PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
+        block.setTransactions(txs);
+        removeFromMempool(block);
+
+        return block;
     }
 
 }
