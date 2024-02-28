@@ -152,6 +152,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void startTxGen(){
         TxGenerationProcessSingleNode txGenPro = new TxGenerationProcessSingleNode(this.simulator, this.network.getRandom(), this, timeBetweenTxs);
         this.txGenPro = this.simulator.putEvent(txGenPro, txGenPro.timeToNextGeneration());
+        System.out.println("TRANSACTIONS MADE");
     }
 
     protected void fillMempool(int numTxs){
