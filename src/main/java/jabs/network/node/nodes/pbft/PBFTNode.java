@@ -142,6 +142,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     protected void broadcastTransaction(EthereumTx tx) {
         broadcastTransaction(tx, null);
+        System.out.println("Broadcast Transactions");
     }
 
     @Override
