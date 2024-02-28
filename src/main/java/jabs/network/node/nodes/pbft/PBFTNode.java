@@ -128,7 +128,27 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         }
     }
     
-    protected void broadcastTransaction(EthereumTx tx, Node excludeNeighbor) {
+    protected void broadcastTransaction(EthereumTx tx) {
+        for (Node neighbor:this.p2pConnections.getNeighbors()) {
+            
+        this.networkInterface.addToUpLinkQueue(
+                new Packet(this, neighbor,
+                        new DataMessage(tx)
+                    )
+                );
+                System.out.println(tx + "TO NODE " + neighbor);
+            }
+            System.out.println("BROADCAST");
+        }
+
+    /*
+    protected void broadcastTransaction(EthereumTx tx) {
+        broadcastTransaction(tx, null);
+        System.out.println("Broadcast Transactions");
+    }
+     *
+     * 
+     *     protected void broadcastTransaction(EthereumTx tx, Node excludeNeighbor) {
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             if (neighbor != excludeNeighbor){
                 this.networkInterface.addToUpLinkQueue(
@@ -138,12 +158,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                 );
             }
         }
-    }
-
-    protected void broadcastTransaction(EthereumTx tx) {
-        broadcastTransaction(tx, null);
-        System.out.println("Broadcast Transactions");
-    }
+    } 
+     */
 
     @Override
     public void generateNewTransaction() {
