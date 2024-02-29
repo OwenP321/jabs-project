@@ -8,6 +8,7 @@ import jabs.network.message.VoteMessage;
 import jabs.network.node.nodes.Node;
 import jabs.network.node.nodes.pbft.PBFTNode;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
@@ -27,6 +28,9 @@ public class PBFT<B extends SingleParentBlock<B>> extends AbstractChainBasedCons
 
     private PBFTMode pbftMode = PBFTMode.NORMAL_MODE;
     private PBFTPhase pbftPhase = PBFTPhase.PRE_PREPARING;
+
+    ArrayList<EthereumTx> txOrder = new ArrayList<EthereumTx>();
+    ArrayList<EthereumTx> finalOrder = new ArrayList<EthereumTx>();
 
     @Override
     public boolean isBlockFinalized(B block) {
@@ -133,22 +137,20 @@ public class PBFT<B extends SingleParentBlock<B>> extends AbstractChainBasedCons
 
     @Override
     public void newIncomingBlock(B block) {
-        /* 
+        
         if(block instanceof PBFTBlock){
             PBFTBlock pbftBlock = (PBFTBlock) block;
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
                 for (EthereumTx tx : pbftBlock.getTransactions()) {
-                    PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(this,peerBlockchainNode, tx);
+                    PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
                     
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
                 }
             }
             
         }
-        
-         */
     }
 
     /**
