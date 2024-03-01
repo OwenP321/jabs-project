@@ -103,7 +103,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     @Override
     protected void processNewVote(Vote vote) {
-        ((PBFT<PBFTBlock>) this.consensusAlgorithm).newIncomingVote(vote);
+        ((PBFT<PBFTBlock, EthereumTx>) this.consensusAlgorithm).newIncomingVote(vote);
     }
 
     @Override
