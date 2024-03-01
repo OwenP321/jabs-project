@@ -96,9 +96,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
 
-            System.out.print("****************************************************");
-            System.out.print("WE MADE IT HERE BLOCK");
-            System.out.print("****************************************************");
+            //System.out.print("****************************************************");
+            //System.out.print("WE MADE IT HERE BLOCK");
+            //System.out.print("****************************************************");
 
 
             switch (blockVote.getVoteType()) {
@@ -118,11 +118,11 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     break;
                 case PREPARE:
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
-                    System.out.println("PRRPARE");
+                    //System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
-                    System.out.println("COMMIT");
+                    //System.out.println("COMMIT");
                     break;
             }
         }
