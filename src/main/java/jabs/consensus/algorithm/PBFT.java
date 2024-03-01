@@ -96,9 +96,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
 
-            //System.out.print("****************************************************");
-            //System.out.print("WE MADE IT HERE BLOCK");
-            //System.out.print("****************************************************");
+            System.out.print("****************************************************");
+            System.out.print("WE MADE IT HERE BLOCK");
+            System.out.print("****************************************************");
 
 
             switch (blockVote.getVoteType()) {
