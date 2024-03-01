@@ -1,9 +1,11 @@
 package jabs.network.node.nodes;
 
 import jabs.consensus.algorithm.AbstractChainBasedConsensus;
+import jabs.consensus.algorithm.PBFTTxVote;
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.ledgerdata.*;
 import jabs.ledgerdata.ethereum.EthereumTx;
+import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.network.message.*;
 import jabs.network.networks.Network;
 import jabs.network.p2p.AbstractP2PConnections;
@@ -111,6 +113,7 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
                                         new DataMessage(tx)
                                 )
                         );
+                        
                     }
                 }
             }
@@ -132,6 +135,8 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
     protected abstract void processNewBlock(B block);
     protected abstract void processNewVote(Vote vote);
     protected abstract void processNewQuery(Query query);
+
+    protected abstract void processNewTxVote(PBFTTransactionVote vote);
 
     public AbstractChainBasedConsensus<B, T> getConsensusAlgorithm() {
         return this.consensusAlgorithm;

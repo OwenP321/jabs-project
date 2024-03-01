@@ -18,6 +18,7 @@ import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.ethereum.EthereumBlock;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.PBFTBlock;
+import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.ledgerdata.pbft.PBFTTx;
 import jabs.network.message.DataMessage;
 import jabs.network.message.InvMessage;
@@ -104,6 +105,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     protected void processNewVote(Vote vote) {
         ((PBFT<PBFTBlock, EthereumTx>) this.consensusAlgorithm).newIncomingVote(vote);
+    }
+
+    protected void processNewTxVote(PBFTTransactionVote tx)
+    {
+        ((PBFT<PBFTBlock, EthereumTx>) this.consensusAlgorithm).newIncomingVote(tx);
     }
 
     @Override
@@ -209,5 +215,6 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         return block;
     }
+
 
 }

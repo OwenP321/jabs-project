@@ -8,6 +8,7 @@ import jabs.consensus.config.GhostProtocolConfig;
 import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.ethereum.EthereumBlock;
 import jabs.ledgerdata.ethereum.EthereumTx;
+import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.network.message.DataMessage;
 import jabs.network.message.InvMessage;
 import jabs.network.message.Packet;
@@ -104,6 +105,12 @@ public class EthereumNode extends PeerBlockchainNode<EthereumBlock, EthereumTx> 
 
     protected void broadcastTransaction(EthereumTx tx) {
         broadcastTransaction(tx, null);
+    }
+
+    @Override
+    protected void processNewTxVote(PBFTTransactionVote vote) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'processNewTxVote'");
     }
 
 }

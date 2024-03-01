@@ -7,6 +7,7 @@ import jabs.consensus.config.NakamotoConsensusConfig;
 import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.bitcoin.BitcoinBlockWithoutTx;
 import jabs.ledgerdata.bitcoin.BitcoinTx;
+import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.network.message.InvMessage;
 import jabs.network.message.Packet;
 import jabs.network.networks.Network;
@@ -76,5 +77,11 @@ public class BitcoinNode extends PeerBlockchainNode<BitcoinBlockWithoutTx, Bitco
         BitcoinTx tx = TransactionFactory.sampleBitcoinTransaction(network.getRandom());
         this.alreadySeenTxs.put(tx.getHash(), tx);
         broadcastTxInvMessage(tx);
+    }
+
+    @Override
+    protected void processNewTxVote(PBFTTransactionVote vote) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'processNewTxVote'");
     }
 }
