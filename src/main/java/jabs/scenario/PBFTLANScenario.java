@@ -26,6 +26,7 @@ public class PBFTLANScenario extends AbstractScenario {
         network.populateNetwork(this.simulator, this.numNodes, new PBFTConsensusConfig());
         PBFTNode node = (PBFTNode) network.getAllNodes().get(0);
         node.startTxGen();
+        node.generateNewTransaction();
     }
 
     @Override
