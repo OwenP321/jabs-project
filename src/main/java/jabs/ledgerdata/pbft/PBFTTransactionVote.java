@@ -1,11 +1,12 @@
 package jabs.ledgerdata.pbft;
 
 import jabs.ledgerdata.Block;
+import jabs.ledgerdata.Tx;
 import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.node.nodes.Node;
 
-public class PBFTTransactionVote<T> extends Vote{
+public class PBFTTransactionVote<T extends Tx<T>> extends Vote{
 
     private final T transaction;
 

@@ -114,6 +114,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         )
                                     );
                                         System.out.println("PRE_PREPARE");
+                                        
                     }
                     break;
                 case PREPARE:
