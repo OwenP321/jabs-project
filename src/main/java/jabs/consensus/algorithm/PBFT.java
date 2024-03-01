@@ -92,9 +92,15 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
             }
 
-        if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
+        else if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
+
+            System.out.print("****************************************************");
+            System.out.print("WE MADE IT HERE BLOCK");
+            System.out.print("****************************************************");
+
+
             switch (blockVote.getVoteType()) {
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
@@ -105,15 +111,18 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         this.peerBlockchainNode.broadcastMessage(
                                 new VoteMessage(
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
-                                )
-                        );
+                                        )
+                                    );
+                                        System.out.println("PRE_PREPARE");
                     }
                     break;
                 case PREPARE:
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
+                    System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
+                    System.out.println("COMMIT");
                     break;
             }
         }
