@@ -113,7 +113,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
                                         )
                                     );
-                                        System.out.println("PRE_PREPARE");
+                                        //System.out.println("PRE_PREPARE");
                                         
                     }
                     break;
