@@ -27,6 +27,7 @@ public class PBFTLANScenario extends AbstractScenario {
         PBFTNode node = (PBFTNode) network.getAllNodes().get(0);
         node.startTxGen();
         node.generateNewTransaction();
+        node.createBlock();
     }
 
     @Override

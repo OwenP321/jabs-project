@@ -135,6 +135,9 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     }
     
     protected void broadcastTransaction(EthereumTx tx) {
+
+        //ALL SEND TO ALL 
+
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             
         this.networkInterface.addToUpLinkQueue(
@@ -146,6 +149,32 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             }
             System.out.println("BROADCAST");
         }
+
+
+    protected void broadcastBlock(PBFTBlock b) {
+
+        //ALL SEND TO ALL 
+
+        for (Node neighbor:this.p2pConnections.getNeighbors()) {
+            
+        this.networkInterface.addToUpLinkQueue(
+                new Packet(this, neighbor,
+                        new DataMessage(b)
+                    )
+                );
+                System.out.println(b + " TO NODE " + neighbor);
+            }
+            System.out.println("BROADCAST");
+        }
+
+
+    //BROADCAST BLOCK()
+    //Check blocks vs blocks 
+    //majority 
+
+
+    //ADD PREPREPAIR TO BLOCK 
+
 
     /*
     protected void broadcastTransaction(EthereumTx tx) {
@@ -212,6 +241,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
         block.setTransactions(txs);
         removeFromMempool(block);
+
+        broadcastBlock(block);
 
         return block;
     }
