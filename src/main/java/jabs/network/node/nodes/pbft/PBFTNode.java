@@ -11,6 +11,7 @@ import java.util.Set;
 
 import jabs.consensus.algorithm.PBFT;
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
+import jabs.ledgerdata.Block;
 import jabs.ledgerdata.BlockFactory;
 import jabs.ledgerdata.Recipt;
 import jabs.ledgerdata.TransactionFactory;
@@ -243,6 +244,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         removeFromMempool(block);
 
         broadcastBlock(block);
+        System.out.println(block);
 
         return block;
     }
