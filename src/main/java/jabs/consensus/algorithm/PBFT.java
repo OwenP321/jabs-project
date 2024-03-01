@@ -113,17 +113,17 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
                                         )
                                     );
-                                        //System.out.println("PRE_PREPARE");
+                                        System.out.println("PRE_PREPARE");
                                         
                     }
                     break;
                 case PREPARE:
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
-                    //System.out.println("PRRPARE");
+                    System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
-                    //System.out.println("COMMIT");
+                    System.out.println("COMMIT");
                     break;
             }
         }
@@ -168,10 +168,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     }
 
 
-    public void newIncomingTx(EthereumTx tx){
+    public PBFTTransactionVote newIncomingTx(EthereumTx tx){
         PBFTTransactionVote txVote = new PBFTTransactionVote(10, this.peerBlockchainNode, tx);
 
         this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
+
+        return txVote;
     }
 
     @Override
@@ -191,6 +193,38 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             
         }
     }
+
+    /*
+     * 
+     public void newIncomingVoteTx(Data tx){
+ 
+ 
+         if(tx instanceof PBFTTx){
+             txB = this.newIncomingTx(tx);
+             PBFTTransactionVote<T> txVote = (PBFTTransactionVote<T>) txB;
+             T transaction = txVote.getTransaction();
+             System.out.print("****************************************************");
+             System.out.print("WE MADE IT HERE ");
+             System.out.print("****************************************************");
+ 
+             switch (pbftPhase) {
+                 case PRE_PREPARING:
+                   
+                     break;
+                 case PREPARING:
+                     
+                     break;
+                 case COMMITTING:
+                     
+                     break;
+             }
+ 
+             }
+ 
+ 
+     }
+     * 
+     */
 
     /**
      * @param block
