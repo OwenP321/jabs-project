@@ -5,7 +5,7 @@ import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.node.nodes.Node;
 
-public class PBFTTransactionVote<T  extends EthereumTx> extends Vote{
+public class PBFTTransactionVote<T> extends Vote{
 
     private final T transaction;
 

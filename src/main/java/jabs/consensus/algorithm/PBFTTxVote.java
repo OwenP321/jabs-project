@@ -15,8 +15,8 @@ import java.util.HashSet;
 // based on: https://sawtooth.hyperledger.org/docs/pbft/nightly/master/architecture.html
 // another good source: http://ug93tad.github.io/pbft/
 
-public class PBFTTxVote<B extends SingleParentBlock<B>> extends AbstractChainBasedConsensus<B, EthereumTx>
-        implements VotingBasedConsensus<B, EthereumTx >, DeterministicFinalityConsensus<B, EthereumTx > {
+public class PBFTTxVote<B extends SingleParentBlock<B>, T extends Tx<T>> extends AbstractChainBasedConsensus<B, T>
+        implements VotingBasedConsensus<B, T >, DeterministicFinalityConsensus<B, T > {
     private final int numAllParticipants;
     private final HashMap<B, HashMap<Node, Vote>> prepareVotes = new HashMap<>();
     private final HashMap<B, HashMap<Node, Vote>> commitVotes = new HashMap<>();
@@ -31,6 +31,8 @@ public class PBFTTxVote<B extends SingleParentBlock<B>> extends AbstractChainBas
 
     ArrayList<EthereumTx> txOrder = new ArrayList<EthereumTx>();
     ArrayList<EthereumTx> finalOrder = new ArrayList<EthereumTx>();
+    
+    ArrayList<EthereumTx> txVote = new ArrayList<EthereumTx>();
 
     @Override
     public boolean isBlockFinalized(B block) {
@@ -38,7 +40,7 @@ public class PBFTTxVote<B extends SingleParentBlock<B>> extends AbstractChainBas
     }
 
     @Override
-    public boolean isTxFinalized(EthereumTx tx) {
+    public boolean isTxFinalized(T tx) {
         return false;
     }
 
@@ -70,6 +72,28 @@ public class PBFTTxVote<B extends SingleParentBlock<B>> extends AbstractChainBas
     }
 
     public void newIncomingVote(Vote vote) {
+
+        if(vote instanceof PBFTTransactionVote){
+            PBFTTransactionVote<T> txVote = (PBFTTransactionVote<T>) vote;
+            T transaction = txVote.getTransaction();
+            System.out.print("****************************************************");
+            System.out.print("WE MADE IT HERE ");
+            System.out.print("****************************************************");
+
+            switch (pbftPhase) {
+                case PRE_PREPARING:
+                  
+                    break;
+                case PREPARING:
+                    
+                    break;
+                case COMMITTING:
+                    
+                    break;
+            }
+
+            }
+
         if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
@@ -135,6 +159,7 @@ public class PBFTTxVote<B extends SingleParentBlock<B>> extends AbstractChainBas
         }
     }
 
+    /* */
     @Override
     public void newIncomingBlock(B block) {
         
