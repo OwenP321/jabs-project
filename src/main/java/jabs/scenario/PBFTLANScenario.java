@@ -31,8 +31,6 @@ public class PBFTLANScenario extends AbstractScenario {
 
     @Override
     protected void insertInitialEvents() {
-        /*
-        * 
             Node node = (Node) network.getAllNodes().get(0);
             node.broadcastMessage(
                     new VoteMessage(
@@ -43,8 +41,6 @@ public class PBFTLANScenario extends AbstractScenario {
                     )
             );
             
-         * 
-         */
         
     }
 

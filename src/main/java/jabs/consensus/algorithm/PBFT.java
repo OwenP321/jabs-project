@@ -80,6 +80,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
             switch (pbftPhase) {
                 case PRE_PREPARING:
+
+                    
                   
                     break;
                 case PREPARING:
@@ -91,6 +93,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             }
 
             }
+
+            //After Tx votes 
+            //CreateBlock 
 
         else if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
@@ -119,11 +124,11 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     break;
                 case PREPARE:
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
-                    System.out.println("PRRPARE");
+                    //System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
-                    System.out.println("COMMIT");
+                    //System.out.println("COMMIT");
                     break;
             }
         }
