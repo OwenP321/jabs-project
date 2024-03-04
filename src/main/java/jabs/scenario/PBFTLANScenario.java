@@ -53,4 +53,9 @@ public class PBFTLANScenario extends AbstractScenario {
     public boolean simulationStopCondition() {
         return (simulator.getSimulationTime() > this.simulationStopTime);
     }
+
+    public void blockCreation(){
+        PBFTNode pbftNode = (PBFTNode) network.getAllNodes();
+        pbftNode.createBlock();
+    }
 }
