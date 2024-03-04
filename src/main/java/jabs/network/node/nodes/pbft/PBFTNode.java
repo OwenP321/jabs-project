@@ -155,9 +155,9 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                         new DataMessage(tx)
                     )
                 );
-                System.out.println(tx + " TO NODE " + neighbor);
+                //System.out.println(tx + " TO NODE " + neighbor);
             }
-            System.out.println("BROADCAST BLOCKS");
+            System.out.println("BROADCAST TRANSACTIONS");
             addToMempool(tx);
         }
 
@@ -176,7 +176,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                 );
                 //System.out.println(b + " TO NODE " + neighbor);
             }
-            System.out.println("BROADCAST TRANSACTIONS");
+            System.out.println("BROADCAST BLOCKS");
         }
 
 
