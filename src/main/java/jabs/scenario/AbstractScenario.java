@@ -2,6 +2,7 @@ package jabs.scenario;
 
 import jabs.log.AbstractLogger;
 import jabs.network.networks.Network;
+import jabs.network.node.nodes.pbft.PBFTNode;
 import jabs.simulator.event.Event;
 import jabs.simulator.randengine.RandomnessEngine;
 import jabs.simulator.Simulator;
@@ -93,6 +94,11 @@ public abstract class AbstractScenario {
         this.progressMessageIntervals = progressMessageIntervals;
     }
 
+    public void finalStop(){
+        PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        nodePBFT.stopTime();
+    }
+
     /**
      * When called starts the simulation and runs everything to the end of simulation. This also
      * logs events using the logger object.
@@ -135,5 +141,6 @@ public abstract class AbstractScenario {
         }
 
         System.err.printf("Finished %s.\n", this.name);
+        finalStop();
     }
 }

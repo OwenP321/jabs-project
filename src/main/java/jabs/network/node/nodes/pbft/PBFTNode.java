@@ -156,7 +156,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                 );
                 System.out.println(tx + " TO NODE " + neighbor);
             }
-            System.out.println("BROADCAST");
+            System.out.println("BROADCAST BLOCKS");
             addToMempool(tx);
         }
 
@@ -173,9 +173,9 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                         new DataMessage(b)
                     )
                 );
-                System.out.println(b + " TO NODE " + neighbor);
+                //System.out.println(b + " TO NODE " + neighbor);
             }
-            System.out.println("BROADCAST");
+            System.out.println("BROADCAST TRANSACTIONS");
         }
 
 
@@ -210,14 +210,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     public void generateNewTransaction() {
         broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
-        System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
+        //System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
         
     }
 
     public void startTxGen(){
         TxGenerationProcessSingleNode txGenPro = new TxGenerationProcessSingleNode(this.simulator, this.network.getRandom(), this, timeBetweenTxs);
         this.txGenPro = this.simulator.putEvent(txGenPro, txGenPro.timeToNextGeneration());
-        System.out.println("TRANSACTIONS MADE");
+        //System.out.println("TRANSACTIONS MADE");
     }
 
     protected void fillMempool(int numTxs){
@@ -270,7 +270,16 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             }
         };
 
-        scheduler.scheduleAtFixedRate(task, 0, 15, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
+    }
+
+    public void stopTime(){
+        scheduler.schedule(new Runnable() {
+            public void run(){
+                scheduler.shutdownNow();
+            }
+            
+        }, 1, TimeUnit.MINUTES);
     }
 
 
