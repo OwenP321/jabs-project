@@ -9,6 +9,12 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.Set;
 
+import java.util.concurrent.Executor;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
+
+
 import jabs.consensus.algorithm.PBFT;
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
 import jabs.ledgerdata.Block;
@@ -42,6 +48,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
             private int timeBetweenTxs;
             protected Simulator.ScheduledEvent txGenPro;
+
+            ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
            
 
 
@@ -252,6 +260,17 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         System.out.println(block);
 
         return block;
+    }
+
+    public void timeLoop(){
+
+        Runnable task = new Runnable() {
+            public void run(){
+                createBlock();
+            }
+        };
+
+        scheduler.scheduleAtFixedRate(task, 0, 45, TimeUnit.SECONDS);
     }
 
 
