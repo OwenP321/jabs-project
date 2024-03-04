@@ -134,13 +134,13 @@ public abstract class AbstractScenario {
                         (long)(simulationTime / 3600), (long)((simulationTime % 3600) / 60), (long)(simulationTime % 60)
                 );
                 lastProgressMessageTime = System.nanoTime();
-                finalStop();
             }
         }
         for (AbstractLogger logger:this.loggers) {
             logger.finalLog();
         }
-
+        
+        finalStop();
         System.err.printf("Finished %s.\n", this.name);
     }
 }
