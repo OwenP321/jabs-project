@@ -275,7 +275,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             }
         };
 
-        scheduler.scheduleAtFixedRate(task, 0, 15, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(task, 0, 6, TimeUnit.SECONDS);
     }
 
     public void stopTime(){
