@@ -235,6 +235,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         while(gas < MAXIMUM_BLOCK_GAS && this.mempool.size() > i){
             EthereumTx tx = this.mempool.get(i);
+            i++;
+            System.out.println("STUCK HERE MAYBE");
 
         }
 
