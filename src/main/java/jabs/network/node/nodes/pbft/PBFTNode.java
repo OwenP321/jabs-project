@@ -157,6 +157,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         //ALL SEND TO ALL 
 
+        System.out.println("TIME FOR BLOCK TO BE BROADCASTED");
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             
         this.networkInterface.addToUpLinkQueue(
@@ -236,7 +237,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         while(gas < MAXIMUM_BLOCK_GAS && this.mempool.size() > i){
             EthereumTx tx = this.mempool.get(i);
             i++;
-            System.out.println("STUCK HERE MAYBE");
+            //System.out.println("STUCK HERE MAYBE");
 
         }
 
