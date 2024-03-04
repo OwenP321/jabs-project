@@ -50,6 +50,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             protected Simulator.ScheduledEvent txGenPro;
 
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
+            private static boolean stopFlag = false;
            
 
 
@@ -265,21 +266,20 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void timeLoop(){
 
         Runnable task = new Runnable() {
+            
             public void run(){
                 createBlock();
+                if(stopFlag){
+                    scheduler.shutdown();
+                }
             }
         };
 
-        scheduler.scheduleAtFixedRate(task, 0, 5, TimeUnit.SECONDS);
+        scheduler.scheduleAtFixedRate(task, 0, 15, TimeUnit.SECONDS);
     }
 
     public void stopTime(){
-        scheduler.schedule(new Runnable() {
-            public void run(){
-                scheduler.shutdownNow();
-            }
-            
-        }, 1, TimeUnit.MINUTES);
+        stopFlag = true;
     }
 
 
