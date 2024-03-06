@@ -268,6 +268,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         broadcastBlock(block);
         System.out.println(block);
 
+        this.consensusAlgorithm.newIncomingBlock(block);
+
         return block;
 
         //NEED to make sure mempool is empty 
