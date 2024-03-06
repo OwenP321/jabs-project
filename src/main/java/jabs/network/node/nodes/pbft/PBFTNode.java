@@ -260,6 +260,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         int newSize = BlockFactory.sampleBitcoinBlockSize(this.network.getRandom());
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
+        System.out.println("_________________" + txs);
         block.setTransactions(txs);
         removeFromMempool(block);
 
