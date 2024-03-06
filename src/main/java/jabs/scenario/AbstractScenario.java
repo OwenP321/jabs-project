@@ -29,7 +29,7 @@ public abstract class AbstractScenario {
 
     long blockCreationIntervals;
 
-    PBFTNode nodePBFT = (PBFTNode) network.getAllNodes();
+    PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
 
     /**
      * Returns the network of the scenario. This can be used for accessing nodes inside the network.
