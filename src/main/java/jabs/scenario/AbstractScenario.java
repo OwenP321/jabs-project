@@ -29,7 +29,7 @@ public abstract class AbstractScenario {
 
     long blockCreationIntervals;
 
-    PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+    PBFTNode nodePBFT; 
 
     /**
      * Returns the network of the scenario. This can be used for accessing nodes inside the network.
@@ -82,6 +82,7 @@ public abstract class AbstractScenario {
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
 
         this.blockCreationIntervals = TimeUnit.SECONDS.toNanos(500);
+        nodePBFT = (PBFTNode) network.getAllNodes().get(0);
     }
 
     public void setBlockCreationInterval(long blockProgressionInterval){
@@ -107,6 +108,7 @@ public abstract class AbstractScenario {
 
     public void finalStop(){
         //PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
         nodePBFT.stopTime();
     }
 
