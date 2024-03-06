@@ -74,8 +74,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         if(vote instanceof PBFTTransactionVote){
             PBFTTransactionVote txVote = (PBFTTransactionVote) vote;
             Tx transaction = txVote.getTransaction();
+            Node voter = txVote.getVoterNode();
 
-            System.out.println("***CONSENSUS"+transaction + "FROM" + txVote.getVoterNode());
+            System.out.println("***CONSENSUS "+transaction + " FROM " + voter);
             //System.out.print("****************************************************");
             //System.out.print("WE MADE IT HERE ");
             //System.out.print("****************************************************");
