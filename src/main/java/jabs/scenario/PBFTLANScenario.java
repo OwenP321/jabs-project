@@ -4,6 +4,7 @@ import jabs.consensus.config.PBFTConsensusConfig;
 import jabs.ledgerdata.pbft.PBFTPrePrepareVote;
 import jabs.network.message.VoteMessage;
 import jabs.ledgerdata.BlockFactory;
+import jabs.network.networks.Network;
 import jabs.network.networks.pbft.PBFTLocalLANNetwork;
 import jabs.network.node.nodes.Node;
 import jabs.network.node.nodes.pbft.PBFTNode;
@@ -44,7 +45,9 @@ public class PBFTLANScenario extends AbstractScenario {
             PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
             nodePBFT.generateNewTransaction();
             //nodePBFT.createBlock();
-            nodePBFT.timeLoop();
+            //nodePBFT.timeLoop();
+            setPBFTNetwork(network);
+            
             
         
     }
@@ -57,6 +60,11 @@ public class PBFTLANScenario extends AbstractScenario {
     public void blockCreation(){
         PBFTNode pbftNode = (PBFTNode) network.getAllNodes();
         pbftNode.createBlock();
+    }
+
+     public Network getPBNetwork(){
+        
+        return network;
     }
 
   

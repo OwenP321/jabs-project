@@ -54,6 +54,12 @@ public abstract class AbstractScenario {
         return this.name;
     }
 
+    public void setPBFTNetwork(Network network){
+        this.network = network;
+        nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+    }
+
+
     /**
      * Create the network and set up the simulation environment.
      */
@@ -82,7 +88,7 @@ public abstract class AbstractScenario {
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
 
         this.blockCreationIntervals = TimeUnit.SECONDS.toNanos(500);
-        nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
     }
 
     public void setBlockCreationInterval(long blockProgressionInterval){
@@ -107,7 +113,7 @@ public abstract class AbstractScenario {
     }
 
     public void finalStop(){
-        //PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
         //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
         nodePBFT.stopTime();
     }
