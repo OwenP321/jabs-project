@@ -171,6 +171,7 @@ public abstract class AbstractScenario {
                         (long)(realTime / 3600), (long)((realTime % 3600) / 60), (long)(realTime % 60),
                         (long)(simulationTime / 3600), (long)((simulationTime % 3600) / 60), (long)(simulationTime % 60));
 
+                lastBlockCreation = System.nanoTime();
             }
 
 
