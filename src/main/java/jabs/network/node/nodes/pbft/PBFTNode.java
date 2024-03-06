@@ -142,10 +142,10 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void removeFromMempool(PBFTBlock block)
     {
         System.out.println("REMOVE MEMPOOL");
-        System.out.println(block.getTransactions());
+        //System.out.println(block.getTransactions());
         for(EthereumTx tx: block.getTransactions()){
             this.mempool.remove(tx);
-            System.out.println("REMOVED " + tx);
+            //System.out.println("REMOVED " + tx);
         }
     }
     
@@ -261,7 +261,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         int newSize = BlockFactory.sampleBitcoinBlockSize(this.network.getRandom());
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
-        System.out.println("_________________" + txs);
+        //System.out.println("_________________" + txs);
         block.setTransactions(txs);
         removeFromMempool(block);
 
