@@ -9,6 +9,8 @@ import jabs.network.node.nodes.Node;
 public class PBFTTransactionVote<T extends Tx<T>> extends Vote{
 
     private final T transaction;
+    Node voter;
+    
 
     public PBFTTransactionVote(int size, Node voter, T transaction){
         super(size, voter);
@@ -18,6 +20,10 @@ public class PBFTTransactionVote<T extends Tx<T>> extends Vote{
     
     public T getTransaction(){
         return transaction;
+    }
+
+    public Node getVoterNode(){
+        return voter;
     }
     
 }
