@@ -26,6 +26,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public void setTransactions(ArrayList<EthereumTx> transactions)
     {
         this.transactions = transactions;
+        System.out.println("***************** PROBLEM" +transactions);
     }
     
     public ArrayList<EthereumTx> getTransactions()
