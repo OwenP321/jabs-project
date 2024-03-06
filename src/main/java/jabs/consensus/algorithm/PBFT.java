@@ -76,6 +76,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             Tx transaction = txVote.getTransaction();
             Node voter = txVote.getVoterNode();
 
+
             System.out.println("***CONSENSUS "+transaction + " FROM " + voter);
             //System.out.print("****************************************************");
             //System.out.print("WE MADE IT HERE ");
@@ -196,7 +197,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
                 for (EthereumTx tx : pbftBlock.getTransactions()) {
-                    System.out.println(peerBlockchainNode + "***********************************");;
+                    System.out.println(peerBlockchainNode + "***********************************");
+                    System.out.println(currentMainChainHead + "-----------------");
                     PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
                     
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
