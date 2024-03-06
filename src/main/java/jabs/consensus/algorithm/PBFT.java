@@ -196,6 +196,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
                 for (EthereumTx tx : pbftBlock.getTransactions()) {
+                    System.out.println(peerBlockchainNode + "***********************************");;
                     PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
                     
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
