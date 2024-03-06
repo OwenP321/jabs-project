@@ -142,6 +142,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void removeFromMempool(PBFTBlock block)
     {
         System.out.println("REMOVE MEMPOOL");
+        System.out.println(block.getTransactions());
         for(EthereumTx tx: block.getTransactions()){
             this.mempool.remove(tx);
             System.out.println("REMOVED " + tx);
