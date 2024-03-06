@@ -27,6 +27,10 @@ public abstract class AbstractScenario {
     long progressMessageIntervals;
     final String name;
 
+    long blockCreationIntervals;
+
+    PBFTNode nodePBFT = (PBFTNode) network.getAllNodes();
+
     /**
      * Returns the network of the scenario. This can be used for accessing nodes inside the network.
      * @return network of this scenario
@@ -76,7 +80,14 @@ public abstract class AbstractScenario {
         this.name = name;
         simulator = new Simulator();
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
+
+        this.blockCreationIntervals = TimeUnit.SECONDS.toNanos(500);
     }
+
+    public void setBlockCreationInterval(long blockProgressionInterval){
+        this.blockCreationIntervals = blockProgressionInterval;
+    }
+
 
     /**
      * Adds a new logger module to the simulation scenario
@@ -95,7 +106,7 @@ public abstract class AbstractScenario {
     }
 
     public void finalStop(){
-        PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        //PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
         nodePBFT.stopTime();
     }
 
@@ -115,6 +126,9 @@ public abstract class AbstractScenario {
         }
         long simulationStartingTime = System.nanoTime();
         long lastProgressMessageTime = simulationStartingTime;
+
+        long lastBlockCreation = simulationStartingTime;
+
         while (simulator.isThereMoreEvents() && !this.simulationStopCondition()) {
             Event event = simulator.peekEvent();
             for (AbstractLogger logger:this.loggers) {
@@ -135,6 +149,23 @@ public abstract class AbstractScenario {
                 );
                 lastProgressMessageTime = System.nanoTime();
             }
+
+            if(System.nanoTime()- lastBlockCreation > this.blockCreationIntervals) {
+
+                System.out.println("******** SCENARIO BLOCK CREATION TIME ***********");
+                nodePBFT.createBlock();
+
+                double realTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - simulationStartingTime);
+                double simulationTime = this.simulator.getSimulationTime();
+                System.err.printf(
+                        "Simulation in progress... BLOCK CREATION ACTIVE" +
+                                "Elapsed Real Time: %d:%02d:%02d, Elapsed Simulation Time: %d:%02d:%02d\n",
+                        (long)(realTime / 3600), (long)((realTime % 3600) / 60), (long)(realTime % 60),
+                        (long)(simulationTime / 3600), (long)((simulationTime % 3600) / 60), (long)(simulationTime % 60));
+
+            }
+
+
         }
         for (AbstractLogger logger:this.loggers) {
             logger.finalLog();
