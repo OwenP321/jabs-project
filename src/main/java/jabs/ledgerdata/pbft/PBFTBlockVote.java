@@ -4,9 +4,10 @@ import jabs.ledgerdata.Block;
 import jabs.ledgerdata.Vote;
 import jabs.network.node.nodes.Node;
 
-public abstract class PBFTBlockVote<B extends Block<B>> extends Vote {
+public abstract class PBFTBlockVote extends PBFTBlock extends Vote {
     private final B block;
     private final VoteType voteType;
+    public PBFTBlock pbftBlock;
 
     public static final int PBFT_VOTE_SIZE_OVERHEAD = 10;
 

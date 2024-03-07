@@ -4,6 +4,7 @@ import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.ledgerdata.*;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.*;
+import jabs.ledgerdata.pbft.AequitasBlockVote.VoteType;
 import jabs.network.message.VoteMessage;
 import jabs.network.node.nodes.Node;
 import jabs.network.node.nodes.pbft.PBFTNode;
@@ -63,6 +64,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         COMMITTING
     }
 
+    public enum VoteType {
+        PRE_PREPARE,
+        PREPARE,
+        COMMIT
+    }
+
     public PBFT(LocalBlockTree<B> localBlockTree, int numAllParticipants) {
         super(localBlockTree);
         this.numAllParticipants = numAllParticipants;
@@ -108,9 +115,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
 
-            System.out.print("**********************");
-            System.out.print("WE MADE IT HERE BLOCK");
-            System.out.print("**********************");
+            //System.out.print("**********************");
+            //System.out.print("WE MADE IT HERE BLOCK");
+            //System.out.print("**********************");
 
             System.out.println("THE BLOCK IS " + block);
 
@@ -197,13 +204,19 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
-                for (EthereumTx tx : pbftBlock.getTransactions()) {
-                    System.out.println(peerBlockchainNode + "***********************************");
-                    System.out.println(currentMainChainHead + "-----------------");
-                    PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
-                    
-                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
-                }
+                /*
+                    for (EthereumTx tx : pbftBlock.getTransactions()) {
+                        System.out.println(peerBlockchainNode + "***********************************");
+                        System.out.println(currentMainChainHead + "-----------------");
+                        PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
+                        
+                        this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
+                    }
+                 * 
+                 */
+                
+
+                 PBFTBlockVote(10, peerBlockchainNode, pbftBlock, VoteType.PRE_PREPARE);
             }
             
         }
