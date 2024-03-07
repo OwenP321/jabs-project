@@ -4,7 +4,7 @@ import jabs.ledgerdata.Block;
 import jabs.ledgerdata.Vote;
 import jabs.network.node.nodes.Node;
 
-public abstract class PBFTBlockVote extends PBFTBlock extends Vote {
+public abstract class PBFTBlockVote<B extends Block> extends Vote {
     private final B block;
     private final VoteType voteType;
     public PBFTBlock pbftBlock;

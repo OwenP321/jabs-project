@@ -5,6 +5,7 @@ import jabs.ledgerdata.*;
 import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.*;
 import jabs.ledgerdata.pbft.AequitasBlockVote.VoteType;
+import jabs.network.message.Message;
 import jabs.network.message.VoteMessage;
 import jabs.network.node.nodes.Node;
 import jabs.network.node.nodes.pbft.PBFTNode;
@@ -121,6 +122,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
             System.out.println("THE BLOCK IS " + block);
 
+            
+
             switch (blockVote.getVoteType()) {
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
@@ -216,7 +219,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                  */
                 
 
-                 PBFTBlockVote(10, peerBlockchainNode, pbftBlock, VoteType.PRE_PREPARE);
+                 PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
+                 this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
             }
             
         }
