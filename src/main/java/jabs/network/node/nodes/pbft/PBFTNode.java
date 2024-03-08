@@ -215,7 +215,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     @Override
     public void generateNewTransaction() {
-        EthereumTx tx = TransactionFactory.sampleEthereumTransaction(network.getRandom())
+        EthereumTx tx = TransactionFactory.sampleEthereumTransaction(network.getRandom());
         broadcastTransaction(tx);
         addToMempool(tx);
         //System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
