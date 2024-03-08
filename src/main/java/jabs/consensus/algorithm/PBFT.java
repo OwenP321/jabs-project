@@ -120,7 +120,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //System.out.print("WE MADE IT HERE BLOCK");
             //System.out.print("**********************");
 
-            System.out.println("THE BLOCK IS " + block);
+            //System.out.println("THE BLOCK IS " + block);
 
             
 
