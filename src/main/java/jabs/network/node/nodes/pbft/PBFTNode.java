@@ -241,6 +241,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         ArrayList<EthereumTx> txs = new ArrayList<EthereumTx>();
         int gas = 0;
         int size = 0;
+        int txAmount = 0;
 
         if(this.mempool.size() ==0){
             System.out.println("Mempool is empty");
@@ -253,6 +254,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             txs.add(tx);
             i++;
             System.out.println("TRANSACTIONS IN THIS BLOCK" + tx);
+            txAmount++;
             //System.out.println("STUCK HERE MAYBE");
 
         }
@@ -267,6 +269,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         broadcastBlock(block);
         System.out.println(block);
+        System.out.println("THE AMOUNT OF TX: ");
 
         this.consensusAlgorithm.newIncomingBlock(block);
 
