@@ -174,7 +174,7 @@ public abstract class AbstractScenario {
             if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
             {
                 System.out.println("****TX GEN*****");
-                nodePBFT.generateNewTransaction();
+                nodePBFT.startTxGen();
 
                 lastTxGenTime = this.simulator.getSimulationTime();
             }
