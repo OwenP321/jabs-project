@@ -215,7 +215,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     @Override
     public void generateNewTransaction() {
-        //broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
+        broadcastTransaction(TransactionFactory.sampleEthereumTransaction(network.getRandom()));
         //System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
         
     }
@@ -223,6 +223,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void startTxGen(){
         TxGenerationProcessSingleNode txGenPro = new TxGenerationProcessSingleNode(this.simulator, this.network.getRandom(), this, timeBetweenTxs);
         this.txGenPro = this.simulator.putEvent(txGenPro, txGenPro.timeToNextGeneration());
+
         //System.out.println("TRANSACTIONS MADE");
     }
 
