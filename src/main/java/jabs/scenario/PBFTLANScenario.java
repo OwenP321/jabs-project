@@ -64,6 +64,15 @@ public class PBFTLANScenario extends AbstractScenario {
     public void blockCreation(){
         PBFTNode pbftNode = (PBFTNode) network.getAllNodes();
         pbftNode.createBlock();
+       
+        pbftNode.broadcastMessage(
+                new VoteMessage(
+                        new PBFTPrePrepareVote<>(pbftNode,
+                                BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
+                                        (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
+                        )
+                )
+        );
     }
 
      public Network getPBNetwork(){
