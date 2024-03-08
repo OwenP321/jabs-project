@@ -1,6 +1,9 @@
 package jabs.scenario;
 
+import jabs.ledgerdata.BlockFactory;
+import jabs.ledgerdata.pbft.PBFTPrePrepareVote;
 import jabs.log.AbstractLogger;
+import jabs.network.message.VoteMessage;
 import jabs.network.networks.Network;
 import jabs.network.node.nodes.pbft.PBFTNode;
 import jabs.simulator.event.Event;
@@ -11,6 +14,8 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
+
+import static jabs.network.node.nodes.pbft.PBFTNode.PBFT_GENESIS_BLOCK;
 
 /**
  * An abstract class for defining a scenario.
@@ -162,6 +167,15 @@ public abstract class AbstractScenario {
 
                 System.out.println("******** SCENARIO BLOCK CREATION TIME ***********");
                 nodePBFT.createBlock();
+
+                nodePBFT.broadcastMessage(
+                new VoteMessage(
+                        new PBFTPrePrepareVote<>(nodePBFT,
+                                BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
+                                        (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
+                        )
+                )
+        );
 
                 double realTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - simulationStartingTime);
                 double simulationTime = this.simulator.getSimulationTime();
