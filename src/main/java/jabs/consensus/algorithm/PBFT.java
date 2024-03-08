@@ -135,17 +135,17 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
                                         )
                                     );
-                                        //System.out.println("PRE_PREPARE");
+                                        System.out.println("PRE_PREPARE");
                                         
                     }
                     break;
                 case PREPARE:
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
-                    //System.out.println("PRRPARE");
+                    System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
-                    //System.out.println("COMMIT");
+                    System.out.println("COMMIT");
                     break;
             }
         }
