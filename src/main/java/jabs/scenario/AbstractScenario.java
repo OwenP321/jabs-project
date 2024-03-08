@@ -32,8 +32,8 @@ public abstract class AbstractScenario {
     long progressMessageIntervals;
     final String name;
 
-    long blockCreationIntervals;
-    long txCreationTime;
+    double blockCreationIntervals;
+    double txCreationTime;
 
     PBFTNode nodePBFT; 
 
@@ -145,9 +145,10 @@ public abstract class AbstractScenario {
         }
         long simulationStartingTime = System.nanoTime();
         long lastProgressMessageTime = simulationStartingTime;
-        long lastTxGenTime = simulationStartingTime;
 
-        long lastBlockCreation = simulationStartingTime;
+
+        double lastTxGenTime = this.simulator.getSimulationTime();
+        double lastBlockCreation = this.simulator.getSimulationTime();
 
         while (simulator.isThereMoreEvents() && !this.simulationStopCondition()) {
             Event event = simulator.peekEvent();
@@ -175,7 +176,7 @@ public abstract class AbstractScenario {
                 System.out.println("****TX GEN*****");
                 nodePBFT.generateNewTransaction();
 
-                lastTxGenTime = System.nanoTime();
+                lastTxGenTime = this.simulator.getSimulationTime();
             }
 
             if(System.nanoTime()- lastBlockCreation > this.blockCreationIntervals) {
@@ -200,7 +201,7 @@ public abstract class AbstractScenario {
                         (long)(realTime / 3600), (long)((realTime % 3600) / 60), (long)(realTime % 60),
                         (long)(simulationTime / 3600), (long)((simulationTime % 3600) / 60), (long)(simulationTime % 60));
 
-                lastBlockCreation = System.nanoTime();
+                lastBlockCreation = this.simulator.getSimulationTime();
             }
 
 
