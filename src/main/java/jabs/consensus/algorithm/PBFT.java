@@ -152,6 +152,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     }
 
     private void checkVotes(PBFTPrePrepareVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+
+        System.out.println("GETS HERE IN CHECK VOTE");
+
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) { // this the first vote received for this block
                 votes.put(block, new HashMap<>());
