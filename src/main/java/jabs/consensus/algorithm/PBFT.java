@@ -219,8 +219,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                  */
                 
 
-                 PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
-                 this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
+                //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
+                //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
             }
             
         }
