@@ -93,8 +93,8 @@ public abstract class AbstractScenario {
         simulator = new Simulator();
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
 
-        this.blockCreationIntervals = TimeUnit.SECONDS.toNanos(10);
-        this.txCreationTime = TimeUnit.SECONDS.toNanos(2);
+        this.blockCreationIntervals = 50;
+        this.txCreationTime = 2;
         //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
     }
 
