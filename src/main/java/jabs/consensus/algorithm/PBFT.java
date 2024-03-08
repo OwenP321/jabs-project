@@ -120,7 +120,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //System.out.print("WE MADE IT HERE BLOCK");
             //System.out.print("**********************");
 
-            System.out.println("THE BLOCK IS " + block + "VOTE IS " + blockVote.getVoteType());
+            System.out.println("THE BLOCK IS " + block + " VOTE IS " + blockVote.getVoteType());
             
 
             switch (blockVote.getVoteType()) {
@@ -151,7 +151,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotes(PBFTBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+    private void checkVotes(PBFTPrePrepareVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) { // this the first vote received for this block
                 votes.put(block, new HashMap<>());
