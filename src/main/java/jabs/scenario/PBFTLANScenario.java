@@ -26,8 +26,8 @@ public class PBFTLANScenario extends AbstractScenario {
         network = new PBFTLocalLANNetwork(randomnessEngine);
         network.populateNetwork(this.simulator, this.numNodes, new PBFTConsensusConfig());
         PBFTNode node = (PBFTNode) network.getAllNodes().get(0);
-        node.startTxGen();
-        node.generateNewTransaction();
+        //node.startTxGen();
+        //node.generateNewTransaction();
        
     }
 
