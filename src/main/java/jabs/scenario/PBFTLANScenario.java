@@ -47,7 +47,7 @@ public class PBFTLANScenario extends AbstractScenario {
              
              
             PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
-            nodePBFT.generateNewTransaction();
+            //nodePBFT.generateNewTransaction();
             //nodePBFT.createBlock();
             //nodePBFT.timeLoop();
             setPBFTNetwork(network);
