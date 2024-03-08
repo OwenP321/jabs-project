@@ -171,7 +171,7 @@ public abstract class AbstractScenario {
                 lastProgressMessageTime = System.nanoTime();
             }
 
-            if (System.nanoTime() - lastTxGenTime > this.txCreationTime)
+            if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
             {
                 System.out.println("****TX GEN*****");
                 nodePBFT.generateNewTransaction();
@@ -179,7 +179,7 @@ public abstract class AbstractScenario {
                 lastTxGenTime = this.simulator.getSimulationTime();
             }
 
-            if(System.nanoTime()- lastBlockCreation > this.blockCreationIntervals) {
+            if(this.simulator.getSimulationTime() - lastBlockCreation > this.blockCreationIntervals) {
 
                 System.out.println("******** SCENARIO BLOCK CREATION TIME ***********");
                 nodePBFT.createBlock();
