@@ -10,12 +10,14 @@ import jabs.ledgerdata.Recipt;
 public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public static final int PBFT_BLOCK_HASH_SIZE = 32;
 
+    private final PBFTBlock block;
     protected ArrayList<EthereumTx> transactions;
-    protected ArrayList<Recipt> recipts;
+   
     
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
+        this.block =this;
     }
 
     public void addTransaction(EthereumTx tx)
@@ -34,15 +36,10 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
         return this.transactions;
     }
 
-    public void addRecipts(Recipt recipts){
-        this.recipts.add(recipts);
+    public PBFTBlock getBlock(){
+        return this.block;
     }
-    public void setRecipts(ArrayList<Recipt> recipts){
-        this.recipts = recipts;
-    }
-    public ArrayList<Recipt> getRecipts(){
-        return this.recipts;
-    }
+
     
 
 }

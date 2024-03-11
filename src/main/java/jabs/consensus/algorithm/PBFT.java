@@ -209,6 +209,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         
         if(block instanceof PBFTBlock){
             PBFTBlock pbftBlock = (PBFTBlock) block;
+            //PBFTBlockVote pbftVoteBlock = new PBFTBlockVote<>(10,peerBlockchainNode,pbftBlock, VoteType.PRE_PREPARE) 
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
@@ -224,8 +225,18 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                  */
                 
 
-                PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
-                this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
+                //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
+                //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
+
+                
+
+                this.peerBlockchainNode.broadcastMessage(
+                                new VoteMessage(
+                                        new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
+                                        )
+                                    );
+
+
             }
             
         }
