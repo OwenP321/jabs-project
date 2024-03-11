@@ -124,35 +124,35 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //System.out.print("WE MADE IT HERE BLOCK");
             //System.out.print("**********************");
 
-            System.out.println("THE BLOCK IS " + block + " VOTE IS " + blockVote.getVoteType());
+            //System.out.println("THE BLOCK IS " + block + " VOTE IS " + blockVote.getVoteType());
             
 
             switch (blockVote.getVoteType()) {
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
                         this.localBlockTree.add(block);
-                        System.out.println("HERE 1");
+                        //System.out.println("HERE 1");
                     }
                     if (this.localBlockTree.getLocalBlock(block).isConnectedToGenesis) {
                         this.pbftPhase = PBFTPhase.PREPARING;
-                        System.out.println("HERE 2");    
+                        //System.out.println("HERE 2");    
                         this.peerBlockchainNode.broadcastMessage(
                                 new VoteMessage(
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
                                         )
                                     );
-                                        System.out.println("PRE_PREPARE");
+                                        //System.out.println("PRE_PREPARE");
                                         
                     }
                     break;
                 case PREPARE:
-                    System.out.println("HERE 3");
+                    //System.out.println("HERE 3");
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
-                    System.out.println("PRRPARE");
+                    //System.out.println("PRRPARE");
                     break;
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
-                    System.out.println("COMMIT");
+                    //System.out.println("COMMIT");
                     break;
             }
         }

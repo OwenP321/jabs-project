@@ -200,16 +200,32 @@ public abstract class AbstractScenario {
             if(this.simulator.getSimulationTime() - lastBlockCreation > this.blockCreationIntervals) {
 
                 System.out.println("******** SCENARIO BLOCK CREATION TIME ***********");
-                nodePBFT.createBlock();
 
-                nodePBFT.broadcastMessage(
-                new VoteMessage(
+                for(int x =0; x<nodes.size(); x++)
+                {
+                    System.out.println("**** BLOCK GEN *****");
+                    nodes.get(x).createBlock();
+
+                    nodePBFT.broadcastMessage(
+                    new VoteMessage(
                         new PBFTPrePrepareVote<>(nodePBFT,
                                 BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
                                         (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
                         )
-                )
-        );
+                    ));
+
+
+                }
+                
+                //nodePBFT.createBlock();
+
+                //nodePBFT.broadcastMessage(
+                //new VoteMessage(
+                //        new PBFTPrePrepareVote<>(nodePBFT,
+                //                BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
+                //                       (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
+                //        )
+                //));
 
                 double realTime = TimeUnit.NANOSECONDS.toSeconds(System.nanoTime() - simulationStartingTime);
                 double simulationTime = this.simulator.getSimulationTime();
