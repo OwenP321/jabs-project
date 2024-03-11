@@ -112,8 +112,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //After Tx votes 
             //CreateBlock 
 
-        else if (vote instanceof PBFTPrePrepareVote) { // for the time being, the view change votes are not supported
-            PBFTPrePrepareVote<B> blockVote = (PBFTPrePrepareVote<B>) vote;
+        //else if (vote instanceof PBFTPrePrepareVote) { // for the time being, the view change votes are not supported
+          //  PBFTPrePrepareVote<B> blockVote = (PBFTPrePrepareVote<B>) vote;
+            //B block = blockVote.getBlock();
+        
+        else if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
+            PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
 
             //System.out.print("**********************");
@@ -235,6 +239,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
                                         )
                                     );
+                
 
 
             }
