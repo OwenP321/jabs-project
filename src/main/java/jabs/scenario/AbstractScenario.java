@@ -36,6 +36,7 @@ public abstract class AbstractScenario {
     double txCreationTime;
 
     PBFTNode nodePBFT; 
+    ArrayList<PBFTNode> nodes = new ArrayList<PBFTNode>();
 
     /**
      * Returns the network of the scenario. This can be used for accessing nodes inside the network.
@@ -63,7 +64,19 @@ public abstract class AbstractScenario {
     public void setPBFTNetwork(Network network){
         this.network = network;
         nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        runOnAllNodes(network);
     }
+
+    public void runOnAllNodes(Network network){
+        //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
+        for(int i =0; i< network.getAllNodes().size(); i++)
+        {
+            nodePBFT = (PBFTNode) network.getAllNodes().get(i);
+            nodes.add(nodePBFT);
+            System.out.println("NODE ADDED :" + i);
+        }
+        System.out.println("ALL NODES ADDED");
+    }   
 
 
     /**
@@ -138,6 +151,7 @@ public abstract class AbstractScenario {
         System.err.printf("Staring %s...\n", this.name);
         this.createNetwork();
         this.insertInitialEvents();
+       
 
         for (AbstractLogger logger:this.loggers) {
             logger.setScenario(this);
@@ -173,8 +187,12 @@ public abstract class AbstractScenario {
 
             if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
             {
-                System.out.println("****TX GEN*****");
-                nodePBFT.generateNewTransaction();
+                for(int x =0; x<nodes.size(); x++)
+                {
+                    System.out.println("****TX GEN*****");
+                    nodes.get(x).generateNewTransaction();
+                }
+                //nodePBFT.generateNewTransaction();
 
                 lastTxGenTime = this.simulator.getSimulationTime();
             }
