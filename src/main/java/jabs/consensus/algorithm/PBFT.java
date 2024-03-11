@@ -127,9 +127,11 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
                         this.localBlockTree.add(block);
+                        System.out.println("HERE 1");
                     }
                     if (this.localBlockTree.getLocalBlock(block).isConnectedToGenesis) {
                         this.pbftPhase = PBFTPhase.PREPARING;
+                        System.out.println("HERE 2");    
                         this.peerBlockchainNode.broadcastMessage(
                                 new VoteMessage(
                                         new PBFTPrepareVote<>(this.peerBlockchainNode, blockVote.getBlock())
@@ -140,6 +142,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     }
                     break;
                 case PREPARE:
+                    System.out.println("HERE 3");
                     checkVotes(blockVote, block, prepareVotes, preparedBlocks, PBFTPhase.COMMITTING);
                     System.out.println("PRRPARE");
                     break;
