@@ -162,8 +162,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                 );
                 //System.out.println(tx + " TO NODE " + neighbor);
             }
-            System.out.println("BROADCAST TRANSACTIONS");
-            //addToMempool(tx);
+            //System.out.println("BROADCAST TRANSACTIONS");
+            addToMempool(tx);
         }
 
 
@@ -220,6 +220,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         addToMempool(tx);
         //System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
         
+        
+    }
+    public EthereumTx getTxs(){
+
+        return null;
     }
 
     public void startTxGen(){
