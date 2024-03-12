@@ -317,7 +317,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     public void generateNewTransaction() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'generateNewTransaction'");
+        generateNewPBFTTransaction();
     }
 
 
