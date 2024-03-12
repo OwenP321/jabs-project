@@ -232,13 +232,18 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
 
-                
+                Boolean validBlock = validateTransactions(pbftBlock);
 
-                this.peerBlockchainNode.broadcastMessage(
-                                new VoteMessage(
-                                        new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
-                                        )
-                                    );
+                if(validBlock == true)
+                {
+                    this.peerBlockchainNode.broadcastMessage(
+                                    new VoteMessage(
+                                            new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
+                                            )
+                                        );
+
+                }
+
                 
 
 
@@ -250,11 +255,37 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
     private boolean validateTransactions(PBFTBlock block){
         
+        //The first block will decive upon the transactions
         
+        ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
+
+        txOrderVal = block.getTransactions();
+
+        if(txOrder.isEmpty())
+        {
+            txOrder = block.getTransactions();
+        }
+
+
+        for(int i=0; i< txOrder.size(); i++)
+        {
+            if(txOrder.get(i) == txOrderVal.get(i)) //if the tx is the same 
+            {
+                finalOrder.set(i, txOrder.get(i));
+
+            }
+        }
+
+        System.out.println(finalOrder);
         
         
         return false;
         
+    }
+
+    private boolean blockValid(PBFTBlock block){
+
+        return false;
     }
 
     /*
