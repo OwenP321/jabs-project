@@ -10,9 +10,12 @@ import jabs.network.message.VoteMessage;
 import jabs.network.node.nodes.Node;
 import jabs.network.node.nodes.pbft.PBFTNode;
 
+import java.io.FileWriter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 
 import org.apache.commons.math3.util.Pair;
 
@@ -287,6 +290,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
                 }
 
+                writeFinalBlocksToCSV("output/FinalBlocks.csv");
                 
 
 
@@ -359,6 +363,35 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
 }
 
 
+public void writeFinalBlocksToCSV(String filePath) {
+        try (FileWriter writer = new FileWriter(filePath)) {
+            // Write header
+            writer.append("Block Height,Block Hash,Transactions\n");
+
+            
+            // Iterate through finalized blocks
+            for (B block : confirmedBlocks) {
+                if(block instanceof PBFTBlock){
+                    PBFTBlock pbftBlock = (PBFTBlock) block;
+                // Write block details
+                writer.append(String.valueOf(block.getHeight())).append(",");
+                writer.append((CharSequence) block.getHash()).append(",");
+                ArrayList<EthereumTx> transactions = ((PBFTBlock) block).getTransactions();
+                StringBuilder transactionString = new StringBuilder();
+                for (EthereumTx tx : transactions) {
+                    transactionString.append(tx.toString()).append(";");
+                }
+                // Remove the last semicolon
+                if (transactionString.length() > 0) {
+                    transactionString.setLength(transactionString.length() - 1);
+                }
+                writer.append(transactionString.toString()).append("\n");
+            }}
+            System.out.println("CSV file written successfully at " + filePath);
+        } catch (IOException e) {
+            System.err.println("Error writing CSV file: " + e.getMessage());
+        }
+    }
 
 
 
@@ -462,6 +495,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
     public int getCurrentViewNumber() {
         return this.currentViewNumber;
     }
+
 
     public int getCurrentPrimaryNumber() {
         return (this.currentViewNumber % this.numAllParticipants);

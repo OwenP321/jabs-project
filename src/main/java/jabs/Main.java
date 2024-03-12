@@ -8,6 +8,8 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+import jabs.consensus.algorithm.PBFT;
+
 /**
  *
  */
