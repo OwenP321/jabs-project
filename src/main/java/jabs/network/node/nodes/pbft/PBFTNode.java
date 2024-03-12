@@ -271,7 +271,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             EthereumTx tx = this.mempool.get(i);
             txs.add(tx);
             i++;
-            System.out.println("TRANSACTIONS IN THIS BLOCK" + tx);
+            //System.out.println("TRANSACTIONS IN THIS BLOCK" + tx);
             txAmount++;
             //System.out.println("STUCK HERE MAYBE");
 
