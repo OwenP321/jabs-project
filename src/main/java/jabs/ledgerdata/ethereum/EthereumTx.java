@@ -4,7 +4,7 @@ import jabs.ledgerdata.Tx;
 
 public class EthereumTx extends Tx<EthereumTx> {
     final long gas;
-    private EthereumAccount sender;
+    
 
 
     public EthereumTx(int size, long gas) {

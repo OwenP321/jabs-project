@@ -47,7 +47,7 @@ public class TransactionLogger extends AbstractCSVLogger {
     @Override
     protected String[] csvEventOutput(Event event) {
         // TODO Auto-generated method stub
-        EthereumTx tx = ((TxGenerationProcessRandomNetworkNode)event).getTx();
+        EthereumTx tx = ((TxGenerationProcessSingleNode)event).getTx();
 
         return new String[] {
             Double.toString(this.scenario.getSimulator().getSimulationTime()),
