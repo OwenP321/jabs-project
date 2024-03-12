@@ -218,6 +218,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         if(blockCount == 6){
             txOrder.clear();
             finalOrder.clear();
+            System.out.println("CLEAR ARRAYS");
         }
 
         if(block instanceof PBFTBlock){
