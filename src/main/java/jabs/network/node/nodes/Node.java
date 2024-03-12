@@ -1,12 +1,15 @@
 package jabs.network.node.nodes;
 
 import jabs.ledgerdata.ethereum.EthereumTx;
+import jabs.ledgerdata.pbft.PBFTBlock;
 import jabs.network.message.Message;
 import jabs.network.message.Packet;
 import jabs.network.networks.Network;
 import jabs.network.node.NetworkInterface;
 import jabs.network.p2p.AbstractP2PConnections;
 import jabs.simulator.Simulator;
+//import jabs.simulator.event.PBFT;
+import jabs.simulator.event.BlockCreationEvent;
 
 public abstract class Node {
     /**
@@ -165,6 +168,11 @@ public abstract class Node {
     }
 
     public abstract EthereumTx generateNewPBFTTransaction();
+
+    public PBFTBlock createBlock() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createBlock'");
+    }
 
 
 }

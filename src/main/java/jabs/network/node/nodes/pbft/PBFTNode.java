@@ -36,6 +36,7 @@ import jabs.network.node.nodes.PeerDLTNode;
 import jabs.network.node.nodes.Node;
 import jabs.network.p2p.PBFTP2P;
 import jabs.simulator.Simulator;
+import jabs.simulator.event.BlockCreationEvent;
 import jabs.simulator.event.TxGenerationProcessSingleNode;
 
 
@@ -48,11 +49,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
             private int timeBetweenTxs;
             protected Simulator.ScheduledEvent txGenPro;
+            protected Simulator.ScheduledEvent blockGenPro;
 
             ScheduledExecutorService scheduler = Executors.newScheduledThreadPool(1);
             private static boolean stopFlag = false;
 
             long blockCreationTimeInterval;
+
+            double blockGenTime = 50;
            
 
 
@@ -235,6 +239,10 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         //System.out.println("TRANSACTIONS MADE");
     }
+    //public void blockEvent(){
+    //    BlockCreationEvent blockGenPro = new BlockCreationEvent(simulator, this.network.getRandom(), this, network);
+    //    this.blockGenPro = this.simulator.putEvent(blockGenPro, blockGenTime);
+    //}
 
     protected void fillMempool(int numTxs){
         for (int i = 0; i < numTxs; i++){
