@@ -155,7 +155,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     //System.out.println("PRRPARE");
                     break;
                 case COMMIT:
-                    //checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
+                    checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
                     //System.out.println("COMMIT");
                     checkVotesBlock(blockVote, block, commitVotes, confirmedBlocks, pbftPhase);
                     break;

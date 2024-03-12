@@ -35,19 +35,19 @@ public class PBFTLANScenario extends AbstractScenario {
     protected void insertInitialEvents() {
             
             
-            Node node = (Node) network.getAllNodes().get(0);
-            node.broadcastMessage(
-                    new VoteMessage(
-                            new PBFTPrePrepareVote<>(node,
-                                    BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
-                                            (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
-                            )
-                    )
-            );
+            //Node node = (Node) network.getAllNodes().get(0);
+            //node.broadcastMessage(
+                 //   new VoteMessage(
+                //            new PBFTPrePrepareVote<>(node,
+                //                    BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
+               //                             (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
+              //              )
+             //       )
+            //);
              
              
             PBFTNode nodePBFT = (PBFTNode) network.getAllNodes().get(0);
-            //nodePBFT.generateNewTransaction();
+            nodePBFT.startTxGen();
             //nodePBFT.createBlock();
             //nodePBFT.timeLoop();
             setPBFTNetwork(network);
