@@ -193,6 +193,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTCommitVote<>(this.peerBlockchainNode, block)
                                 )
                         );
+                        txOrder.clear();
+                        finalOrder.clear();
                         break;
                 }
             }
