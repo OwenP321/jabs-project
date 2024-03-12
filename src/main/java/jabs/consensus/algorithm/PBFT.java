@@ -272,7 +272,10 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private boolean validateTransactions(PBFTBlock block){
         
         //The first block will decive upon the transactions
+        System.out.println("_______HERE______");
+        System.out.println(blockCount);
         blockCount = blockCount + 1;
+        System.out.println(blockCount);
         
         ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
 
