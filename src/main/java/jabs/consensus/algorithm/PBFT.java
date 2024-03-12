@@ -135,7 +135,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
                         this.localBlockTree.add(block);
-                        System.out.println("HERE 1");
+                        //System.out.println("HERE 1");
                     }
                     if (this.localBlockTree.getLocalBlock(block).isConnectedToGenesis) {
                         this.pbftPhase = PBFTPhase.PREPARING;
@@ -157,6 +157,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 case COMMIT:
                     checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
                     //System.out.println("COMMIT");
+                    checkVotesBlock(blockVote, block, commitVotes, confirmedBlocks, pbftPhase);
                     break;
             }
         }
@@ -205,6 +206,30 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
+    private void checkVotesBlock(PBFTBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+        if (!blocks.contains(block)) {
+            if (!votes.containsKey(block)) {
+                votes.put(block, new HashMap<>());
+            }
+            votes.get(block).put(vote.getVoter(), vote);
+            if (votes.get(block).size() > (((numAllParticipants / 3) * 2) + 1)) {
+                blocks.add(block);
+                this.pbftPhase = nextStep;
+    
+                // Check if the block is valid
+                if (isBlockValid(block)) {
+                    // Finalize the block and add it to the blockchain
+                    this.localBlockTree.add(block);
+                    this.currentMainChainHead = block;
+    
+                    // Update the chain and broadcast the commit vote
+                    updateChain();
+                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
+                }
+            }
+        }
+    }
+
 
     public PBFTTransactionVote newIncomingTx(EthereumTx tx){
         PBFTTransactionVote txVote = new PBFTTransactionVote(10, this.peerBlockchainNode, tx);
@@ -244,7 +269,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 Boolean validBlock = validateTransactions(pbftBlock);
                 
 
-                System.out.println("__________________________________________" + blockCount);
+                //System.out.println("__________________________________________" + blockCount);
                 
                 if(blockCount == 2){
                     txOrder.clear();
@@ -270,7 +295,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private boolean validateTransactions(PBFTBlock block) {
+private boolean validateTransactions(PBFTBlock block) {
     ArrayList<EthereumTx> txOrderVal = block.getTransactions();
     
     // Counters to track the number of votes for each transaction and pair ordering
