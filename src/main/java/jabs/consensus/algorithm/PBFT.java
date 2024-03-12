@@ -271,7 +271,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         {
             if(txOrder.get(i) == txOrderVal.get(i)) //if the tx is the same 
             {
-                finalOrder.set(i, txOrder.get(i));
+                finalOrder.add(txOrder.get(i));
 
             }
         }
