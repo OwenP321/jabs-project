@@ -193,8 +193,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         new PBFTCommitVote<>(this.peerBlockchainNode, block)
                                 )
                         );
-                        txOrder.clear();
-                        finalOrder.clear();
+                        //txOrder.clear();
+                        //finalOrder.clear();
                         break;
                 }
             }
@@ -213,6 +213,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     @Override
     public void newIncomingBlock(B block) {
         
+        int blockCount =0;
+
+        if(blockCount == 6){
+            txOrder.clear();
+            finalOrder.clear();
+        }
+
         if(block instanceof PBFTBlock){
             PBFTBlock pbftBlock = (PBFTBlock) block;
             //PBFTBlockVote pbftVoteBlock = new PBFTBlockVote<>(10,peerBlockchainNode,pbftBlock, VoteType.PRE_PREPARE) 
@@ -235,6 +242,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
 
                 Boolean validBlock = validateTransactions(pbftBlock);
+                blockCount ++;
 
                 if(validBlock == true)
                 {
