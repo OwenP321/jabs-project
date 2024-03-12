@@ -71,6 +71,8 @@ public class Main {
         scenario = new PBFTLANScenario("Five hour of a PBFT lan Network", 1,5, 36000);
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
         scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv")));
+        scenario.AddNewLogger(new TransactionLogger(Paths.get("output/TransactionLogger.csv")));
+        
         
         scenario.run();
 

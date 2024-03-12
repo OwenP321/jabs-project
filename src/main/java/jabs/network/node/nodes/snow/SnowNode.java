@@ -4,6 +4,7 @@ import jabs.consensus.algorithm.Snow;
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.ledgerdata.Query;
 import jabs.ledgerdata.Vote;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.ledgerdata.snow.SnowBlock;
 import jabs.ledgerdata.snow.SnowTx;
@@ -52,5 +53,11 @@ public class SnowNode extends PeerBlockchainNode<SnowBlock, SnowTx> {
     protected void processNewTxVote(PBFTTransactionVote vote) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'processNewTxVote'");
+    }
+
+    @Override
+    public EthereumTx generateNewPBFTTransaction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateNewPBFTTransaction'");
     }
 }

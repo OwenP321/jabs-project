@@ -35,19 +35,27 @@ public class TransactionLogger extends AbstractCSVLogger {
     @Override
     protected boolean csvOutputConditionFinalPerNode() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'csvOutputConditionFinalPerNode'");
+        return false;
     }
 
     @Override
     protected String[] csvHeaderOutput() {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'csvHeaderOutput'");
+        return new String[]{"Time", "TX"};
     }
 
     @Override
     protected String[] csvEventOutput(Event event) {
         // TODO Auto-generated method stub
-        throw new UnsupportedOperationException("Unimplemented method 'csvEventOutput'");
+        EthereumTx tx = ((TxGenerationProcessRandomNetworkNode)event).getTx();
+
+        return new String[] {
+            Double.toString(this.scenario.getSimulator().getSimulationTime()),
+             
+
+        };
+
+
     }
     
 }

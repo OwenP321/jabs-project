@@ -5,6 +5,7 @@ import jabs.consensus.blockchain.LocalBlockDAG;
 import jabs.consensus.config.TangleIOTAConsensusConfig;
 import jabs.ledgerdata.Query;
 import jabs.ledgerdata.Vote;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.tangle.TangleTx;
 import jabs.ledgerdata.tangle.TangleBlock;
 import jabs.network.message.InvMessage;
@@ -116,5 +117,11 @@ public class IOTANode extends PeerDLTNode<TangleBlock, TangleTx> implements Mine
     @Override
     public double getHashPower() {
         return 0;
+    }
+
+    @Override
+    public EthereumTx generateNewPBFTTransaction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateNewPBFTTransaction'");
     }
 }

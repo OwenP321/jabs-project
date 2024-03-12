@@ -7,6 +7,7 @@ import jabs.consensus.config.NakamotoConsensusConfig;
 import jabs.ledgerdata.Vote;
 import jabs.ledgerdata.bitcoin.BitcoinBlockWithoutTx;
 import jabs.ledgerdata.bitcoin.BitcoinTx;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.ledgerdata.pbft.PBFTTransactionVote;
 import jabs.network.message.InvMessage;
 import jabs.network.message.Packet;
@@ -83,5 +84,11 @@ public class BitcoinNode extends PeerBlockchainNode<BitcoinBlockWithoutTx, Bitco
     protected void processNewTxVote(PBFTTransactionVote vote) {
         // TODO Auto-generated method stub
         throw new UnsupportedOperationException("Unimplemented method 'processNewTxVote'");
+    }
+
+    @Override
+    public EthereumTx generateNewPBFTTransaction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateNewPBFTTransaction'");
     }
 }

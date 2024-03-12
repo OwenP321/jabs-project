@@ -214,17 +214,19 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
      */
 
     @Override
-    public void generateNewTransaction() {
+    public EthereumTx generateNewPBFTTransaction() {
         EthereumTx tx = TransactionFactory.sampleEthereumTransaction(network.getRandom());
         broadcastTransaction(tx);
+        
+        return getTxs(tx);
         //addToMempool(tx);
         //System.out.println("Transactions being made in Transaction Factory" + TransactionFactory.sampleEthereumTransaction(network.getRandom()));
         
         
     }
-    public EthereumTx getTxs(){
+    public EthereumTx getTxs(EthereumTx tx){
 
-        return null;
+        return tx;
     }
 
     public void startTxGen(){
@@ -310,6 +312,12 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     public void stopTime(){
         stopFlag = true;
+    }
+
+    @Override
+    public void generateNewTransaction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateNewTransaction'");
     }
 
 

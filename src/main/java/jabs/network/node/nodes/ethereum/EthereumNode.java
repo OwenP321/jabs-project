@@ -113,4 +113,10 @@ public class EthereumNode extends PeerBlockchainNode<EthereumBlock, EthereumTx> 
         throw new UnsupportedOperationException("Unimplemented method 'processNewTxVote'");
     }
 
+    @Override
+    public EthereumTx generateNewPBFTTransaction() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'generateNewPBFTTransaction'");
+    }
+
 }

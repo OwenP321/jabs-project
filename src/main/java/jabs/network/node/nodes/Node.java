@@ -163,5 +163,9 @@ public abstract class Node {
     public int getNodeID() {
         return this.nodeID;
     }
+
+    public abstract EthereumTx generateNewPBFTTransaction();
+
+
 }
 
