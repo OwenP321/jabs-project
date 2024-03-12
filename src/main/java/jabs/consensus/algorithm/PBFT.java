@@ -241,6 +241,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 
                 Boolean validBlock = validateTransactions(pbftBlock);
                 blockCount = blockCount + 1;
+
+                System.out.println("__________________________________________" + blockCount);
                 
                 if(blockCount == 6){
                     txOrder.clear();
