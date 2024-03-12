@@ -211,19 +211,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
         return txVote;
     }
-
+    
     @Override
     public void newIncomingBlock(B block) {
         
         
-
-        if(blockCount == 6){
-            txOrder.clear();
-            finalOrder.clear();
-            System.out.println("***********CLEAR ARRAYS**********************");
-            int blockCount =0;
-        }
-
+        
+        
         if(block instanceof PBFTBlock){
             PBFTBlock pbftBlock = (PBFTBlock) block;
             //PBFTBlockVote pbftVoteBlock = new PBFTBlockVote<>(10,peerBlockchainNode,pbftBlock, VoteType.PRE_PREPARE) 
@@ -231,25 +225,31 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
                 /*
-                    for (EthereumTx tx : pbftBlock.getTransactions()) {
-                        System.out.println(peerBlockchainNode + "***********************************");
-                        System.out.println(currentMainChainHead + "-----------------");
-                        PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
-                        
-                        this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
-                    }
-                 * 
-                 */
+                for (EthereumTx tx : pbftBlock.getTransactions()) {
+                    System.out.println(peerBlockchainNode + "***********************************");
+                    System.out.println(currentMainChainHead + "-----------------");
+                    PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
+                    
+                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
+                }
+                * 
+                */
                 
-
+                
                 //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
-
+                
                 Boolean validBlock = validateTransactions(pbftBlock);
                 blockCount = blockCount + 1;
+                
+                if(blockCount == 6){
+                    txOrder.clear();
+                    finalOrder.clear();
+                    System.out.println("***********CLEAR ARRAYS**********************");
+                    blockCount =0;
+                }
 
-                if(validBlock == true)
-                {
+                if(validBlock == true){
                     this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
                                             new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
