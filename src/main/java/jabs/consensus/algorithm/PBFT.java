@@ -14,6 +14,8 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
 
+import org.apache.commons.math3.util.Pair;
+
 // based on: https://sawtooth.hyperledger.org/docs/pbft/nightly/master/architecture.html
 // another good source: http://ug93tad.github.io/pbft/
 
@@ -268,58 +270,119 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
+    private boolean validateTransactions(PBFTBlock block) {
+    ArrayList<EthereumTx> txOrderVal = block.getTransactions();
+    
+    // Counters to track the number of votes for each transaction and pair ordering
+    HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
+    HashMap<Pair<EthereumTx, EthereumTx>, Integer> pairOrderVotesCount = new HashMap<>();
+    
+    // Iterate through transactions to count votes
+    for (int i = 0; i < txOrderVal.size(); i++) {
+        EthereumTx tx = txOrderVal.get(i);
+        txVotesCount.put(tx, txVotesCount.getOrDefault(tx, 0) + 1);
 
-    private boolean validateTransactions(PBFTBlock block){
-        
-        //The first block will decive upon the transactions
-        System.out.println("_______HERE______");
-        System.out.println(blockCount);
-        blockCount = blockCount + 1;
-        System.out.println(blockCount);
+        // Check relative order with other transactions
+        for (int j = i + 1; j < txOrderVal.size(); j++) {
+            EthereumTx nextTx = txOrderVal.get(j);
+            Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx, nextTx);
 
-        if(blockCount == 2){
-            txOrder.clear();
-            finalOrder.clear();
-            System.out.println("***********CLEAR ARRAYS**********************");
-            blockCount =0;
-        }
-        
-        ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
-
-        txOrderVal = block.getTransactions();
-
-        if(txOrder.isEmpty())
-        {
-            txOrder = block.getTransactions();
-        }
-
-
-        for(int i=0; i< txOrder.size(); i++)
-        {
-            if(txOrder.get(i) == txOrderVal.get(i)) //if the tx is the same 
-            {
-                finalOrder.add(txOrder.get(i));
-
+            // If the current tx should come before nextTx, increase its pair order votes
+            if (txVotesCount.getOrDefault(tx, 0) > txVotesCount.getOrDefault(nextTx, 0)) {
+                pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) + 1);
+            } else {
+                // If nextTx should come before the current tx, increase its pair order votes
+                pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) - 1);
             }
         }
-
-        System.out.println(finalOrder);
-
-        Boolean validBlock = blockValid(block);
-
-        
-        
-        return validBlock;
-        
     }
 
-    private boolean blockValid(PBFTBlock block){
-
-        if (finalOrder.equals(block.getTransactions())) {
-            return true;
-        };
-        return false;
+    // Check if each transaction has enough votes for inclusion
+    ArrayList<EthereumTx> finalOrder = new ArrayList<>();
+    for (EthereumTx tx : txVotesCount.keySet()) {
+        if (txVotesCount.get(tx) >= (2 * numAllParticipants / 3 + 1)) {
+            finalOrder.add(tx);
+        }
     }
+
+    // Reorder transactions based on the super-majority agreement on pair order
+    for (int i = 0; i < finalOrder.size(); i++) {
+        for (int j = i + 1; j < finalOrder.size(); j++) {
+            EthereumTx tx1 = finalOrder.get(i);
+            EthereumTx tx2 = finalOrder.get(j);
+            Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx1, tx2);
+            
+            // If more than half of the nodes agree on the relative order, swap tx1 and tx2
+            if (pairOrderVotesCount.getOrDefault(pair, 0) > 0) {
+                finalOrder.set(i, tx2);
+                finalOrder.set(j, tx1);
+            }
+        }
+    }
+
+    // Check if the block contains valid transactions and ordering
+    boolean validBlock = blockValid(block, finalOrder);
+    return validBlock;
+}
+
+private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
+    // Check if the finalOrder matches the block's transactions
+    if (finalOrder.equals(block.getTransactions())) {
+        return true;
+    }
+    return false;
+}
+
+
+
+
+
+
+    /*
+     * 
+     private boolean validateTransactions(PBFTBlock block){
+         
+         //The first block will decive upon the transactions
+         System.out.println("_______HERE______");
+         System.out.println(blockCount);
+         blockCount = blockCount + 1;
+         System.out.println(blockCount);
+ 
+         if(blockCount == 2){
+             txOrder.clear();
+             finalOrder.clear();
+             System.out.println("***********CLEAR ARRAYS**********************");
+             blockCount =0;
+         }
+         
+         ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
+         txOrderVal = block.getTransactions();
+ 
+         if(txOrder.isEmpty())
+         {
+             txOrder = block.getTransactions();
+         }
+ 
+         for(int i=0; i< txOrder.size(); i++)
+         {
+             if(txOrder.get(i) == txOrderVal.get(i)) //if the tx is the same 
+             {
+                 finalOrder.add(txOrder.get(i));
+             }
+         }
+         System.out.println(finalOrder);
+         Boolean validBlock = blockValid(block);
+         return validBlock;
+     }
+ 
+     private boolean blockValid(PBFTBlock block){
+ 
+         if (finalOrder.equals(block.getTransactions())) {
+             return true;
+         };
+         return false;
+     }
+     */
 
     /*
      * 
