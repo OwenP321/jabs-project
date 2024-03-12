@@ -244,7 +244,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
                 System.out.println("__________________________________________" + blockCount);
                 
-                if(blockCount == 6){
+                if(blockCount == 2){
                     txOrder.clear();
                     finalOrder.clear();
                     System.out.println("***********CLEAR ARRAYS**********************");
@@ -276,6 +276,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         System.out.println(blockCount);
         blockCount = blockCount + 1;
         System.out.println(blockCount);
+
+        if(blockCount == 2){
+            txOrder.clear();
+            finalOrder.clear();
+            System.out.println("***********CLEAR ARRAYS**********************");
+            blockCount =0;
+        }
         
         ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
 
