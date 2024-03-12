@@ -288,7 +288,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         broadcastBlock(block);
         System.out.println(block);
         System.out.println("THE AMOUNT OF TX: " + txAmount);
-        System.out.println(mempool);
+        //System.out.println(mempool);
 
         this.consensusAlgorithm.newIncomingBlock(block);
 

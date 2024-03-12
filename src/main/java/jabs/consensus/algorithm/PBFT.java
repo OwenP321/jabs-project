@@ -220,7 +220,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         if(blockCount == 6){
             txOrder.clear();
             finalOrder.clear();
-            System.out.println("CLEAR ARRAYS");
+            System.out.println("***********CLEAR ARRAYS**********************");
             int blockCount =0;
         }
 
@@ -246,7 +246,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
 
                 Boolean validBlock = validateTransactions(pbftBlock);
-                blockCount ++;
+                blockCount = blockCount + 1;
 
                 if(validBlock == true)
                 {
