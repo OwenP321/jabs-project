@@ -34,6 +34,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     ArrayList<EthereumTx> txOrder = new ArrayList<EthereumTx>();
     ArrayList<EthereumTx> finalOrder = new ArrayList<EthereumTx>();
 
+    int blockCount =0;
+
     @Override
     public boolean isBlockFinalized(B block) {
         return false;
@@ -213,12 +215,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     @Override
     public void newIncomingBlock(B block) {
         
-        int blockCount =0;
+        
 
         if(blockCount == 6){
             txOrder.clear();
             finalOrder.clear();
             System.out.println("CLEAR ARRAYS");
+            int blockCount =0;
         }
 
         if(block instanceof PBFTBlock){
