@@ -240,7 +240,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
                 
                 Boolean validBlock = validateTransactions(pbftBlock);
-                blockCount = blockCount + 1;
+                
 
                 System.out.println("__________________________________________" + blockCount);
                 
@@ -272,6 +272,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private boolean validateTransactions(PBFTBlock block){
         
         //The first block will decive upon the transactions
+        blockCount = blockCount + 1;
         
         ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
 
