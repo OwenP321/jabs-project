@@ -120,9 +120,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
 
-            //System.out.print("**********************");
-            //System.out.print("WE MADE IT HERE BLOCK");
-            //System.out.print("**********************");
+            System.out.print("**********************");
+            System.out.print("WE MADE IT HERE BLOCK");
+            System.out.print("**********************");
 
             //System.out.println("THE BLOCK IS " + block + " VOTE IS " + blockVote.getVoteType());
             
@@ -287,14 +287,20 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
 
         System.out.println(finalOrder);
+
+        Boolean validBlock = blockValid(block);
+
         
         
-        return false;
+        return validBlock;
         
     }
 
     private boolean blockValid(PBFTBlock block){
 
+        if (finalOrder.equals(block.getTransactions())) {
+            return true;
+        };
         return false;
     }
 
