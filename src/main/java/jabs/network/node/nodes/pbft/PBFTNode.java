@@ -338,11 +338,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     public void checkBlocks(){
 
-        //PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
+        PBFT<PBFTBlock, EthereumTx> pbftInstance =  (PBFT<PBFTBlock, EthereumTx>) this.consensusAlgorithm;
         List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
           
         System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
-        System.out.println(commitedBlocks);
+        for(PBFTBlock block : commitedBlocks){
+            
+            System.out.println(block);
+        }
     }
 
     
