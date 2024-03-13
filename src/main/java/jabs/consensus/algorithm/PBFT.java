@@ -224,6 +224,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     // Finalize the block and add it to the blockchain
                     this.localBlockTree.add(block);
                     this.currentMainChainHead = block;
+
+                    System.out.println("£££££££££££");;
+                    System.out.print(currentMainChainHead);
     
                     // Update the chain and broadcast the commit vote
                     updateChain();
