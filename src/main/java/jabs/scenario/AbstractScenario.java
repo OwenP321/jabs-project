@@ -1,5 +1,6 @@
 package jabs.scenario;
 
+import jabs.consensus.algorithm.PBFT;
 import jabs.ledgerdata.BlockFactory;
 import jabs.ledgerdata.pbft.PBFTPrePrepareVote;
 import jabs.log.AbstractLogger;
@@ -244,6 +245,8 @@ public abstract class AbstractScenario {
         for (AbstractLogger logger:this.loggers) {
             logger.finalLog();
         }
+
+        //PBFT.writeFinalBlocksToCSV("output/FinalBlocks.csv");
         
         finalStop();
         System.err.printf("Finished %s.\n", this.name);
