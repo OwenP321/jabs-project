@@ -58,26 +58,24 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             long blockCreationTimeInterval;
 
             double blockGenTime = 50;
-           
-
-
             
-
-    public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants, int timeBetweenTxs) {
-        super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth,
+            List<PBFTBlock> commitedBlocks;
+            
+            
+            
+            
+        public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants, int timeBetweenTxs) {
+                super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth,
                 new PBFTP2P(),
                 new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants)
-        );
-        this.consensusAlgorithm.setNode(this);
-        this.mempool = new ArrayList<>();
-        this.txToSender = new HashMap<>();
-        this.timeBetweenTxs = timeBetweenTxs;
-        PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
-
-        List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
-        
-        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
-        System.out.println(commitedBlocks);
+                );
+                this.consensusAlgorithm.setNode(this);
+                this.mempool = new ArrayList<>();
+                this.txToSender = new HashMap<>();
+                this.timeBetweenTxs = timeBetweenTxs;
+                
+                PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
+                List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
         
         
     }
@@ -336,6 +334,15 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void generateNewTransaction() {
         // TODO Auto-generated method stub
         generateNewPBFTTransaction();
+    }
+
+    public void checkBlocks(){
+
+        //PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
+        List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
+          
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println(commitedBlocks);
     }
 
     

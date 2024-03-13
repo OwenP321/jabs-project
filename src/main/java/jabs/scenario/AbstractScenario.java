@@ -247,6 +247,8 @@ public abstract class AbstractScenario {
         }
 
         //PBFT.writeFinalBlocksToCSV("output/FinalBlocks.csv");
+
+        nodePBFT.checkBlocks();
         
         finalStop();
         System.err.printf("Finished %s.\n", this.name);
