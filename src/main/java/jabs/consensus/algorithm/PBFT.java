@@ -395,6 +395,11 @@ public void writeFinalBlocksToCSV(String filePath) {
         }
     }
 
+    public List<B> getCommitedBlocks(){
+        List<B> commitedBlocksList = new ArrayList<>(committedBlocks);
+        return commitedBlocksList;
+    }
+
 
 
 

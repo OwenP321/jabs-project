@@ -7,6 +7,7 @@ import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 import java.util.concurrent.Executor;
@@ -71,6 +72,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         this.mempool = new ArrayList<>();
         this.txToSender = new HashMap<>();
         this.timeBetweenTxs = timeBetweenTxs;
+        PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
+
+        List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
+        
+        System.out.println("%%%%%%%%%%%%%%%%%%%%%%");
+        System.out.println(commitedBlocks);
+        
+        
     }
 
     @Override
@@ -328,6 +337,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         // TODO Auto-generated method stub
         generateNewPBFTTransaction();
     }
+
+    
 
 
 }

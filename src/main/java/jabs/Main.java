@@ -1,12 +1,15 @@
 package jabs;
 
 import jabs.ledgerdata.bitcoin.BitcoinBlockWithoutTx;
+import jabs.ledgerdata.ethereum.EthereumTx;
+import jabs.ledgerdata.pbft.PBFTBlock;
 import jabs.log.*;
 import jabs.scenario.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 
 import jabs.consensus.algorithm.PBFT;
 
@@ -74,6 +77,11 @@ public class Main {
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
         scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv")));
         scenario.AddNewLogger(new TransactionLogger(Paths.get("output/TransactionLogger.csv")));
+
+        //PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants)
+
+        //List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
+        //System.out.println(commitedBlocks);
         
         
         scenario.run();
