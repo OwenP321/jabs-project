@@ -31,6 +31,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private final HashSet<B> committedBlocks = new HashSet<>();
     private int currentViewNumber = 0;
 
+    private ArrayList<B> addedBlocks =  new ArrayList<>();
+
     // TODO: View change should be implemented
 
     private PBFTMode pbftMode = PBFTMode.NORMAL_MODE;
@@ -230,6 +232,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     
                     // Update the chain and broadcast the commit vote
                     updateChain();
+                    addedBlocks.add(block);
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
                     //System.out.println("******************************************");
                     //System.out.println(this.committedBlocks);
@@ -401,6 +404,10 @@ public void writeFinalBlocksToCSV(String filePath) {
     public List<B> getCommitedBlocks(){
         List<B> commitedBlocksList = new ArrayList<>(committedBlocks);
         return commitedBlocksList;
+    }
+
+    public ArrayList<B> getCB(){
+        return addedBlocks;
     }
 
 

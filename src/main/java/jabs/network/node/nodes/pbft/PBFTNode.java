@@ -346,6 +346,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             System.out.println("GOT HERE");
             System.out.println(block);
         }
+
+        ArrayList<PBFTBlock> cbs = pbftInstance.getCB();
+        System.out.println("^^^^^^^^ FINAL BLOCKS ^^^^^^^^^^^^^ ");
+        System.out.println(cbs);
+
     }
 
     
