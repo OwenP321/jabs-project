@@ -45,11 +45,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
     @Override
     public boolean isBlockFinalized(B block) {
-        return false;
+        return committedBlocks.contains(block);
     }
 
     @Override
     public boolean isTxFinalized(T tx) {
+        for(B block : committedBlocks){
+        }
         return false;
     }
 
@@ -99,20 +101,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //System.out.print("WE MADE IT HERE ");
             //System.out.print("****************************************************");
 
-
-
-
             switch (pbftPhase) {
                 case PRE_PREPARING:
-
-                    
-                  
                     break;
                 case PREPARING:
-                    
                     break;
                 case COMMITTING:
-                    
                     break;
             }
 
@@ -231,7 +225,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     updateChain();
                     addedBlocks.add(block);
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
-                    writeFinalBlocksToCSV("output/finalBlocks.csv");
+                    //writeFinalBlocksToCSV("output/finalBlocks.csv");
                     //System.out.println("******************************************");
                     //System.out.println(this.committedBlocks);
                 }
@@ -463,7 +457,6 @@ public void writeFinalBlocksToCSV(String filePath) {
     
         int numVotes = 0; 
         HashMap<B, HashMap<Node, Vote>> votes = null; 
-    
         if (committedBlocks.contains(block)) { 
             votes = commitVotes;
     
@@ -475,7 +468,6 @@ public void writeFinalBlocksToCSV(String filePath) {
             numVotes = votes.get(block).size(); 
         } 
         return numVotes; 
-    
     } 
 
 
