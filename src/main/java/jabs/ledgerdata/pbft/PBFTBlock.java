@@ -13,25 +13,11 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     private final PBFTBlock block;
     protected ArrayList<EthereumTx> transactions;
    
-    private int size;
-    private int height;
-    private double creationTime;
-    private Node creator;
-    private PBFTBlock parent;
-    private int hashCode;
-
-    private ArrayList<EthereumTx> finalTransactions;
     
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
-        //this.size = size;
-        //this.height = height;
-        //this.creationTime = creationTime;
-        //this.creator = creator;
-        //this.parent = parent;
         this.block =this;
-        //transactions = new ArrayList<>();
     }
 
     public void addTransaction(EthereumTx tx)
@@ -42,7 +28,6 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public void setTransactions(ArrayList<EthereumTx> transactions)
     {
         this.transactions = transactions;
-        finalTransactions = transactions;
         //System.out.println("***************** PROBLEM" +transactions);
     }
 
@@ -53,33 +38,12 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     
     public ArrayList<EthereumTx> getTransactions()
     {
-        return this.finalTransactions;
+        return this.transactions;
     }
 
     public PBFTBlock getBlock(){
         return this.block;
     }
-    public int getSize(){
-        return size;
-    }
-    public int getHeight(){
-        return height;
-    }
-    public double getCreationTime(){
-        return creationTime;
-    }
-    public Node getCreator(){
-        return creator;
-    }
-    public int getHashCode(){
-        return hashCode;
-    }
-
-
-    
-
-
-
 
     
 
