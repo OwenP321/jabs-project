@@ -192,8 +192,8 @@ public abstract class AbstractScenario {
                 {
                     //System.out.println("****TX GEN*****");
                     //nodes.get(x).generateNewTransaction();
-                    //nodes.get(x).startTxGen();
-                    nodes.get(x).createBlock();
+                    nodes.get(x).startTxGen();
+                    
                 }
                 //nodePBFT.generateNewTransaction();
 
@@ -207,7 +207,9 @@ public abstract class AbstractScenario {
                 for(int x =0; x<nodes.size(); x++)
                 {
                     System.out.println("**** BLOCK GEN *****");
-                    nodes.get(x).createBlockEvent(x);
+                    //nodes.get(x).createBlockEvent(x);
+
+                    nodes.get(x).createBlock();
 
                     nodePBFT.broadcastMessage(
                     new VoteMessage(
