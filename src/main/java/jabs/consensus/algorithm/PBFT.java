@@ -227,13 +227,14 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     this.localBlockTree.add(block);
                     this.currentMainChainHead = block;
 
-                    System.out.println("£££££££££££");;
-                    System.out.print(currentMainChainHead);
+                    //System.out.println("£££££££££££");
+                    //System.out.print(currentMainChainHead);
     
                     // Update the chain and broadcast the commit vote
                     updateChain();
                     addedBlocks.add(block);
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
+                    writeFinalBlocksToCSV("output/FinalBlocks.csv");
                     //System.out.println("******************************************");
                     //System.out.println(this.committedBlocks);
                 }
@@ -296,7 +297,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                             )
                                         );
 
-                                        writeFinalBlocksToCSV("output/FinalBlocks.csv");
+                                        
 
                 }
 
