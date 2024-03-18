@@ -59,9 +59,9 @@ public class BlockConfirmationLogger extends AbstractCSVLogger {
         Node node = ((BlockConfirmationEvent) event).getNode();
         PBFTBlock block = (PBFTBlock) ((BlockConfirmationEvent) event).getBlock();
 
+        System.out.println("GOT HERE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println(block);
 
-        System.out.println("GOT HERE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 
         return new String[]{
                 Double.toString(this.scenario.getSimulator().getSimulationTime()),
