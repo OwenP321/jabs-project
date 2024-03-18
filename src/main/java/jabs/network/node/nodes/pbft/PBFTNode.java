@@ -263,7 +263,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     }
 
 
-    public void createBlockEvent(){
+    public void createBlockEvent(int id){
         double timeBlock = 10;
         BlockConfirmationEvent blockGenPro = new BlockConfirmationEvent(timeBlock, this, this.network);
         double timeInSec = 50;

@@ -29,10 +29,10 @@ public class BlockConfirmationEvent extends AbstractLogEvent {
         //this.blocksNodes = new HashMap<>();
     }
 
-    public void genBlock(){
+    public void generate(int id){
         
         System.out.println("DOING THIS");
-        this.node = network.getRandomNode();
+        this.node = network.getNode(id);
         block = node.createBlock();
         blocksNodes.put(block, node);
     }
