@@ -13,10 +13,21 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     private final PBFTBlock block;
     protected ArrayList<EthereumTx> transactions;
    
+    private int size;
+    private int height;
+    private double creationTime;
+    private Node creator;
+    private PBFTBlock parent;
+    private int hashCode;
     
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
+        this.size = size;
+        this.height = height;
+        this.creationTime = creationTime;
+        this.creator = creator;
+        this.parent = parent;
         this.block =this;
     }
 
@@ -44,6 +55,27 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public PBFTBlock getBlock(){
         return this.block;
     }
+    public int getSize(){
+        return size;
+    }
+    public int getHeight(){
+        return height;
+    }
+    public double getCreationTime(){
+        return creationTime;
+    }
+    public Node getCreator(){
+        return creator;
+    }
+    public int getHashCode(){
+        return hashCode;
+    }
+
+
+    
+
+
+
 
     
 
