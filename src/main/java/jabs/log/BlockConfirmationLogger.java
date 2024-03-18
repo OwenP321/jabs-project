@@ -57,7 +57,7 @@ public class BlockConfirmationLogger extends AbstractCSVLogger {
     @Override
     protected String[] csvEventOutput(Event event) {
         Node node = ((BlockConfirmationEvent) event).getNode();
-        PBFTBlock block = (PBFTBlock) ((BlockConfirmationEvent) event).getBlock();
+        Block block = ((BlockConfirmationEvent) event).getBlock();
 
         System.out.println("GOT HERE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
         System.out.println(block);
