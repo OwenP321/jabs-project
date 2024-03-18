@@ -172,7 +172,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
                         new DataMessage(tx)
                     )
                 );
-                System.out.println(tx + " TO NODE " + neighbor);
+                //System.out.println(tx + " TO NODE " + neighbor);
             }
             //System.out.println("BROADCAST TRANSACTIONS");
             //addToMempool(tx);
@@ -183,7 +183,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         //ALL SEND TO ALL 
 
-        System.out.println("TIME FOR BLOCK TO BE BROADCASTED");
+        //System.out.println("TIME FOR BLOCK TO BE BROADCASTED");
         for (Node neighbor:this.p2pConnections.getNeighbors()) {
             
         this.networkInterface.addToUpLinkQueue(

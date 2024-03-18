@@ -601,6 +601,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
+        writeFinalBlocksToCSV("output/finalBlocks.csv");
         
     }
 
