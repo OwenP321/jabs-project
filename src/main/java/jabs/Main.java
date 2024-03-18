@@ -75,7 +75,7 @@ public class Main {
 
         scenario = new PBFTLANScenario("12 mins of a PBFT lan Network", 1,12, 720);
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
-        scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv")));
+        //scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv")));
         scenario.AddNewLogger(new TransactionLogger(Paths.get("output/TransactionLogger.csv")));
 
         //PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants)
