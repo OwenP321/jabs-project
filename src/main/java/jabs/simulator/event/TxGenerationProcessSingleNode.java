@@ -31,9 +31,6 @@ public class TxGenerationProcessSingleNode extends AbstractTxPoissonProcess {
     }
 
     public EthereumTx getTx(){
-
-
-
         return tx;
     }
 

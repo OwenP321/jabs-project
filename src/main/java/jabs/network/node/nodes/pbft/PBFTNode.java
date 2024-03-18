@@ -261,6 +261,15 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
     }
 
+
+    public PBFTBlock creatBlockEvent(){
+
+        BlockCreationEvent blockGenPro = new BlockCreationEvent(simulator, this.network.getRandom(), this, network);
+        this.blockGenPro = this.simulator.putEvent(blockGenPro, 50)
+
+        return null;
+    }
+
     public PBFTBlock createBlock(){
         
         ArrayList<EthereumTx> txs = new ArrayList<EthereumTx>();
