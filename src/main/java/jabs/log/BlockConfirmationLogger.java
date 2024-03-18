@@ -1,6 +1,8 @@
 package jabs.log;
 
+import jabs.consensus.algorithm.PBFT;
 import jabs.ledgerdata.Block;
+import jabs.ledgerdata.pbft.PBFTBlock;
 import jabs.network.node.nodes.Node;
 import jabs.simulator.event.BlockConfirmationEvent;
 import jabs.simulator.event.Event;
@@ -55,7 +57,9 @@ public class BlockConfirmationLogger extends AbstractCSVLogger {
     @Override
     protected String[] csvEventOutput(Event event) {
         Node node = ((BlockConfirmationEvent) event).getNode();
-        Block block = ((BlockConfirmationEvent) event).getBlock();
+        PBFTBlock block = (PBFTBlock) ((BlockConfirmationEvent) event).getBlock();
+
+        System.out.println("GOT HERE ^^^^^^^^^^^^^^^^^^^^^^^^^^^^");
 
         return new String[]{
                 Double.toString(this.scenario.getSimulator().getSimulationTime()),
