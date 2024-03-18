@@ -15,6 +15,7 @@ public class BlockConfirmationEvent extends AbstractLogEvent {
     /**
      * The block that gets confirmed
      */
+    
     private  Block block;
     private  Network network;
 
@@ -25,7 +26,7 @@ public class BlockConfirmationEvent extends AbstractLogEvent {
         super(time);
         this.node = node;
         this.network = network;
-        this.blocksNodes = new HashMap<>();
+        //this.blocksNodes = new HashMap<>();
     }
 
     public void genBlock(){
