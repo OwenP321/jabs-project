@@ -19,6 +19,8 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     private Node creator;
     private PBFTBlock parent;
     private int hashCode;
+
+    private ArrayList<EthereumTx> finalTransactions;
     
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
@@ -29,7 +31,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
         this.creator = creator;
         this.parent = parent;
         this.block =this;
-        //transactions = new ArrayList<>();
+        transactions = new ArrayList<>();
     }
 
     public void addTransaction(EthereumTx tx)
@@ -40,6 +42,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     public void setTransactions(ArrayList<EthereumTx> transactions)
     {
         this.transactions = transactions;
+        finalTransactions = transactions;
         //System.out.println("***************** PROBLEM" +transactions);
     }
 
@@ -50,7 +53,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     
     public ArrayList<EthereumTx> getTransactions()
     {
-        return this.transactions;
+        return this.finalTransactions;
     }
 
     public PBFTBlock getBlock(){
