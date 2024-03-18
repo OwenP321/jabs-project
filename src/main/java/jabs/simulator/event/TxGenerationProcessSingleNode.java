@@ -27,7 +27,7 @@ public class TxGenerationProcessSingleNode extends AbstractTxPoissonProcess {
         this.node = network.getRandomNode();
         tx = node.generateNewPBFTTransaction();
         allTxs.add(tx);
-        System.out.println("NEW TX");
+        //System.out.println("NEW TX");
     }
 
     public EthereumTx getTx(){

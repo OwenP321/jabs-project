@@ -230,7 +230,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         EthereumTx tx = TransactionFactory.sampleEthereumTransaction(network.getRandom());
         broadcastTransaction(tx);
         
-        System.out.println("Transactions being made in Transaction Factory");
+        //System.out.println("Transactions being made in Transaction Factory");
         return getTxs(tx);
         //addToMempool(tx);
         
@@ -245,7 +245,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         TxGenerationProcessSingleNode txGenPro = new TxGenerationProcessSingleNode(this.simulator, this.network.getRandom(), this, timeBetweenTxs, network);
         this.txGenPro = this.simulator.putEvent(txGenPro, txGenPro.timeToNextGeneration());
 
-        System.out.println("TRANSACTIONS MADE");
+        //System.out.println("TRANSACTIONS MADE");
     }
     //public void blockEvent(){
     //    BlockCreationEvent blockGenPro = new BlockCreationEvent(simulator, this.network.getRandom(), this, network);
@@ -298,7 +298,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         int newSize = BlockFactory.sampleBitcoinBlockSize(this.network.getRandom());
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
-        System.out.println("_________________" + txs);
+        //System.out.println("_________________" + txs);
         block.setTransactions(txs);
         removeFromMempool(block);
 
