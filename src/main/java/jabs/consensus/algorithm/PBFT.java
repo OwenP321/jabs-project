@@ -370,7 +370,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
     return false;
 }
 
-
+/*
 public void writeFinalBlocksToCSV(String filePath) {
         try (FileWriter writer = new FileWriter(filePath)) {
             // Write header
@@ -400,7 +400,7 @@ public void writeFinalBlocksToCSV(String filePath) {
             System.err.println("Error writing CSV file: " + e.getMessage());
         }
     }
-
+    */
     public List<B> getCommitedBlocks(){
         List<B> commitedBlocksList = new ArrayList<>(committedBlocks);
         return commitedBlocksList;
@@ -409,6 +409,73 @@ public void writeFinalBlocksToCSV(String filePath) {
     public ArrayList<B> getCB(){
         return addedBlocks;
     }
+
+    public void writeFinalBlocksToCSV(String filePath) { 
+
+        try (FileWriter writer = new FileWriter(filePath)) { 
+    
+            // Write header 
+    
+            writer.append("Block Height,Block Hash,Transactions,Votes\n"); 
+            // Iterate through confirmed blocks 
+    
+            for (B block : confirmedBlocks) { 
+    
+                if (block instanceof PBFTBlock) { 
+                    PBFTBlock pbftBlock = (PBFTBlock) block; 
+                    // Write block details 
+                    writer.append(String.valueOf(block.getHeight())).append(","); 
+                    writer.append(String.valueOf(block.getHash())).append(","); 
+                    // Get transactions and count votes 
+                    ArrayList<EthereumTx> transactions = pbftBlock.getTransactions(); 
+                    int numVotes = getNumVotesForBlock(block); 
+
+                    // Write transactions and votes count
+                    StringBuilder transactionString = new StringBuilder(); 
+                    for (EthereumTx tx : transactions) { 
+                        transactionString.append(tx.toString()).append(";"); 
+                    }
+    
+                    if (transactionString.length() > 0) { 
+                        transactionString.setLength(transactionString.length() - 1); 
+                    } 
+    
+                    writer.append(transactionString.toString()).append(","); 
+                    writer.append(String.valueOf(numVotes)).append("\n"); 
+                } 
+    
+            } 
+    
+            System.out.println("CSV file written successfully at " + filePath); 
+    
+        } catch (IOException e) { 
+    
+            System.err.println("Error writing CSV file: " + e.getMessage()); 
+    
+        } 
+    
+    } 
+    
+      
+    
+    private int getNumVotesForBlock(B block) { 
+    
+        int numVotes = 0; 
+        HashMap<B, HashMap<Node, Vote>> votes = null; 
+    
+        if (committedBlocks.contains(block)) { 
+            votes = commitVotes;
+    
+        } else if (preparedBlocks.contains(block)) { 
+            votes = prepareVotes;     
+        } 
+
+        if (votes != null && votes.containsKey(block)) { 
+            numVotes = votes.get(block).size(); 
+        } 
+        return numVotes; 
+    
+    } 
 
 
 
@@ -530,6 +597,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
+        writeFinalBlocksToCSV("output/FinalBlocks.csv");
     }
 
 }
