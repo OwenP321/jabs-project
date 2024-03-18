@@ -296,6 +296,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                             )
                                         );
 
+                                        writeFinalBlocksToCSV("output/FinalBlocks.csv");
+
                 }
 
                 //writeFinalBlocksToCSV("output/FinalBlocks.csv");
@@ -597,7 +599,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
-        writeFinalBlocksToCSV("output/FinalBlocks.csv");
+        
     }
 
 }
