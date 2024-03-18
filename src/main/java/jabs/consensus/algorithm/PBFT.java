@@ -184,7 +184,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     case PRE_PREPARING:
                         this.currentViewNumber += 1;
                         this.currentMainChainHead = block;
-                        updateChain();
+                        //updateChain();
                         if (this.peerBlockchainNode.nodeID == this.getCurrentPrimaryNumber()){
                             this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
@@ -601,7 +601,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
-        //writeFinalBlocksToCSV("output/finalBlocks.csv");
+        writeFinalBlocksToCSV("output/finalBlocks.csv");
         
     }
 
