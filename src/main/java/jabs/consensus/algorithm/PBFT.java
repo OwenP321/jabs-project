@@ -430,7 +430,8 @@ public void writeFinalBlocksToCSV(String filePath) {
                     writer.append(String.valueOf(block.getHeight())).append(","); 
                     writer.append(String.valueOf(block.getHash())).append(","); 
                     // Get transactions and count votes 
-                    ArrayList<EthereumTx> transactions = pbftBlock.getTransactions(); 
+                    ArrayList<EthereumTx> transactions = pbftBlock.getTransactions();
+                    System.out.println(transactions); 
                     int numVotes = getNumVotesForBlock(block); 
 
                     // Write transactions and votes count
