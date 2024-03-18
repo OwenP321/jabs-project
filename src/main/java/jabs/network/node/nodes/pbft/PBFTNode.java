@@ -37,6 +37,7 @@ import jabs.network.node.nodes.PeerDLTNode;
 import jabs.network.node.nodes.Node;
 import jabs.network.p2p.PBFTP2P;
 import jabs.simulator.Simulator;
+import jabs.simulator.event.BlockConfirmationEvent;
 import jabs.simulator.event.BlockCreationEvent;
 import jabs.simulator.event.TxGenerationProcessSingleNode;
 
@@ -262,10 +263,12 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     }
 
 
-    public PBFTBlock creatBlockEvent(){
+    public PBFTBlock createBlockEvent(){
+        double timeBlock = 10;
 
-        BlockCreationEvent blockGenPro = new BlockCreationEvent(simulator, this.network.getRandom(), this, network);
-        this.blockGenPro = this.simulator.putEvent(blockGenPro, 50)
+        BlockConfirmationEvent blockGenPro = new BlockConfirmationEvent(timeBlock, this, this.network);
+        double timeInSec = 50;
+        this.blockGenPro = this.simulator.putEvent(blockGenPro, (double)timeInSec);
 
         return null;
     }

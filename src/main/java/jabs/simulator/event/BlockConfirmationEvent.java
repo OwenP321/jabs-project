@@ -21,11 +21,11 @@ public class BlockConfirmationEvent extends AbstractLogEvent {
     private HashMap<Block, Node> blocksNodes;
 
 
-    public BlockConfirmationEvent(double time, Node node, Block block, Network network) {
+    public BlockConfirmationEvent(double time, Node node, Network network) {
         super(time);
         this.node = node;
-        this.block = block;
         this.network = network;
+        this.blocksNodes = new HashMap<>();
     }
 
     public void genBlock(){

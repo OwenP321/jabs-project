@@ -37,9 +37,9 @@ public class NakamotoConsensus<B extends SingleParentBlock<B>, T extends Tx<T>>
             this.confirmedBlocks = this.localBlockTree.getAllAncestors(highestConfirmedBlock);
             Simulator simulator = this.peerDLTNode.getSimulator();
             double currentTime = simulator.getSimulationTime();
-            simulator.putEvent(
-                    new BlockConfirmationEvent(currentTime, this.peerDLTNode, highestConfirmedBlock),
-                    0);
+            //simulator.putEvent(
+                    //new BlockConfirmationEvent(currentTime, this.peerDLTNode, highestConfirmedBlock),
+                    //0);
         }
     }
 

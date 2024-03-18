@@ -206,7 +206,7 @@ public abstract class AbstractScenario {
                 for(int x =0; x<nodes.size(); x++)
                 {
                     System.out.println("**** BLOCK GEN *****");
-                    nodes.get(x).createBlock();
+                    nodes.get(x).createBlockEvent();
 
                     nodePBFT.broadcastMessage(
                     new VoteMessage(
