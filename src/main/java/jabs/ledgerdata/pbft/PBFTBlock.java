@@ -29,7 +29,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
         this.creator = creator;
         this.parent = parent;
         this.block =this;
-        transactions = new ArrayList<>();
+        //transactions = new ArrayList<>();
     }
 
     public void addTransaction(EthereumTx tx)
