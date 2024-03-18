@@ -292,7 +292,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
                 }
 
-                //writeFinalBlocksToCSV("output/FinalBlocks.csv");
+                writeFinalBlocksToCSV("output/FinalBlocks.csv");
                 
 
 
@@ -421,21 +421,21 @@ public void writeFinalBlocksToCSV(String filePath) {
                     writer.append(String.valueOf(block.getHeight())).append(","); 
                     writer.append(String.valueOf(block.getHash())).append(","); 
                     // Get transactions and count votes 
-                    ArrayList<EthereumTx> transactions = pbftBlock.getTransactions();
-                    System.out.println(transactions); 
+                    //ArrayList<EthereumTx> transactions = pbftBlock.getTransactions();
+                    //System.out.println(transactions); 
                     int numVotes = getNumVotesForBlock(block); 
 
                     // Write transactions and votes count
                     StringBuilder transactionString = new StringBuilder(); 
-                    for (EthereumTx tx : transactions) { 
-                        transactionString.append(tx.toString()).append(";"); 
-                    }
+                    //for (EthereumTx tx : transactions) { 
+                    //    transactionString.append(tx.toString()).append(";"); 
+                    //}
     
-                    if (transactionString.length() > 0) { 
-                        transactionString.setLength(transactionString.length() - 1); 
-                    } 
+                    //if (transactionString.length() > 0) { 
+                    //    transactionString.setLength(transactionString.length() - 1); 
+                    //} 
     
-                    writer.append(transactionString.toString()).append(","); 
+                    //writer.append(transactionString.toString()).append(","); 
                     writer.append(String.valueOf(numVotes)).append("\n"); 
                 } 
     
