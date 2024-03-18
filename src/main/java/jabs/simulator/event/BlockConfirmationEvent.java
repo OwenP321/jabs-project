@@ -31,6 +31,7 @@ public class BlockConfirmationEvent extends AbstractLogEvent {
 
     public void genBlock(){
         
+        System.out.println("DOING THIS");
         this.node = network.getRandomNode();
         block = node.createBlock();
         blocksNodes.put(block, node);
