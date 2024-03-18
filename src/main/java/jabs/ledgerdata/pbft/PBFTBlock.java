@@ -25,11 +25,11 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
-        this.size = size;
-        this.height = height;
-        this.creationTime = creationTime;
-        this.creator = creator;
-        this.parent = parent;
+        //this.size = size;
+        //this.height = height;
+        //this.creationTime = creationTime;
+        //this.creator = creator;
+        //this.parent = parent;
         this.block =this;
         //transactions = new ArrayList<>();
     }
