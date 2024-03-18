@@ -31,7 +31,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
         this.creator = creator;
         this.parent = parent;
         this.block =this;
-        transactions = new ArrayList<>();
+        //transactions = new ArrayList<>();
     }
 
     public void addTransaction(EthereumTx tx)
@@ -43,7 +43,7 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     {
         this.transactions = transactions;
         finalTransactions = transactions;
-        System.out.println("***************** PROBLEM" +transactions);
+        //System.out.println("***************** PROBLEM" +transactions);
     }
 
     public void setValidTxs(ArrayList<EthereumTx> tx)
