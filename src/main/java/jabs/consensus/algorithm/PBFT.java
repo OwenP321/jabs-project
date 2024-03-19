@@ -32,6 +32,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private int currentViewNumber = 0;
 
     private ArrayList<B> addedBlocks =  new ArrayList<>();
+    private ArrayList<PBFTBlock> allBlocksFromNodes = new ArrayList<>();
 
     // TODO: View change should be implemented
 
@@ -243,27 +244,24 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     }
     
     @Override
+    
     public void newIncomingBlock(B block) {
-        
-        
-        
-        
         if(block instanceof PBFTBlock){
             PBFTBlock pbftBlock = (PBFTBlock) block;
             //PBFTBlockVote pbftVoteBlock = new PBFTBlockVote<>(10,peerBlockchainNode,pbftBlock, VoteType.PRE_PREPARE) 
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
-                /*
+                /* 
                 for (EthereumTx tx : pbftBlock.getTransactions()) {
                     System.out.println(peerBlockchainNode + "***********************************");
                     System.out.println(currentMainChainHead + "-----------------");
                     PBFTTransactionVote<EthereumTx> txVote =  new PBFTTransactionVote<>(10, peerBlockchainNode, tx);
                     
                     this.peerBlockchainNode.broadcastMessage(new VoteMessage(txVote));
-                }
-                * 
-                */
+                }*/
+                
+                
                 
                 
                 //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
@@ -272,37 +270,66 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 Boolean validBlock = validateTransactions(pbftBlock);
                 
 
-                //System.out.println("__________________________________________" + blockCount);
-                
-                if(blockCount == 2){
-                    txOrder.clear();
-                    finalOrder.clear();
-                    System.out.println("***********CLEAR ARRAYS**********************");
-                    blockCount =0;
-                }
-
                 if(validBlock == true){
                     this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
                                             new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
                                             )
                                         );
-
-                                        
-
                 }
 
-                //writeFinalBlocksToCSV("output/FinalBlocks.csv");
                 
-
-
             }
             
         }
     }
 
+/*
+public void newIncomingBlock(B block) {
+    if (block instanceof PBFTBlock) {
+        PBFTBlock pbftBlock = (PBFTBlock) block;
+
+        // Store the received block
+        allBlocksFromNodes.add(pbftBlock);
+
+        // Check if all expected blocks for the round have been received
+        if (addedBlocks.size() == numAllParticipants) {
+            // Select the main block for this round
+            PBFTBlock mainBlock = selectMainBlock(allBlocksFromNodes);
+
+            Block mainBlockFin = (Block) mainBlock;
+
+            // Add the selected main block to the chain
+            if (!isBlockConfirmed(mainBlockFin) && !isBlockFinalized(mainBlockFin)) {
+                // Validate the main block before adding to the chain
+                if (validateBlock(mainBlock)) {
+                    localBlockTree.add(mainBlock);
+                    currentMainChainHead = mainBlock;
+                    updateChain();
+                }
+            }
+
+            // Clear the list for the next round
+            allBlocksFromNodes.clear();
+        }
+    }
+}*/
+
+/*
+private PBFTBlock selectMainBlock(List<PBFTBlock> blocks) {
+    //Get the leader node 
+
+    for (PBFTBlock block : blocks) {
+        if (block.getNode().getNodeID() == 0) {
+            return block;
+        }
+    }
+    // If no block is proposed by the leader node, return null or handle the case as needed
+    return null;
+}*/
+
 private boolean validateTransactions(PBFTBlock block) {
-    ArrayList<EthereumTx> txOrderVal = block.getTransactions();
+        ArrayList<EthereumTx> txOrderVal = block.getTransactions();
     
     // Counters to track the number of votes for each transaction and pair ordering
     HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();

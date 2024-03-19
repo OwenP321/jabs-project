@@ -13,11 +13,12 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
     private final PBFTBlock block;
     protected ArrayList<EthereumTx> transactions;
    
-    
+    private Node creator;
 
     public PBFTBlock(int size, int height, double creationTime, Node creator, PBFTBlock parent) {
         super(size, height, creationTime, creator, parent, PBFT_BLOCK_HASH_SIZE);
         this.block =this;
+        this.creator = creator;
     }
 
     public void addTransaction(EthereumTx tx)
@@ -45,6 +46,9 @@ public class PBFTBlock extends SingleParentBlock<PBFTBlock> {
         return this.block;
     }
 
+    public Node getNode(){
+        return creator;
+    }
     
 
 }
