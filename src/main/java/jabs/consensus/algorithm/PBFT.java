@@ -215,7 +215,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     
                 //Get the block from the leader
                 if(block.getCreator().getNodeID() == 0){
-                    
+                    System.out.println("LEAD NODE" + block);
                     // Check if the block is valid
                     if (isBlockValid(block)) {
                         // Finalize the block and add it to the blockchain
@@ -229,7 +229,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         updateChain();
                         addedBlocks.add(block);
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
-                        writeFinalBlocksToCSV("output/finalBlocks6.csv");
+
+                        PBFTBlock finBlock = (PBFTBlock) block;
+                        writeBlockToCSV("output/logsForFinalBlock.csv", finBlock);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
                     }
@@ -435,6 +437,10 @@ public void writeFinalBlocksToCSV(String filePath) {
         return addedBlocks;
     }
 
+    /*
+     * 
+     * 
+     Gets all the final blocks
     public void writeFinalBlocksToCSV(String filePath) { 
 
         try (FileWriter writer = new FileWriter(filePath)) { 
@@ -481,10 +487,49 @@ public void writeFinalBlocksToCSV(String filePath) {
         } 
     
     } 
+    */
+
+    public void writeBlockToCSV(String filePath, PBFTBlock block) {
+
+        try (FileWriter writer = new FileWriter(filePath)) {
     
+            // Write header
+            writer.append("Block Height,Block Hash,Transactions,Votes\n");
+    
+            // Write block details
+            writer.append(String.valueOf(block.getHeight())).append(",");
+            writer.append(String.valueOf(block.getHash())).append(",");
+            // Get transactions and count votes
+            ArrayList<EthereumTx> transactions = block.getTransactions();
+            //System.out.println(transactions);
+            int numTxs = transactions.size();
+            int numVotes = getNumVotesForBlock(block);
+    
+            // Write transactions and votes count
+            StringBuilder transactionString = new StringBuilder();
+            //for (EthereumTx tx : transactions) {
+            //    transactionString.append(tx.toString()).append(";");
+            //}
+    
+            //if (transactionString.length() > 0) {
+            //    transactionString.setLength(transactionString.length() - 1);
+            //}
+    
+            writer.append(String.valueOf(numTxs)).append(",");
+            writer.append(String.valueOf(numVotes)).append("\n");
+    
+            //System.out.println("CSV file written successfully at " + filePath);
+    
+        } catch (IOException e) {
+    
+            System.err.println("Error writing CSV file: " + e.getMessage());
+    
+        }
+    
+    }
       
     
-    private int getNumVotesForBlock(B block) { 
+    private int getNumVotesForBlock(PBFTBlock block) { 
     
         int numVotes = 0; 
         HashMap<B, HashMap<Node, Vote>> votes = null; 
