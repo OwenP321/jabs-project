@@ -501,8 +501,12 @@ public void writeFinalBlocksToCSV(String filePath) {
             writer.append(String.valueOf(block.getHash())).append(",");
             // Get transactions and count votes
             ArrayList<EthereumTx> transactions = block.getTransactions();
+            int numTxs = 0;
+            if(transactions != null)
+            {
+                numTxs = transactions.size();
+            } 
             //System.out.println(transactions);
-            int numTxs = transactions.size();
             int numVotes = getNumVotesForBlock(block);
     
             // Write transactions and votes count
