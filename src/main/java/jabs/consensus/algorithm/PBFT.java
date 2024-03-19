@@ -213,22 +213,26 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 blocks.add(block);
                 this.pbftPhase = nextStep;
     
-                // Check if the block is valid
-                if (isBlockValid(block)) {
-                    // Finalize the block and add it to the blockchain
-                    this.localBlockTree.add(block);
-                    this.currentMainChainHead = block;
-
-                    //System.out.println("£££££££££££");
-                    //System.out.print(currentMainChainHead);
+                //Get the block from the leader
+                if(block.getCreator().getNodeID() == 0){
+                    
+                    // Check if the block is valid
+                    if (isBlockValid(block)) {
+                        // Finalize the block and add it to the blockchain
+                        this.localBlockTree.add(block);
+                        this.currentMainChainHead = block;
     
-                    // Update the chain and broadcast the commit vote
-                    updateChain();
-                    addedBlocks.add(block);
-                    this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
-                    writeFinalBlocksToCSV("output/finalBlocks6.csv");
-                    //System.out.println("******************************************");
-                    //System.out.println(this.committedBlocks);
+                        //System.out.println("£££££££££££");
+                        //System.out.print(currentMainChainHead);
+        
+                        // Update the chain and broadcast the commit vote
+                        updateChain();
+                        addedBlocks.add(block);
+                        this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
+                        writeFinalBlocksToCSV("output/finalBlocks6.csv");
+                        //System.out.println("******************************************");
+                        //System.out.println(this.committedBlocks);
+                    }
                 }
             }
         }
