@@ -43,6 +43,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     ArrayList<EthereumTx> finalOrder = new ArrayList<EthereumTx>();
 
     int blockCount =0;
+    private PBFTBlock proposedBlock;
 
     @Override
     public boolean isBlockFinalized(B block) {
@@ -274,8 +275,6 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
                 
                 Boolean validBlock = validateTransactions(pbftBlock);
-                
-
                 if(validBlock == true){
                     this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
@@ -284,10 +283,47 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         );
                 }
 
+                if (isLeaderNode()) {
+                    // Propose the block to the network
+                    this.proposedBlock = pbftBlock;
+                } else {
+                    // Compare the received block with the proposed block
+                    compareBlocks(pbftBlock);
+                }
+
+
                 
             }
             
         }
+    }
+
+    private void compareBlocks(PBFTBlock receivedBlock) {
+        if (proposedBlock != null) {
+            // Validate transactions and verify if the received block matches the proposed block
+            if (validateTransactions(receivedBlock) && receivedBlock.equals(proposedBlock)) {
+                // Node votes to commit the received block
+                //PBFTBlockVote<B> vote = new PBFTBlockVote<>(this.peerBlockchainNode, receivedBlock, VoteType.COMMIT);
+                //PBFTBlockVote<B> vote = new PBFTPrePrepareVote<>(this.peerBlockchainNode, receivedBlock, VoteType.COMMIT);
+                //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
+
+                Boolean validBlock = validateTransactions(receivedBlock);
+                if(validBlock == true){
+                    this.peerBlockchainNode.broadcastMessage(
+                                    new VoteMessage(
+                                            new PBFTPrePrepareVote<>(this.peerBlockchainNode, receivedBlock.getBlock())
+                                            )
+                                        );
+                }
+
+            }
+        }
+    }
+
+    private boolean isLeaderNode() {
+        // Determine if this node is the leader node based on some criteria
+        // For example, using a round-robin selection method
+        return this.peerBlockchainNode.getNodeID() == getCurrentPrimaryNumber();
     }
 
 /*
