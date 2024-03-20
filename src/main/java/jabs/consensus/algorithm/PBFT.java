@@ -46,6 +46,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     int blockCount =0;
     private PBFTBlock proposedBlock;
 
+    int totalTX =0;
+
     //protected final LocalBlockTree<PBFTBlock> localBlockTreePBFT;
     private PBFTBlock currentChainHeadPBFT;
 
@@ -437,6 +439,8 @@ private boolean validateTransactions(PBFTBlock block) {
         }
     }
 
+    System.out.println(finalOrder);
+    totalTX = finalOrder.size();
     // Check if the block contains valid transactions and ordering
     boolean validBlock = blockValid(block, finalOrder);
 
@@ -494,7 +498,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             //}
     
             //writer.append(String.valueOf(numTxs)).append(",");
-            writer.append(String.valueOf(numVotesCom)).append("\n");
+            writer.append(String.valueOf(numVotesCom)).append(",");
             writer.append(String.valueOf(numVotesTotal)).append("\n");
 
     
