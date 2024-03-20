@@ -224,7 +224,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         this.currentMainChainHead = block;
     
                         //System.out.println("£££££££££££");
-                        //System.out.print(currentMainChainHead);
+                        System.out.print(block);
         
                         // Update the chain and broadcast the commit vote
                         updateChain();
