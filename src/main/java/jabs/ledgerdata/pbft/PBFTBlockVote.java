@@ -5,7 +5,7 @@ import jabs.ledgerdata.Vote;
 import jabs.network.node.nodes.Node;
 
 public abstract class PBFTBlockVote<B extends Block> extends Vote {
-    private final PBFTBlock block;
+    private final B block;
     private final VoteType voteType;
     public PBFTBlock pbftBlock;
 
@@ -17,7 +17,7 @@ public abstract class PBFTBlockVote<B extends Block> extends Vote {
         COMMIT
     }
 
-    protected PBFTBlockVote(int size, Node voter, PBFTBlock block, VoteType voteType) {
+    protected PBFTBlockVote(int size, Node voter, B block, VoteType voteType) {
         super(size, voter);
         this.block = block;
         this.voteType = voteType;
@@ -26,7 +26,7 @@ public abstract class PBFTBlockVote<B extends Block> extends Vote {
     public VoteType getVoteType() {
         return this.voteType;
     }
-    public PBFTBlock getBlock() {
+    public B getBlock() {
         return this.block;
     }
 }

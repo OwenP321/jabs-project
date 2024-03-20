@@ -25,14 +25,14 @@ import org.apache.commons.math3.util.Pair;
 public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends AbstractChainBasedConsensus<B, T>
         implements VotingBasedConsensus<B, T >, DeterministicFinalityConsensus<B, T > {
     private final int numAllParticipants;
-    private final HashMap<PBFTBlock, HashMap<Node, Vote>> prepareVotes = new HashMap<>();
-    private final HashMap<PBFTBlock, HashMap<Node, Vote>> commitVotes = new HashMap<>();
-    private final HashSet<PBFTBlock> preparedBlocks = new HashSet<>();
-    private final HashSet<PBFTBlock> committedBlocks = new HashSet<>();
-    private final HashSet<PBFTBlock> comBlock = new HashSet<>();
+    private final HashMap<B, HashMap<Node, Vote>> prepareVotes = new HashMap<>();
+    private final HashMap<B, HashMap<Node, Vote>> commitVotes = new HashMap<>();
+    private final HashSet<B> preparedBlocks = new HashSet<>();
+    private final HashSet<B> committedBlocks = new HashSet<>();
+    private final HashSet<B> comBlock = new HashSet<>();
     private int currentViewNumber = 0;
 
-    private ArrayList<PBFTBlock> addedBlocks =  new ArrayList<>();
+    private ArrayList<B> addedBlocks =  new ArrayList<>();
     private ArrayList<PBFTBlock> allBlocksFromNodes = new ArrayList<>();
 
     // TODO: View change should be implemented
@@ -56,7 +56,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
     @Override
     public boolean isTxFinalized(T tx) {
-        for(PBFTBlock block : committedBlocks){
+        for(B block : committedBlocks){
         }
         return false;
     }
@@ -170,7 +170,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotes(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
+    private void checkVotes(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
 
         //System.out.println("GETS HERE IN CHECK VOTE");
 
@@ -185,7 +185,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 switch (nextStep) {
                     case PRE_PREPARING:
                         this.currentViewNumber += 1;
-                        this.currentChainHeadPBFT = block;
+                        this.currentMainChainHead = block;
                         updateChain();
                         if (this.peerBlockchainNode.nodeID == this.getCurrentPrimaryNumber()){
                             this.peerBlockchainNode.broadcastMessage(
@@ -210,7 +210,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotesBlock(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
+    private void checkVotesBlock(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) {
                 votes.put(block, new HashMap<>());
@@ -227,7 +227,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     
                         // Finalize the block and add it to the blockchain
                         this.localBlockTree.add(block);
-                        this.currentChainHeadPBFT = block;
+                        this.currentMainChainHead = block;
     
                         //System.out.println("£££££££££££");
                         System.out.println("IS BLOCK VALID");
@@ -239,7 +239,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
                         PBFTBlock finBlock = (PBFTBlock) block;
-                        writeBlockToCSV("output/Test.csv", finBlock);
+                        writeBlockToCSV("output/Test.csv", block);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
                     
@@ -475,12 +475,12 @@ public void writeFinalBlocksToCSV(String filePath) {
         }
     }
     */
-    public ArrayList<PBFTBlock> getCommitedBlocks(){
-        ArrayList<PBFTBlock> commitedBlocksList = new ArrayList<PBFTBlock>(comBlock);
+    public ArrayList<B> getCommitedBlocks(){
+        ArrayList<B> commitedBlocksList = new ArrayList<B>(comBlock);
         return commitedBlocksList;
     }
 
-    public ArrayList<PBFTBlock> getCB(){
+    public ArrayList<B> getCB(){
         return addedBlocks;
     }
 
@@ -536,7 +536,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     } 
     */
 
-    public void writeBlockToCSV(String filePath, PBFTBlock block) {
+    public void writeBlockToCSV(String filePath, B block) {
 
         try (FileWriter writer = new FileWriter(filePath)) {
     
@@ -547,12 +547,12 @@ public void writeFinalBlocksToCSV(String filePath) {
             writer.append(String.valueOf(block.getHeight())).append(",");
             writer.append(String.valueOf(block.getHash())).append(",");
             // Get transactions and count votes
-            ArrayList<EthereumTx> transactions = block.getTransactions();
-            int numTxs = 0;
-            if(transactions != null)
-            {
-                numTxs = transactions.size();
-            } 
+            //ArrayList<EthereumTx> transactions = block.getTransactions();
+            //int numTxs = 0;
+            //if(transactions != null)
+            //{
+            //    numTxs = transactions.size();
+            //} 
             //System.out.println(transactions);
             int numVotes = getNumVotesForBlock(block);
     
@@ -566,7 +566,7 @@ public void writeFinalBlocksToCSV(String filePath) {
             //    transactionString.setLength(transactionString.length() - 1);
             //}
     
-            writer.append(String.valueOf(numTxs)).append(",");
+            //writer.append(String.valueOf(numTxs)).append(",");
             writer.append(String.valueOf(numVotes)).append("\n");
     
             //System.out.println("CSV file written successfully at " + filePath);
@@ -580,10 +580,10 @@ public void writeFinalBlocksToCSV(String filePath) {
     }
       
     
-    private int getNumVotesForBlock(PBFTBlock block) { 
+    private int getNumVotesForBlock(B block) { 
     
         int numVotes = 0; 
-        HashMap<PBFTBlock, HashMap<Node, Vote>> votes = null; 
+        HashMap<B, HashMap<Node, Vote>> votes = null; 
         if (committedBlocks.contains(block)) { 
             votes = commitVotes;
     
