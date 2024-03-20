@@ -542,6 +542,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             {
                 if(bBlockHash.get(j) == pBlockHash.get(z)){
                     finalBlocksPBFT.add(madePBFTBlocks.get(j));
+                    System.out.println(finalBlocksPBFT.get(j).getTransactions());
                 }
 
             }
