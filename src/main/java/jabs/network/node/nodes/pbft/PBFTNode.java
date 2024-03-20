@@ -364,6 +364,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         System.out.println("^^^^^^^^ FINAL BLOCKS ^^^^^^^^^^^^^ ");
         System.out.println(cbs);
 
+        int totalTxs =0;
+        for(int i =0; i < cbs.size(); i++)
+        {  
+            ArrayList<EthereumTx> tx = cbs.get(i).getTransactions();
+            totalTxs = totalTxs + tx.size();
+        }
+        System.out.println("THE TOTAL TXS IS " + totalTxs);
+
     }
 
     
