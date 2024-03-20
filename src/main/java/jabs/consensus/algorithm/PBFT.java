@@ -29,6 +29,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private final HashMap<B, HashMap<Node, Vote>> commitVotes = new HashMap<>();
     private final HashSet<B> preparedBlocks = new HashSet<>();
     private final HashSet<B> committedBlocks = new HashSet<>();
+    private final HashSet<PBFTBlock> comBlock = new HashSet<>();
     private int currentViewNumber = 0;
 
     private ArrayList<B> addedBlocks =  new ArrayList<>();
@@ -158,7 +159,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 case COMMIT:
                     //checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
                     //System.out.println("COMMIT");
-                    checkVotesBlock(blockVote, block, commitVotes, confirmedBlocks, pbftPhase);
+                    checkVotesBlock(blockVote, block, commitVotes, comBlock, pbftPhase);
                     break;
             }
         }
@@ -180,7 +181,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     case PRE_PREPARING:
                         this.currentViewNumber += 1;
                         this.currentMainChainHead = block;
-                        //updateChain();
+                        updateChain();
                         if (this.peerBlockchainNode.nodeID == this.getCurrentPrimaryNumber()){
                             this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
@@ -204,7 +205,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotesBlock(PBFTBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+    private void checkVotesBlock(PBFTBlockVote<B> vote, PBFTBlock block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) {
                 votes.put(block, new HashMap<>());
@@ -465,8 +466,8 @@ public void writeFinalBlocksToCSV(String filePath) {
         }
     }
     */
-    public List<B> getCommitedBlocks(){
-        List<B> commitedBlocksList = new ArrayList<>(committedBlocks);
+    public ArrayList<PBFTBlock> getCommitedBlocks(){
+        ArrayList<PBFTBlock> commitedBlocksList = new ArrayList<PBFTBlock>(comBlock);
         return commitedBlocksList;
     }
 
@@ -707,6 +708,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
+        this.comBlock.add(this.currentMainChainHead);
         //writeFinalBlocksToCSV("output/finalBlocks.csv");
         
     }
