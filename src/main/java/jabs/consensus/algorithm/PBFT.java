@@ -46,7 +46,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     int blockCount =0;
     private PBFTBlock proposedBlock;
 
-    protected final LocalBlockTree<PBFTBlock> localBlockTreePBFT;
+    //protected final LocalBlockTree<PBFTBlock> localBlockTreePBFT;
     private PBFTBlock currentChainHeadPBFT;
 
     @Override
@@ -88,12 +88,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         COMMIT
     }
 
-    public PBFT(LocalBlockTree<B> localBlockTree, int numAllParticipants, LocalBlockTree<PBFTBlock> localBlockTreePBFT) {
+    public PBFT(LocalBlockTree<B> localBlockTree, int numAllParticipants) {
         super(localBlockTree);
         this.numAllParticipants = numAllParticipants;
-        this.currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        this.currentMainChainHead = localBlockTree.getGenesisBlock();
         //currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
-        this.localBlockTreePBFT = localBlockTreePBFT;
+        //this.localBlockTreePBFT = localBlockTreePBFT;
     }
 
     public void newIncomingVote(Vote vote) {
