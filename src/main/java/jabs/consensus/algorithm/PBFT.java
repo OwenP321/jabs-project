@@ -49,6 +49,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     //protected final LocalBlockTree<PBFTBlock> localBlockTreePBFT;
     private PBFTBlock currentChainHeadPBFT;
 
+    private ArrayList<PBFTBlock> madePBFTBlocks = new ArrayList<>();
+
     @Override
     public boolean isBlockFinalized(B block) {
         return committedBlocks.contains(block);
@@ -290,6 +292,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         );
                 }
 
+                madePBFTBlocks.add(pbftBlock);
+
                 //if (isLeaderNode()) {
                     // Propose the block to the network
                 //    this.proposedBlock = pbftBlock;
@@ -444,37 +448,6 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
     return false;
 }
 
-/*
-public void writeFinalBlocksToCSV(String filePath) {
-        try (FileWriter writer = new FileWriter(filePath)) {
-            // Write header
-            writer.append("Block Height,Block Hash,Transactions\n");
-
-            
-            // Iterate through finalized blocks
-            for (B block : confirmedBlocks) {
-                if(block instanceof PBFTBlock){
-                    PBFTBlock pbftBlock = (PBFTBlock) block;
-                // Write block details
-                writer.append(String.valueOf(block.getHeight())).append(",");
-                writer.append((CharSequence) block.getHash()).append(",");
-                ArrayList<EthereumTx> transactions = ((PBFTBlock) block).getTransactions();
-                StringBuilder transactionString = new StringBuilder();
-                for (EthereumTx tx : transactions) {
-                    transactionString.append(tx.toString()).append(";");
-                }
-                // Remove the last semicolon
-                if (transactionString.length() > 0) {
-                    transactionString.setLength(transactionString.length() - 1);
-                }
-                writer.append(transactionString.toString()).append("\n");
-            }}
-            System.out.println("CSV file written successfully at " + filePath);
-        } catch (IOException e) {
-            System.err.println("Error writing CSV file: " + e.getMessage());
-        }
-    }
-    */
     public ArrayList<B> getCommitedBlocks(){
         ArrayList<B> commitedBlocksList = new ArrayList<B>(comBlock);
         return commitedBlocksList;
@@ -484,57 +457,6 @@ public void writeFinalBlocksToCSV(String filePath) {
         return addedBlocks;
     }
 
-    /*
-     * 
-     * 
-     Gets all the final blocks
-    public void writeFinalBlocksToCSV(String filePath) { 
-
-        try (FileWriter writer = new FileWriter(filePath)) { 
-    
-            // Write header 
-    
-            writer.append("Block Height,Block Hash,Transactions,Votes\n"); 
-            // Iterate through confirmed blocks 
-    
-            for (B block : confirmedBlocks) { 
-    
-                if (block instanceof PBFTBlock) { 
-                    PBFTBlock pbftBlock = (PBFTBlock) block; 
-                    // Write block details 
-                    writer.append(String.valueOf(block.getHeight())).append(","); 
-                    writer.append(String.valueOf(block.getHash())).append(","); 
-                    // Get transactions and count votes 
-                    //ArrayList<EthereumTx> transactions = pbftBlock.getTransactions();
-                    //System.out.println(transactions); 
-                    int numVotes = getNumVotesForBlock(block); 
-
-                    // Write transactions and votes count
-                    StringBuilder transactionString = new StringBuilder(); 
-                    //for (EthereumTx tx : transactions) { 
-                    //    transactionString.append(tx.toString()).append(";"); 
-                    //}
-    
-                    //if (transactionString.length() > 0) { 
-                    //    transactionString.setLength(transactionString.length() - 1); 
-                    //} 
-    
-                    //writer.append(transactionString.toString()).append(","); 
-                    writer.append(String.valueOf(numVotes)).append("\n"); 
-                } 
-    
-            } 
-    
-            //System.out.println("CSV file written successfully at " + filePath); 
-    
-        } catch (IOException e) { 
-    
-            System.err.println("Error writing CSV file: " + e.getMessage()); 
-    
-        } 
-    
-    } 
-    */
 
     public void writeBlockToCSV(String filePath, B block) {
 
@@ -597,86 +519,36 @@ public void writeFinalBlocksToCSV(String filePath) {
         return numVotes; 
     } 
 
+    public ArrayList<PBFTBlock> matchBlocks(){
+
+        ArrayList<Hash> pBlockHash = new ArrayList<>();
+        ArrayList<Hash> bBlockHash = new ArrayList<>();
+
+        ArrayList<PBFTBlock> finalBlocksPBFT = new ArrayList<>();       
+        
+        for(int i =0; i<madePBFTBlocks.size(); i++)
+        {
+            pBlockHash.add(madePBFTBlocks.get(i).getHash());
+        }
+        
+        for(int x =0; x<madePBFTBlocks.size(); x++)
+        {
+            bBlockHash.add(addedBlocks.get(x).getHash());
+        }
+        
+        for(int j=0; j<pBlockHash.size(); j++)
+        {
+            if(pBlockHash.get(j) == bBlockHash.get(j)){
+                finalBlocksPBFT.add(madePBFTBlocks.get(j));
+            }
+
+        }
 
 
+        return finalBlocksPBFT;
+    }
 
-    /*
-     * 
-     private boolean validateTransactions(PBFTBlock block){
-         
-         //The first block will decive upon the transactions
-         System.out.println("_______HERE______");
-         System.out.println(blockCount);
-         blockCount = blockCount + 1;
-         System.out.println(blockCount);
- 
-         if(blockCount == 2){
-             txOrder.clear();
-             finalOrder.clear();
-             System.out.println("***********CLEAR ARRAYS**********************");
-             blockCount =0;
-         }
-         
-         ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
-         txOrderVal = block.getTransactions();
- 
-         if(txOrder.isEmpty())
-         {
-             txOrder = block.getTransactions();
-         }
- 
-         for(int i=0; i< txOrder.size(); i++)
-         {
-             if(txOrder.get(i) == txOrderVal.get(i)) //if the tx is the same 
-             {
-                 finalOrder.add(txOrder.get(i));
-             }
-         }
-         System.out.println(finalOrder);
-         Boolean validBlock = blockValid(block);
-         return validBlock;
-     }
- 
-     private boolean blockValid(PBFTBlock block){
- 
-         if (finalOrder.equals(block.getTransactions())) {
-             return true;
-         };
-         return false;
-     }
-     */
 
-    /*
-     * 
-     public void newIncomingVoteTx(Data tx){
- 
- 
-         if(tx instanceof PBFTTx){
-             txB = this.newIncomingTx(tx);
-             PBFTTransactionVote<T> txVote = (PBFTTransactionVote<T>) txB;
-             T transaction = txVote.getTransaction();
-             System.out.print("****************************************************");
-             System.out.print("WE MADE IT HERE ");
-             System.out.print("****************************************************");
- 
-             switch (pbftPhase) {
-                 case PRE_PREPARING:
-                   
-                     break;
-                 case PREPARING:
-                     
-                     break;
-                 case COMMITTING:
-                     
-                     break;
-             }
- 
-             }
- 
- 
-     }
-     * 
-     */
 
     /**
      * @param block
