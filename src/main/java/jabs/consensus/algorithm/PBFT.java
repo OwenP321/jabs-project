@@ -285,13 +285,13 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         );
                 }
 
-                if (isLeaderNode()) {
+                //if (isLeaderNode()) {
                     // Propose the block to the network
-                    this.proposedBlock = pbftBlock;
-                } else {
+                //    this.proposedBlock = pbftBlock;
+                //} else {
                     // Compare the received block with the proposed block
-                    compareBlocks(pbftBlock);
-                }
+                //    compareBlocks(pbftBlock);
+                //}
 
 
                 
@@ -325,7 +325,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
     private boolean isLeaderNode() {
         // Determine if this node is the leader node based on some criteria
         // For example, using a round-robin selection method
-        return this.peerBlockchainNode.getNodeID() == getCurrentPrimaryNumber();
+        return this.peerBlockchainNode.getNodeID() == 0;
     }
 
 /*
@@ -374,8 +374,10 @@ private PBFTBlock selectMainBlock(List<PBFTBlock> blocks) {
 
 private boolean validateTransactions(PBFTBlock block) {
     ArrayList<EthereumTx> txOrderVal = block.getTransactions();
-    System.out.println(txOrderVal);
-    
+    //System.out.println(txOrderVal);
+    //Txs are getting here 
+
+
     // Counters to track the number of votes for each transaction and pair ordering
     HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
     HashMap<Pair<EthereumTx, EthereumTx>, Integer> pairOrderVotesCount = new HashMap<>();
@@ -425,6 +427,7 @@ private boolean validateTransactions(PBFTBlock block) {
 
     // Check if the block contains valid transactions and ordering
     boolean validBlock = blockValid(block, finalOrder);
+
     return validBlock;
 }
 
