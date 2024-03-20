@@ -241,7 +241,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
                         PBFTBlock finBlock = (PBFTBlock) block;
-                        writeBlockToCSV("output/Test.csv", block);
+                        writeBlockToCSV("output/6nodeTest.csv", block);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
                     
@@ -283,6 +283,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 
                 //PBFTPrePrepareVote<PBFTBlock> vote = new PBFTPrePrepareVote<PBFTBlock>(peerDLTNode, pbftBlock);
                 //this.peerBlockchainNode.broadcastMessage(new VoteMessage(vote));
+
+                //FLAG COMMENT 
+                //Waiting for all blocks
                 
                 Boolean validBlock = validateTransactions(pbftBlock);
                 if(validBlock == true){
