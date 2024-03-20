@@ -88,12 +88,12 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         COMMIT
     }
 
-    public PBFT(LocalBlockTree<PBFTBlock> localBlockTree, int numAllParticipants) {
-        super(null);
-        this.localBlockTreePBFT = localBlockTree;
+    public PBFT(LocalBlockTree<B> localBlockTree, int numAllParticipants, LocalBlockTree<PBFTBlock> localBlockTreePBFT) {
+        super(localBlockTree);
         this.numAllParticipants = numAllParticipants;
-        //this.currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
-        currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        this.currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        //currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        this.localBlockTreePBFT = localBlockTreePBFT;
     }
 
     public void newIncomingVote(Vote vote) {

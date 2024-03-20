@@ -68,14 +68,14 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         public PBFTNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth, long uploadBandwidth, int numAllParticipants, int timeBetweenTxs) {
                 super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth,
                 new PBFTP2P(),
-                new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants)
+                new PBFT<>(new LocalBlockTree<>(PBFT_GENESIS_BLOCK), numAllParticipants, new LocalBlockTree<>(PBFT_GENESIS_BLOCK))
                 );
                 this.consensusAlgorithm.setNode(this);
                 this.mempool = new ArrayList<>();
                 this.txToSender = new HashMap<>();
                 this.timeBetweenTxs = timeBetweenTxs;
                 
-                PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants);
+                PBFT<PBFTBlock, EthereumTx> pbftInstance = new PBFT<>(localBlockTree, numAllParticipants, localBlockTree);
                 List<PBFTBlock> commitedBlocks = pbftInstance.getCommitedBlocks();
         
         
