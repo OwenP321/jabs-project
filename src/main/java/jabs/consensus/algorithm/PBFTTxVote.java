@@ -92,12 +92,11 @@ public class PBFTTxVote<B extends SingleParentBlock<B>, T extends Tx<T>> extends
                     break;
             }
 
-        }}
+            }
 
-        /* 
         if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
-            B block = blockVote.getBlock();
+            B block = (B) blockVote.getBlock();
             switch (blockVote.getVoteType()) {
                 case PRE_PREPARE :
                     if (!this.localBlockTree.contains(block)) {
@@ -149,17 +148,17 @@ public class PBFTTxVote<B extends SingleParentBlock<B>, T extends Tx<T>> extends
                         }
                         break;
                     case COMMITTING:
-                        this.peerBlockchainNode.broadcastMessage(
-                                new VoteMessage(
-                                        new PBFTCommitVote<>(this.peerBlockchainNode, block)
-                                )
-                        );
+                        //this.peerBlockchainNode.broadcastMessage(
+                         //       new VoteMessage(
+                          //              new PBFTCommitVote<>(this.peerBlockchainNode, block)
+                           //     )
+                        //);
                         break;
                 }
             }
         }
     }
-    */
+
     /* */
     @Override
     public void newIncomingBlock(B block) {

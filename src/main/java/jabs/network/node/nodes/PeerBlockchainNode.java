@@ -23,17 +23,17 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
     protected final AbstractChainBasedConsensus<B, T> consensusAlgorithm;
 
     protected final HashMap<Hash, T> alreadySeenTxs = new HashMap<>();
-    protected final HashMap<Hash, PBFTBlock> alreadySeenBlocks = new HashMap<>();
+    protected final HashMap<Hash, B> alreadySeenBlocks = new HashMap<>();
     protected final HashSet<Vote> alreadySeenVotes = new HashSet<>();
     protected final HashSet<Query> alreadySeenQueries = new HashSet<>();
-    protected final LocalBlockTree<PBFTBlock> localBlockTree;
+    protected final LocalBlockTree<B> localBlockTree;
 
     public PeerBlockchainNode(Simulator simulator, Network network, int nodeID, long downloadBandwidth,
                               long uploadBandwidth, AbstractP2PConnections routingTable,
                               AbstractChainBasedConsensus<B, T> consensusAlgorithm) {
         super(simulator, network, nodeID, downloadBandwidth, uploadBandwidth, routingTable, consensusAlgorithm);
         this.consensusAlgorithm = consensusAlgorithm;
-        this.localBlockTree = (LocalBlockTree<PBFTBlock>) consensusAlgorithm.getLocalBlockTree();
+        this.localBlockTree = (LocalBlockTree<B>) consensusAlgorithm.getLocalBlockTree();
     }
 
 
@@ -43,14 +43,14 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
         if (message instanceof DataMessage) {
             Data data = ((DataMessage) message).getData();
             if (data instanceof PBFTBlock) {
-                PBFTBlock block = (PBFTBlock) data;
+                B block = (B) data;
                 if (!localBlockTree.contains(block)){
                     localBlockTree.add(block);
                     alreadySeenBlocks.put(block.getHash(), block);
                     if (localBlockTree.getLocalBlock(block).isConnectedToGenesis) {
                         this.processNewBlock(block);
-                        SortedSet<PBFTBlock> newBlocks = new TreeSet<>(localBlockTree.getAllSuccessors(block));
-                        for (PBFTBlock newBlock:newBlocks){
+                        SortedSet<B> newBlocks = new TreeSet<>(localBlockTree.getAllSuccessors(block));
+                        for (B newBlock:newBlocks){
                             this.processNewBlock(newBlock);
                         }
                     } else {
@@ -96,7 +96,7 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
             Hash hash = ((RequestDataMessage) message).getHash();
             if (hash.getData() instanceof Block) {
                 if (alreadySeenBlocks.containsKey(hash)) {
-                    PBFTBlock block = alreadySeenBlocks.get(hash);
+                    B block = alreadySeenBlocks.get(hash);
                     if (block != null) {
                         this.networkInterface.addToUpLinkQueue(
                                 new Packet(this, packet.getFrom(),
@@ -133,7 +133,7 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
         }
     }
 
-    protected abstract void processNewBlock(PBFTBlock block);
+    protected abstract void processNewBlock(B block);
     protected abstract void processNewVote(Vote vote);
     protected abstract void processNewQuery(Query query);
 
