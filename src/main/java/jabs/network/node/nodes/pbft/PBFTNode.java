@@ -89,10 +89,11 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     }
 
    
-
+    
    
     @Override
     protected void processNewBlock(PBFTBlock block) {
+        System.out.println("processNewBlock");
         this.consensusAlgorithm.newIncomingBlock(block);
         this.broadcastNewBlockAndBlockHashes(block);
 
@@ -125,6 +126,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             }
         }
     }
+    
+
 
     @Override
     protected void processNewVote(Vote vote) {
