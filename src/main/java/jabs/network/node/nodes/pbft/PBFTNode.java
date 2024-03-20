@@ -303,7 +303,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
         //System.out.println("_________________" + txs);
         block.setTransactions(txs);
-        //removeFromMempool(block);
+        removeFromMempool(block);
 
         broadcastBlock(block);
         System.out.println(block);
