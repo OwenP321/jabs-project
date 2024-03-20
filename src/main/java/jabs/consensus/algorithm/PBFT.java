@@ -92,7 +92,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         super(null);
         this.localBlockTreePBFT = localBlockTree;
         this.numAllParticipants = numAllParticipants;
-        this.currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        //this.currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
+        currentChainHeadPBFT = localBlockTreePBFT.getGenesisBlock();
     }
 
     public void newIncomingVote(Vote vote) {
