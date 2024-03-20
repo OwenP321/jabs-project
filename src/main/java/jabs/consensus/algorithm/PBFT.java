@@ -232,7 +232,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
                         PBFTBlock finBlock = (PBFTBlock) block;
-                        writeBlockToCSV("output/logsForFinalBlock.csv", finBlock);
+                        writeBlockToCSV("output/Test.csv", finBlock);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
                     }
