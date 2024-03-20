@@ -537,8 +537,8 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             bBlockHash.add(addedBlocks.get(x).getHash());
         }
         
-        //System.out.println(pBlockHash);
-        //System.out.println(pBlockHash);
+        System.out.println(pBlockHash);
+        System.out.println(pBlockHash);
 
         for(int j=0; j<bBlockHash.size(); j++)
         {
