@@ -240,7 +240,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         addedBlocks.add(block);
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
-                        PBFTBlock finBlock = (PBFTBlock) block;
+                        //PBFTBlock finBlock = (PBFTBlock) block;
                         writeBlockToCSV("output/6nodeTest.csv", block);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
@@ -466,7 +466,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
         try (FileWriter writer = new FileWriter(filePath)) {
     
             // Write header
-            writer.append("Block Height,Block Hash,Transactions,Votes\n");
+            writer.append("Block Height,Block Hash,Transactions,VotesCommit, VotesTotal\n");
     
             // Write block details
             writer.append(String.valueOf(block.getHeight())).append(",");
@@ -479,7 +479,9 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             //    numTxs = transactions.size();
             //} 
             //System.out.println(transactions);
-            int numVotes = getNumVotesForBlock(block);
+            int numVotesCom = getNumVotesForBlock(block);
+            int numVotesTotal = getNumVotesTotal(block);
+
     
             // Write transactions and votes count
             StringBuilder transactionString = new StringBuilder();
@@ -492,7 +494,9 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             //}
     
             //writer.append(String.valueOf(numTxs)).append(",");
-            writer.append(String.valueOf(numVotes)).append("\n");
+            writer.append(String.valueOf(numVotesCom)).append("\n");
+            writer.append(String.valueOf(numVotesTotal)).append("\n");
+
     
             //System.out.println("CSV file written successfully at " + filePath);
     
@@ -506,6 +510,20 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
       
     
     private int getNumVotesForBlock(B block) { 
+    
+        int numVotes = 0; 
+        HashMap<B, HashMap<Node, Vote>> votes = null; 
+        if (committedBlocks.contains(block)) { 
+            votes = commitVotes;
+    
+        } 
+        if (votes != null && votes.containsKey(block)) { 
+            numVotes = votes.get(block).size(); 
+        } 
+        return numVotes; 
+    } 
+
+    private int getNumVotesTotal(B block) { 
     
         int numVotes = 0; 
         HashMap<B, HashMap<Node, Vote>> votes = null; 
