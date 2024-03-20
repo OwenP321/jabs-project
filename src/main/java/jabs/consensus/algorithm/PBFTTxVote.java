@@ -92,8 +92,9 @@ public class PBFTTxVote<B extends SingleParentBlock<B>, T extends Tx<T>> extends
                     break;
             }
 
-            }
+        }}
 
+        /* 
         if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<B> blockVote = (PBFTBlockVote<B>) vote;
             B block = blockVote.getBlock();
@@ -158,7 +159,7 @@ public class PBFTTxVote<B extends SingleParentBlock<B>, T extends Tx<T>> extends
             }
         }
     }
-
+    */
     /* */
     @Override
     public void newIncomingBlock(B block) {
