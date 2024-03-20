@@ -129,7 +129,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         
         else if (vote instanceof PBFTBlockVote) { // for the time being, the view change votes are not supported
             PBFTBlockVote<PBFTBlock> blockVote = (PBFTBlockVote<PBFTBlock>) vote;
-            PBFTBlock block = blockVote.getBlock();
+            B block = (B) blockVote.getBlock();
 
             //System.out.print("**********************");
             //System.out.print("WE MADE IT HERE BLOCK");
@@ -140,11 +140,11 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
             switch (blockVote.getVoteType()) {
                 case PRE_PREPARE :
-                    if (!this.localBlockTreePBFT.contains(block)) {
-                        this.localBlockTreePBFT.add(block);
+                    if (!this.localBlockTree.contains(block)) {
+                        this.localBlockTree.add(block);
                         //System.out.println("HERE 1");
                     }
-                    if (this.localBlockTreePBFT.getLocalBlock(block).isConnectedToGenesis) {
+                    if (this.localBlockTree.getLocalBlock(block).isConnectedToGenesis) {
                         this.pbftPhase = PBFTPhase.PREPARING;
                         //System.out.println("HERE 2");    
                         this.peerBlockchainNode.broadcastMessage(
@@ -170,7 +170,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotes(PBFTBlockVote<PBFTBlock> vote, PBFTBlock block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
+    private void checkVotes(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
 
         //System.out.println("GETS HERE IN CHECK VOTE");
 
@@ -210,7 +210,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotesBlock(PBFTBlockVote<PBFTBlock> vote, PBFTBlock block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
+    private void checkVotesBlock(PBFTBlockVote<PBFTBlock> vote, B block, HashMap<PBFTBlock, HashMap<Node, Vote>> votes, HashSet<PBFTBlock> blocks, PBFTPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) {
                 votes.put(block, new HashMap<>());
@@ -226,7 +226,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                     // Check if the block is valid
                     
                         // Finalize the block and add it to the blockchain
-                        this.localBlockTreePBFT.add(block);
+                        this.localBlockTree.add(block);
                         this.currentChainHeadPBFT = block;
     
                         //System.out.println("£££££££££££");
