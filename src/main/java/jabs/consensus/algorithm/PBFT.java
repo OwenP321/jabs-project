@@ -373,7 +373,8 @@ private PBFTBlock selectMainBlock(List<PBFTBlock> blocks) {
 }*/
 
 private boolean validateTransactions(PBFTBlock block) {
-        ArrayList<EthereumTx> txOrderVal = block.getTransactions();
+    ArrayList<EthereumTx> txOrderVal = block.getTransactions();
+    System.out.println(txOrderVal);
     
     // Counters to track the number of votes for each transaction and pair ordering
     HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
