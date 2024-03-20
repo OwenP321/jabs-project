@@ -159,7 +159,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 case COMMIT:
                     //checkVotes(blockVote, block, commitVotes, committedBlocks, PBFTPhase.PRE_PREPARING);
                     //System.out.println("COMMIT");
-                    checkVotesBlock(blockVote, block, commitVotes, comBlock, pbftPhase);
+                    checkVotesBlock(blockVote, block, commitVotes, committedBlocks, pbftPhase);
                     break;
             }
         }
@@ -205,7 +205,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
         }
     }
 
-    private void checkVotesBlock(PBFTBlockVote<B> vote, PBFTBlock block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
+    private void checkVotesBlock(PBFTBlockVote<B> vote, B block, HashMap<B, HashMap<Node, Vote>> votes, HashSet<B> blocks, PBFTPhase nextStep) {
         if (!blocks.contains(block)) {
             if (!votes.containsKey(block)) {
                 votes.put(block, new HashMap<>());
@@ -709,7 +709,7 @@ public void writeFinalBlocksToCSV(String filePath) {
     @Override
     protected void updateChain() {
         this.confirmedBlocks.add(this.currentMainChainHead);
-        this.comBlock.add(this.currentMainChainHead);
+        //this.comBlock.add(this.currentMainChainHead);
         //writeFinalBlocksToCSV("output/finalBlocks.csv");
         
     }
