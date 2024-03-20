@@ -370,7 +370,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         pbftFinBlocks = pbftInstance.matchBlocks();
 
         int totalTxs =0;
-        for(int i =0; i < cbs.size(); i++)
+        for(int i =0; i < pbftFinBlocks.size(); i++)
         {  
             ArrayList<EthereumTx> tx = pbftFinBlocks.get(i).getTransactions();
             if(tx != null){
