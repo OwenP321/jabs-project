@@ -268,6 +268,7 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
                 
+                madePBFTBlocks.add(pbftBlock);
                 /* 
                 for (EthereumTx tx : pbftBlock.getTransactions()) {
                     System.out.println(peerBlockchainNode + "***********************************");
@@ -292,7 +293,6 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                                         );
                 }
 
-                madePBFTBlocks.add(pbftBlock);
 
                 //if (isLeaderNode()) {
                     // Propose the block to the network
@@ -529,6 +529,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
         for(int i =0; i<madePBFTBlocks.size(); i++)
         {
             pBlockHash.add(madePBFTBlocks.get(i).getHash());
+
         }
         
         for(int x =0; x<addedBlocks.size(); x++)
@@ -536,9 +537,12 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             bBlockHash.add(addedBlocks.get(x).getHash());
         }
         
+        System.out.println(pBlockHash);
+        System.out.println(pBlockHash);
+
         for(int j=0; j<bBlockHash.size(); j++)
         {
-            for(int z=0; z<pBlockHash.size(); z++)
+            for(int z=0; z <pBlockHash.size(); z++)
             {
                 if(bBlockHash.get(j) == pBlockHash.get(z)){
                     finalBlocksPBFT.add(madePBFTBlocks.get(j));
