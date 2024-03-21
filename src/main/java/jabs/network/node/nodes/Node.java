@@ -174,6 +174,11 @@ public abstract class Node {
         throw new UnsupportedOperationException("Unimplemented method 'createBlock'");
     }
 
+    public PBFTBlock createLeaderBlock() {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'createLeaderBlock'");
+    }
+
 
 }
 

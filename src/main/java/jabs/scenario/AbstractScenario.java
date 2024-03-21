@@ -35,6 +35,7 @@ public abstract class AbstractScenario {
 
     double blockCreationIntervals;
     double txCreationTime;
+    double leadBlock;
 
     PBFTNode nodePBFT; 
     ArrayList<PBFTNode> nodes = new ArrayList<PBFTNode>();
@@ -107,8 +108,10 @@ public abstract class AbstractScenario {
         simulator = new Simulator();
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
 
-        this.blockCreationIntervals = 50;
+        this.blockCreationIntervals = 40;
         this.txCreationTime = 2;
+        this.leadBlock =60;
+
         //nodePBFT = (PBFTNode) network.getAllNodes().get(0);
     }
 
@@ -118,6 +121,10 @@ public abstract class AbstractScenario {
     public void setTxTime(long txTime)
     {
         this.txCreationTime = txTime;
+    }
+    public void setLeaderBlock(long leaderBlockTime)
+    {
+        this.leadBlock = leaderBlockTime;
     }
 
 
@@ -164,6 +171,7 @@ public abstract class AbstractScenario {
 
         double lastTxGenTime = this.simulator.getSimulationTime();
         double lastBlockCreation = this.simulator.getSimulationTime();
+        double lastLeader = this.simulator.getSimulationTime();
 
         while (simulator.isThereMoreEvents() && !this.simulationStopCondition()) {
             Event event = simulator.peekEvent();
@@ -202,7 +210,7 @@ public abstract class AbstractScenario {
 
             if(this.simulator.getSimulationTime() - lastBlockCreation > this.blockCreationIntervals) {
 
-                System.out.println("******** SCENARIO BLOCK CREATION TIME ***********");
+                System.out.println("******** SCENARIO BROADCAST TXS ***********");
 
                 for(int x =0; x<nodes.size(); x++)
                 {
@@ -240,6 +248,21 @@ public abstract class AbstractScenario {
 
                 lastBlockCreation = this.simulator.getSimulationTime();
             }
+
+            if (this.simulator.getSimulationTime() - lastLeader > this.leadBlock)
+            {
+                
+                
+                    System.out.println("****LEAD NODE BLOCK GEN*****");
+                    //nodes.get(x).generateNewTransaction();
+                    nodes.get(0).createLeadBlockEvent();
+                    
+                
+
+                lastLeader = this.simulator.getSimulationTime();
+            }
+
+
 
 
         }

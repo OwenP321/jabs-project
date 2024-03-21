@@ -1,10 +1,13 @@
 package jabs.consensus.algorithm;
 
+import java.util.ArrayList;
+
 import jabs.consensus.algorithm.PBFT.PBFTPhase;
 import jabs.consensus.blockchain.LocalBlockTree;
 import jabs.consensus.config.ConsensusAlgorithmConfig;
 import jabs.ledgerdata.SingleParentBlock;
 import jabs.ledgerdata.Tx;
+import jabs.ledgerdata.ethereum.EthereumTx;
 import jabs.network.node.nodes.PeerBlockchainNode;
 
 /**
@@ -64,5 +67,10 @@ public abstract class AbstractChainBasedConsensus<B extends SingleParentBlock<B>
     }
 
     abstract protected void updateChain();
+
+    public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<EthereumTx>> allTx) {
+        // TODO Auto-generated method stub
+        throw new UnsupportedOperationException("Unimplemented method 'validateTransactionsLeader'");
+    }
 
 }

@@ -48,6 +48,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
 
     int totalTX =0;
 
+    List<List<EthereumTx>> transactionsByRound = new ArrayList<>();
+
     //protected final LocalBlockTree<PBFTBlock> localBlockTreePBFT;
     private PBFTBlock currentChainHeadPBFT;
 
@@ -292,14 +294,14 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //FLAG COMMENT 
                 //Waiting for all blocks
                 
-                Boolean validBlock = validateTransactions(pbftBlock);
-                if(validBlock == true){
+                //Boolean validBlock = validateTransactions(pbftBlock);
+                //if(validBlock == true){
                     this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
                                             new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
                                             )
                                         );
-                }
+                //}
 
 
                 //if (isLeaderNode()) {
@@ -456,7 +458,72 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
         return true;
     }
     return false;
+
+
+
 }
+
+
+public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<EthereumTx>> allTx) {
+    // Counters to track the number of votes for each transaction and pair ordering
+    HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
+    HashMap<Pair<EthereumTx, EthereumTx>, Integer> pairOrderVotesCount = new HashMap<>();
+    
+    // Iterate through each block's transactions
+    for (ArrayList<EthereumTx> txOrderVal : allTx) {
+        // Iterate through transactions to count votes
+        for (int i = 0; i < txOrderVal.size(); i++) {
+            EthereumTx tx = txOrderVal.get(i);
+            txVotesCount.put(tx, txVotesCount.getOrDefault(tx, 0) + 1);
+
+            // Check relative order with other transactions
+            for (int j = i + 1; j < txOrderVal.size(); j++) {
+                EthereumTx nextTx = txOrderVal.get(j);
+                Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx, nextTx);
+
+                // If the current tx should come before nextTx, increase its pair order votes
+                if (txVotesCount.getOrDefault(tx, 0) > txVotesCount.getOrDefault(nextTx, 0)) {
+                    pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) + 1);
+                } else {
+                    // If nextTx should come before the current tx, increase its pair order votes
+                    pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) - 1);
+                }
+            }
+        }
+    }
+
+    // Check if each transaction has enough votes for inclusion
+    ArrayList<EthereumTx> finalOrder = new ArrayList<>();
+    for (EthereumTx tx : txVotesCount.keySet()) {
+        if (txVotesCount.get(tx) >= (2 * numAllParticipants / 3 + 1)) {
+            finalOrder.add(tx);
+        }
+    }
+
+    // Reorder transactions based on the super-majority agreement on pair order
+    for (int i = 0; i < finalOrder.size(); i++) {
+        for (int j = i + 1; j < finalOrder.size(); j++) {
+            EthereumTx tx1 = finalOrder.get(i);
+            EthereumTx tx2 = finalOrder.get(j);
+            Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx1, tx2);
+            
+            // If more than half of the nodes agree on the relative order, swap tx1 and tx2
+            if (pairOrderVotesCount.getOrDefault(pair, 0) > 0) {
+                finalOrder.set(i, tx2);
+                finalOrder.set(j, tx1);
+            }
+        }
+    }
+
+    // Return the final order of transactions
+    return finalOrder;
+}
+
+
+
+
+
+
 
     public ArrayList<B> getCommitedBlocks(){
         ArrayList<B> commitedBlocksList = new ArrayList<B>(comBlock);

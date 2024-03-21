@@ -39,6 +39,7 @@ import jabs.network.p2p.PBFTP2P;
 import jabs.simulator.Simulator;
 import jabs.simulator.event.BlockConfirmationEvent;
 import jabs.simulator.event.BlockCreationEvent;
+import jabs.simulator.event.BlockLeaderCreationEvent;
 import jabs.simulator.event.TxGenerationProcessSingleNode;
 
 
@@ -61,6 +62,9 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             double blockGenTime = 50;
             
             List<PBFTBlock> commitedBlocks;
+
+            ArrayList<EthereumTx> allTxBlock = new ArrayList<>();
+            ArrayList<ArrayList<EthereumTx>> allTxAllBlocks = new ArrayList<>();
             
             
             
@@ -94,7 +98,16 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     protected void processNewBlock(PBFTBlock block) {
         System.out.println("processNewBlock");
-        this.consensusAlgorithm.newIncomingBlock(block);
+
+        if (block.getNode().getNodeID() == 0) {
+            System.out.println("LEADER BLOCK ENGAGED");
+            ArrayList<EthereumTx> txList = new ArrayList<>(block.getTransactions());
+            allTxAllBlocks.add(txList);
+
+            
+        }
+
+        //this.consensusAlgorithm.newIncomingBlock(block);
         this.broadcastNewBlockAndBlockHashes(block);
 
         Set<EthereumTx> blockTxs = new HashSet<>();
@@ -269,8 +282,34 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     public void createBlockEvent(){
         double timeBlock = 10;
         BlockConfirmationEvent blockGenPro = new BlockConfirmationEvent(timeBlock, this, this.network);
-        double timeInSec = 50;
+        double timeInSec = 40;
         this.blockGenPro = this.simulator.putEvent(blockGenPro, (double)timeInSec);
+
+    }
+
+    public void createLeadBlockEvent(){
+        double timeBlock = 10;
+        BlockLeaderCreationEvent blockGenPro = new BlockLeaderCreationEvent(timeBlock, this, this.network);
+        double timeInSec = 60;
+        this.blockGenPro = this.simulator.putEvent(blockGenPro, timeInSec);
+
+    }
+    public PBFTBlock createLeaderBlock(){
+
+        System.out.println("LEADER BLOCK CREATE BLOCK");
+
+        ArrayList<EthereumTx> finorder = new ArrayList<>();
+
+        finorder = this.consensusAlgorithm.validateTransactionsLeader(allTxAllBlocks);
+        int size = 1000;
+
+
+        PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
+
+        block.setTransactions(finorder);
+        this.consensusAlgorithm.newIncomingBlock(block);
+
+        return null;
 
     }
 
@@ -310,7 +349,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         System.out.println("THE AMOUNT OF TX: " + txAmount);
         //System.out.println(mempool);
 
-        this.consensusAlgorithm.newIncomingBlock(block);
+        //this.consensusAlgorithm.newIncomingBlock(block);
 
         return block;
 
