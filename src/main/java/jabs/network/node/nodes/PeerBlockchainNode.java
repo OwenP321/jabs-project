@@ -66,6 +66,7 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
                 if (!alreadySeenTxs.containsValue(tx)){
                     alreadySeenTxs.put(tx.getHash(), tx);
                     this.processNewTx(tx, packet.getFrom());
+
                 }
             } else if (data instanceof Recipt){
                 Recipt recipt = (Recipt) data;
@@ -136,6 +137,9 @@ public abstract class PeerBlockchainNode<B extends SingleParentBlock<B>, T exten
     protected abstract void processNewBlock(B block);
     protected abstract void processNewVote(Vote vote);
     protected abstract void processNewQuery(Query query);
+
+    protected abstract void processNewTx(T tx, Node from);
+    //protected abstract void processNewTx(T tx);
 
     protected abstract void processNewTxVote(PBFTTransactionVote vote);
 

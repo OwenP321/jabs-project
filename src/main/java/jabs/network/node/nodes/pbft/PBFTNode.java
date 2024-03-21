@@ -98,19 +98,18 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
     @Override
     protected void processNewBlock(PBFTBlock block) {
         //System.out.println("processNewBlock");
-
+        
         if (block.getNode().getNodeID() == 0) {
             System.out.println("LEADER BLOCK ENGAGED");
             ArrayList<EthereumTx> txList = new ArrayList<>(block.getTransactions());
             allTxAllBlocks.add(txList);
-            //System.out.println(txList);
+            System.out.println("*************************************************");
+            System.out.println(txList);
 
             
         }
 
-        //this.consensusAlgorithm.newIncomingBlock(block);
-        //this.broadcastNewBlockAndBlockHashes(block);
-
+        
         Set<EthereumTx> blockTxs = new HashSet<>();
         long totalGas = 0;
         for (EthereumTx ethereumTx:mempool) {
@@ -120,6 +119,9 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             blockTxs.add(ethereumTx);
             totalGas += ethereumTx.getGas();
         }
+        //this.consensusAlgorithm.newIncomingBlock(block);
+        //this.broadcastNewBlockAndBlockHashes(block);
+
     }
 
     protected void broadcastNewBlockAndBlockHashes(PBFTBlock block){
@@ -141,6 +143,10 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         }
     }
     
+
+    //public void processNewTx(EthereumTx tx, Node node){
+    //    mempool.add(tx);
+    //}
 
 
     @Override
