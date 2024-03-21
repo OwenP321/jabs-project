@@ -516,6 +516,8 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
     }
 
     // Return the final order of transactions
+    System.out.println("VTL finished");
+    System.out.println(finalOrder);
     return finalOrder;
 }
 
