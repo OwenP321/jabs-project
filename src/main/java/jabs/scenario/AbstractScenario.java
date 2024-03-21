@@ -108,7 +108,7 @@ public abstract class AbstractScenario {
         simulator = new Simulator();
         this.progressMessageIntervals = TimeUnit.SECONDS.toNanos(2);
 
-        this.blockCreationIntervals = 40;
+        this.blockCreationIntervals = 50;
         this.txCreationTime = 2;
         this.leadBlock =60;
 
@@ -219,13 +219,13 @@ public abstract class AbstractScenario {
 
                     nodes.get(x).createBlock();
 
-                    nodePBFT.broadcastMessage(
-                    new VoteMessage(
-                        new PBFTPrePrepareVote<>(nodePBFT,
-                                BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
-                                        (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
-                        )
-                    ));
+                    //nodePBFT.broadcastMessage(
+                    //new VoteMessage(
+                    //    new PBFTPrePrepareVote<>(nodePBFT,
+                    //            BlockFactory.samplePBFTBlock(simulator, network.getRandom(),
+                    //                    (PBFTNode) network.getAllNodes().get(0), PBFT_GENESIS_BLOCK)
+                    //    )
+                    //));
                 }
                 
                 //nodePBFT.createBlock();
