@@ -227,6 +227,8 @@ public abstract class AbstractScenario {
                     //    )
                     //));
                 }
+
+                nodes.get(0).createLeaderBlock();
                 
                 //nodePBFT.createBlock();
 
@@ -255,7 +257,7 @@ public abstract class AbstractScenario {
                 
                     System.out.println("****LEAD NODE BLOCK GEN*****");
                     //nodes.get(x).generateNewTransaction();
-                    nodes.get(0).createLeaderBlock();
+                    //nodes.get(0).createLeaderBlock();
                     
                 
 
