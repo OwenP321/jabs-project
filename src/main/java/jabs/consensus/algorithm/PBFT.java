@@ -391,7 +391,7 @@ private PBFTBlock selectMainBlock(List<PBFTBlock> blocks) {
 
 private boolean validateTransactions(PBFTBlock block) {
     ArrayList<EthereumTx> txOrderVal = block.getTransactions();
-    //System.out.println(txOrderVal);
+    System.out.println(txOrderVal);
     //Txs are getting here 
 
 
