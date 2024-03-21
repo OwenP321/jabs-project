@@ -269,6 +269,9 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
             //PBFTBlockVote pbftVoteBlock = new PBFTBlockVote<>(10,peerBlockchainNode,pbftBlock, VoteType.PRE_PREPARE) 
             
             if(!isBlockConfirmed(block) && !isBlockFinalized(block)){
+
+                totalTX = totalTX = pbftBlock.getTransactions().size();
+                System.out.println(totalTX);
                 
                 madePBFTBlocks.add(pbftBlock);
                 /* 
@@ -439,8 +442,8 @@ private boolean validateTransactions(PBFTBlock block) {
         }
     }
 
-    System.out.println(finalOrder);
-    totalTX = finalOrder.size();
+    //System.out.println(finalOrder);
+    //totalTX = finalOrder.size();
     // Check if the block contains valid transactions and ordering
     boolean validBlock = blockValid(block, finalOrder);
 
@@ -629,4 +632,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
         
     }
 
+    public int getTotalTx(){
+        return totalTX;
+    }
 }
