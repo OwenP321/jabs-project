@@ -31,7 +31,7 @@ public class BlockLeaderCreationEvent extends AbstractLogEvent {
         //this.blocksNodes = new HashMap<>();
     }
 
-    public void generateBlocks(){
+    public void generateLeaderBlocks(){
         this.node = network.getNode(0);
         PBFTBlock block = node.createLeaderBlock();
     }

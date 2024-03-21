@@ -255,7 +255,7 @@ public abstract class AbstractScenario {
                 
                     System.out.println("****LEAD NODE BLOCK GEN*****");
                     //nodes.get(x).generateNewTransaction();
-                    nodes.get(0).createLeadBlockEvent();
+                    nodes.get(0).createLeaderBlock();
                     
                 
 
