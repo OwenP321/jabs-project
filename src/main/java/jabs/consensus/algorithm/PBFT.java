@@ -240,10 +240,10 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         // Update the chain and broadcast the commit vote
                         updateChain();
                         addedBlocks.add(block);
+                        writeBlockToCSV("output/6nodeTest.csv", block);
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
                         //PBFTBlock finBlock = (PBFTBlock) block;
-                        writeBlockToCSV("output/6nodeTest.csv", block);
                         //System.out.println("******************************************");
                         //System.out.println(this.committedBlocks);
                     
@@ -502,7 +502,7 @@ private boolean blockValid(PBFTBlock block, ArrayList<EthereumTx> finalOrder) {
             writer.append(String.valueOf(numVotesTotal)).append("\n");
 
     
-            //System.out.println("CSV file written successfully at " + filePath);
+            System.out.println("CSV file written successfully at " + filePath);
     
         } catch (IOException e) {
     
