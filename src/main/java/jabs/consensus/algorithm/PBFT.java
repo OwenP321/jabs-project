@@ -503,6 +503,8 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
             finalOrder.add(tx);
         }
     }
+    
+    System.out.println(finalOrder);
 
     // Reorder transactions based on the super-majority agreement on pair order
     for (int i = 0; i < finalOrder.size(); i++) {
