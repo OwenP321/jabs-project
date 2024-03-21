@@ -468,32 +468,34 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
     // Counters to track the number of votes for each transaction and pair ordering
     HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
     HashMap<Pair<EthereumTx, EthereumTx>, Integer> pairOrderVotesCount = new HashMap<>();
+    ArrayList<EthereumTx> txOrderVal = new ArrayList<>();
     
       // Iterate through each block's transactions, starting from the second list
       for (int blockIndex = 1; blockIndex < allTx.size(); blockIndex++) {
-        ArrayList<EthereumTx> txOrderVal = allTx.get(blockIndex);
+        txOrderVal = allTx.get(blockIndex);
         System.out.println(txOrderVal);
-        
-        // Iterate through transactions to count votes
-        for (int i = 0; i < txOrderVal.size(); i++) {
-            EthereumTx tx = txOrderVal.get(i);
-            txVotesCount.put(tx, txVotesCount.getOrDefault(tx, 0) + 1);
+      }
 
-            // Check relative order with other transactions
-            for (int j = i + 1; j < txOrderVal.size(); j++) {
-                EthereumTx nextTx = txOrderVal.get(j);
-                Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx, nextTx);
+    // Iterate through transactions to count votes
+    for (int i = 0; i < txOrderVal.size(); i++) {
+        EthereumTx tx = txOrderVal.get(i);
+        txVotesCount.put(tx, txVotesCount.getOrDefault(tx, 0) + 1);
 
-                // If the current tx should come before nextTx, increase its pair order votes
-                if (txVotesCount.getOrDefault(tx, 0) > txVotesCount.getOrDefault(nextTx, 0)) {
-                    pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) + 1);
-                } else {
-                    // If nextTx should come before the current tx, increase its pair order votes
-                    pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) - 1);
-                }
+        // Check relative order with other transactions
+        for (int j = i + 1; j < txOrderVal.size(); j++) {
+            EthereumTx nextTx = txOrderVal.get(j);
+            Pair<EthereumTx, EthereumTx> pair = new Pair<>(tx, nextTx);
+
+            // If the current tx should come before nextTx, increase its pair order votes
+            if (txVotesCount.getOrDefault(tx, 0) > txVotesCount.getOrDefault(nextTx, 0)) {
+                pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) + 1);
+            } else {
+                // If nextTx should come before the current tx, increase its pair order votes
+                pairOrderVotesCount.put(pair, pairOrderVotesCount.getOrDefault(pair, 0) - 1);
             }
         }
     }
+    
 
 
     // Check if each transaction has enough votes for inclusion
