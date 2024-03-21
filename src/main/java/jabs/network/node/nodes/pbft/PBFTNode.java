@@ -311,7 +311,10 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
 
-        block.setTransactions(finorder);
+        //block.setTransactions(finorder);
+
+        System.out.println(allTxAllBlocks.get(1));
+        block.setTransactions(allTxAllBlocks.get(1));
         this.consensusAlgorithm.newIncomingBlock(block);
 
         return null;
