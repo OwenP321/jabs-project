@@ -300,8 +300,12 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         ArrayList<EthereumTx> finorder = new ArrayList<>();
 
+        System.out.println(allTxAllBlocks);
+
         finorder = this.consensusAlgorithm.validateTransactionsLeader(allTxAllBlocks);
         int size = 1000;
+
+        System.out.println(finorder);
 
 
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
