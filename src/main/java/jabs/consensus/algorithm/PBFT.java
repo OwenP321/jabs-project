@@ -469,8 +469,10 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
     HashMap<EthereumTx, Integer> txVotesCount = new HashMap<>();
     HashMap<Pair<EthereumTx, EthereumTx>, Integer> pairOrderVotesCount = new HashMap<>();
     
-    // Iterate through each block's transactions
-    for (ArrayList<EthereumTx> txOrderVal : allTx) {
+      // Iterate through each block's transactions, starting from the second list
+      for (int blockIndex = 1; blockIndex < allTx.size(); blockIndex++) {
+        ArrayList<EthereumTx> txOrderVal = allTx.get(blockIndex);
+        
         // Iterate through transactions to count votes
         for (int i = 0; i < txOrderVal.size(); i++) {
             EthereumTx tx = txOrderVal.get(i);
@@ -491,6 +493,7 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
             }
         }
     }
+
 
     // Check if each transaction has enough votes for inclusion
     ArrayList<EthereumTx> finalOrder = new ArrayList<>();

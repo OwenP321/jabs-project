@@ -97,7 +97,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
    
     @Override
     protected void processNewBlock(PBFTBlock block) {
-        System.out.println("processNewBlock");
+        //System.out.println("processNewBlock");
 
         if (block.getNode().getNodeID() == 0) {
             System.out.println("LEADER BLOCK ENGAGED");
@@ -318,7 +318,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         //    block.setTransactions(allTxAllBlocks.get(0));
         //
         //}
-        
+
         this.consensusAlgorithm.newIncomingBlock(block);
 
         return null;
