@@ -472,6 +472,7 @@ public ArrayList<EthereumTx> validateTransactionsLeader(ArrayList<ArrayList<Ethe
       // Iterate through each block's transactions, starting from the second list
       for (int blockIndex = 1; blockIndex < allTx.size(); blockIndex++) {
         ArrayList<EthereumTx> txOrderVal = allTx.get(blockIndex);
+        System.out.println(txOrderVal);
         
         // Iterate through transactions to count votes
         for (int i = 0; i < txOrderVal.size(); i++) {
