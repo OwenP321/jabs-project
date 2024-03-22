@@ -343,6 +343,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         //
         //}
 
+        this.broadcastBlock(block);
         this.consensusAlgorithm.newIncomingBlock(block);
 
         return null;
