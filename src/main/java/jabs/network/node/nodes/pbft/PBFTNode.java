@@ -310,20 +310,31 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         System.out.println(allTxAllBlocks);
 
         //finorder = this.consensusAlgorithm.validateTransactionsLeader(allTxAllBlocks);
-        int size = 1000;
+       
+        ArrayList<EthereumTx> txs = new ArrayList<EthereumTx>();
+        int gas = 0;
+        int size = 0;
+        int txAmount = 0;
+        int i =0;
 
-        if(allTxAllBlocks.get(1) != null)
-        {
-            finorder = allTxAllBlocks.get(1);
+        while(gas < MAXIMUM_BLOCK_GAS && this.mempool.size() > i){
+            EthereumTx tx = this.mempool.get(i);
+            txs.add(tx);
+            i++;
+            //System.out.println("TRANSACTIONS IN THIS BLOCK" + tx);
+            txAmount++;
+            //System.out.println("STUCK HERE MAYBE");
 
         }
+
+        size = size + 1000;
 
         System.out.println(finorder);
 
 
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
 
-        block.setTransactions(finorder);
+        block.setTransactions(txs);
 
         //if(allTxAllBlocks != null){
         //    System.out.println(allTxAllBlocks.get(0));
