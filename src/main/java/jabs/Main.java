@@ -73,7 +73,7 @@ public class Main {
         //scenario = new PBFTLANScenario("One hour in the life of PBFT", 1, 40, 3600);
         //scenario.AddNewLogger(new BlockPropagationDelayLogger(Paths.get("Output/PBFTLAN-50-propagation-delay-log.csv"), 0.5));
 
-        scenario = new PBFTLANScenario("10 mins of a PBFT lan Network", 1,50, 600);
+        scenario = new PBFTLANScenario("10 mins of a PBFT lan Network", 1,1, 600);
         scenario.AddNewLogger(new PBFTCSVLogger(Paths.get("output/pbft-simulation-log.csv")));
         //scenario.AddNewLogger(new BlockConfirmationLogger(Paths.get("output/pbft-Block-confirmation-log.csv")));
         scenario.AddNewLogger(new TransactionLogger(Paths.get("output/TransactionLogger.csv")));
