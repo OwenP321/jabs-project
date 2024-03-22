@@ -342,7 +342,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         //
         //}
 
-        System.out.println(block.getTransactions().size());
+        System.out.println("NO TXs in LEADER" + block.getTransactions().size());
         this.consensusAlgorithm.newIncomingBlock(block);
 
         return null;
