@@ -103,8 +103,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             System.out.println("LEADER BLOCK ENGAGED");
             ArrayList<EthereumTx> txList = new ArrayList<>(block.getTransactions());
             allTxAllBlocks.add(txList);
-            System.out.println("*************************************************");
-            System.out.println(txList);
+            //System.out.println("*************************************************");
+            //System.out.println(txList);
 
             
         }
