@@ -187,32 +187,33 @@ public abstract class AbstractScenario {
                 double simulationTime = this.simulator.getSimulationTime();
                 System.err.printf(
                         "Simulation in progress... " +
-                                "Elapsed Real Time: %d:%02d:%02d, Elapsed Simulation Time: %d:%02d:%02d\n",
+                        "Elapsed Real Time: %d:%02d:%02d, Elapsed Simulation Time: %d:%02d:%02d\n",
                         (long)(realTime / 3600), (long)((realTime % 3600) / 60), (long)(realTime % 60),
                         (long)(simulationTime / 3600), (long)((simulationTime % 3600) / 60), (long)(simulationTime % 60)
-                );
-                lastProgressMessageTime = System.nanoTime();
-            }
-
-            if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
-            {
-                lastLeader =simulator.getSimulationTime();
-                for(int x =0; x<nodes.size(); x++)
-                {
-                    //System.out.println("****TX GEN*****");
-                    //nodes.get(x).generateNewTransaction();
-                    nodes.get(x).startTxGen();
+                        );
+                        lastProgressMessageTime = System.nanoTime();
+                    }
                     
-                }
-                //nodePBFT.generateNewTransaction();
-
-                lastTxGenTime = this.simulator.getSimulationTime();
-            }
-
-            if(this.simulator.getSimulationTime() - lastBlockCreation > this.blockCreationIntervals) {
-
+                    if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
+                    {
+                        lastLeader =simulator.getSimulationTime();
+                        for(int x =0; x<nodes.size(); x++)
+                        {
+                            //System.out.println("****TX GEN*****");
+                            //nodes.get(x).generateNewTransaction();
+                            nodes.get(x).startTxGen();
+                            
+                        }
+                        //nodePBFT.generateNewTransaction();
+                        
+                        lastTxGenTime = this.simulator.getSimulationTime();
+                    }
+                
+                if(this.simulator.getSimulationTime() - lastBlockCreation > this.blockCreationIntervals) {
+                    
                 System.out.println("******** SCENARIO BROADCAST TXS ***********");
-
+                        
+                System.out.println(simulator.getSimulationTime());
                 for(int x =0; x<nodes.size(); x++)
                 {
                     System.out.println("**** BLOCK GEN *****");
@@ -235,7 +236,6 @@ public abstract class AbstractScenario {
                 //if (this.simulator.getSimulationTime() - lastLeader > 2.0)
                 //{
                     
-                    System.out.println(simulator.getSimulationTime());
                     System.out.println("****LEAD NODE BLOCK GEN*****");
                     nodes.get(0).createLeaderBlock();
                         //nodes.get(x).generateNewTransaction();
