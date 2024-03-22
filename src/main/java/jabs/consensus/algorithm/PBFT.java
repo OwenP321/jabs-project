@@ -242,6 +242,8 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                         // Update the chain and broadcast the commit vote
                         updateChain();
                         addedBlocks.add(block);
+                        System.out.println(getNumVotesForBlock(block));
+                        System.out.println(getNumVotesTotal(block));
                         writeBlockToCSV("output/6nodeTest.csv", block);
                         this.peerBlockchainNode.broadcastMessage(new VoteMessage(new PBFTCommitVote<>(this.peerBlockchainNode, block)));
 
