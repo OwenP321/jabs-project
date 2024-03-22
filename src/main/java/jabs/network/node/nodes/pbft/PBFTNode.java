@@ -329,7 +329,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
 
         size = size + 1000;
 
-        System.out.println(finorder);
+        System.out.println(txs);
 
 
         PBFTBlock block = new PBFTBlock(size, this.consensusAlgorithm.getCanonicalChainHead().getHeight()+ 1, simulator.getSimulationTime(), this, this.consensusAlgorithm.getCanonicalChainHead());
@@ -342,7 +342,7 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
         //
         //}
 
-        System.out.println("NO TXs in LEADER" + block.getTransactions().size());
+        System.out.println("NO TXs in LEADER" + txs.size());
         this.consensusAlgorithm.newIncomingBlock(block);
 
         return null;
