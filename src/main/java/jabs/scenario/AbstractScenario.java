@@ -219,6 +219,8 @@ public abstract class AbstractScenario {
                     System.out.println("**** BLOCK GEN *****");
                     //nodes.get(x).createBlockEvent(x);
 
+
+                    //FOR THE BROADCAST OF BLOCKS
                     //nodes.get(x).createBlock();
 
                     //nodePBFT.broadcastMessage(
