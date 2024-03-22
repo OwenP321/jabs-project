@@ -196,6 +196,7 @@ public abstract class AbstractScenario {
 
             if (this.simulator.getSimulationTime() - lastTxGenTime > this.txCreationTime)
             {
+                lastLeader =simulator.getSimulationTime();
                 for(int x =0; x<nodes.size(); x++)
                 {
                     //System.out.println("****TX GEN*****");
@@ -228,8 +229,23 @@ public abstract class AbstractScenario {
                     //));
                 }
 
-                nodes.get(0).createLeaderBlock();
+
+
                 
+                //if (this.simulator.getSimulationTime() - lastLeader > 2.0)
+                //{
+                    
+                    System.out.println(simulator.getSimulationTime());
+                    System.out.println("****LEAD NODE BLOCK GEN*****");
+                    nodes.get(0).createLeaderBlock();
+                        //nodes.get(x).generateNewTransaction();
+                        //nodes.get(0).createLeaderBlock();
+                        
+                    
+    
+                    lastLeader = this.simulator.getSimulationTime();
+                    System.out.println(simulator.getSimulationTime());
+                //}
                 //nodePBFT.createBlock();
 
                 //nodePBFT.broadcastMessage(
@@ -251,18 +267,6 @@ public abstract class AbstractScenario {
                 lastBlockCreation = this.simulator.getSimulationTime();
             }
 
-            if (this.simulator.getSimulationTime() - lastLeader > this.leadBlock)
-            {
-                
-                
-                    System.out.println("****LEAD NODE BLOCK GEN*****");
-                    //nodes.get(x).generateNewTransaction();
-                    //nodes.get(0).createLeaderBlock();
-                    
-                
-
-                lastLeader = this.simulator.getSimulationTime();
-            }
 
 
 
