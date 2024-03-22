@@ -219,7 +219,7 @@ public abstract class AbstractScenario {
                     System.out.println("**** BLOCK GEN *****");
                     //nodes.get(x).createBlockEvent(x);
 
-                    nodes.get(x).createBlock();
+                    //nodes.get(x).createBlock();
 
                     //nodePBFT.broadcastMessage(
                     //new VoteMessage(
