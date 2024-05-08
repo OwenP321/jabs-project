@@ -119,8 +119,8 @@ public class PBFTNode extends PeerBlockchainNode<PBFTBlock, EthereumTx> {
             blockTxs.add(ethereumTx);
             totalGas += ethereumTx.getGas();
         }
-        this.consensusAlgorithm.newIncomingBlock(block);
-        this.broadcastNewBlockAndBlockHashes(block);
+        //this.consensusAlgorithm.newIncomingBlock(block);
+        //this.broadcastNewBlockAndBlockHashes(block);
 
     }
 
