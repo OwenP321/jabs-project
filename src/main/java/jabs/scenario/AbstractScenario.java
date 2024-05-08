@@ -221,7 +221,8 @@ public abstract class AbstractScenario {
 
 
                     //FOR THE BROADCAST OF BLOCKS
-                    nodes.get(x).createBlock();
+                    //
+                    //nodes.get(x).createBlock();
 
                     //nodePBFT.broadcastMessage(
                     //new VoteMessage(
