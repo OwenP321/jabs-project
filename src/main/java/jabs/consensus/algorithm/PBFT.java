@@ -300,14 +300,14 @@ public class PBFT<B extends SingleParentBlock<B>, T extends Tx<T>> extends Abstr
                 //FLAG COMMENT 
                 //Waiting for all blocks
                 
-                //Boolean validBlock = validateTransactions(pbftBlock);
-                //if(validBlock == true){
+                Boolean validBlock = validateTransactions(pbftBlock);
+                if(validBlock == true){
                     this.peerBlockchainNode.broadcastMessage(
                                     new VoteMessage(
                                             new PBFTPrePrepareVote<>(this.peerBlockchainNode, pbftBlock.getBlock())
                                             )
                                         );
-                //}
+                }
 
 
                 //if (isLeaderNode()) {
